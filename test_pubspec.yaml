@@ -29,6 +29,8 @@ flutter:
   assets:
       - assets/
       - assets/sub/
+      - assets/sub/ignore1/
+      - assets/sub/ignore2/
       - assets/sub/sub/
       - assets/sub2/sub2.txt
       - assets/sub2/

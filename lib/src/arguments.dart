@@ -18,10 +18,10 @@ class Arguments {
         defaultsTo: '',
         callback: (String value) {
           ignoreAssets =
-              value.split(r";").where((item) => item.isNotEmpty).toList();
+              value.split(r",").where((item) => item.isNotEmpty).toList();
         },
         help:
-            'Specify asset folder which should be ignored for generating constants. Seperated by ";"',
+            'Specify asset folder which should be ignored for generating constants. Seperated by ","',
       )
       ..addOption(
         "output-file",

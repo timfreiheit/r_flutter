@@ -26,15 +26,19 @@ List<Asset> parseAssets(yaml, List<String> ignoreAssets) {
 
   Set<String> assetFiles = Set();
   for (var asset in assets) {
-    if (ignoreAssets.contains(asset)) {
+    if (assetShouldBeIgnored(asset, ignoreAssets)) {
       continue;
     }
-    assetFiles.addAll(_findFiles(asset));
+    assetFiles.addAll(_findFiles(asset, ignoreAssets));
   }
   return _convertToAssets(assetFiles.toList());
 }
 
-List<String> _findFiles(String asset) {
+bool assetShouldBeIgnored(String path, List<String> ignoreAssets) {
+  return ignoreAssets.any((item) => path.startsWith(item));
+}
+
+List<String> _findFiles(String asset, List<String> ignoreAssets) {
   switch (FileSystemEntity.typeSync(asset)) {
     case FileSystemEntityType.file:
       return [asset];
@@ -46,6 +50,9 @@ List<String> _findFiles(String asset) {
             .map((entry) {
               final entryType = FileSystemEntity.typeSync(entry.path);
               if (entryType == FileSystemEntityType.file) {
+                if (assetShouldBeIgnored(entry.path, ignoreAssets)){
+                  return null;
+                }
                 return entry.path;
               }
               return null;
