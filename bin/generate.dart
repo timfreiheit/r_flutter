@@ -21,7 +21,7 @@ main(List<String> args) {
   final yaml = loadYaml(pubspecFile.readAsStringSync());
   final output = Output(
     fonts: parseFonts(yaml),
-    assets: parseAssets(yaml),
+    assets: parseAssets(yaml, arguments.ignoreAssets),
   );
 
   final outoutFile = File(arguments.outputFilename);

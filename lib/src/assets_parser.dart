@@ -13,7 +13,7 @@ class Asset {
   }
 }
 
-List<Asset> parseAssets(yaml) {
+List<Asset> parseAssets(yaml, List<String> ignoreAssets) {
   final flutter = yaml["flutter"];
   if (flutter == null) {
     return [];
@@ -26,6 +26,9 @@ List<Asset> parseAssets(yaml) {
 
   Set<String> assetFiles = Set();
   for (var asset in assets) {
+    if (ignoreAssets.contains(asset)) {
+      continue;
+    }
     assetFiles.addAll(_findFiles(asset));
   }
   return _convertToAssets(assetFiles.toList());

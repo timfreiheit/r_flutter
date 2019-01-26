@@ -20,8 +20,8 @@ class Output {
 String _generateFontClass(List<String> fonts) {
   String classString = "class Fonts {\n";
   for (var font in fonts) {
-    String fontName = ReCase(font).camelCase;
-    classString += "  static const String $fontName = \"$font\";\n";
+    classString +=
+        "  static const String ${_createVariableName(font)} = \"$font\";\n";
   }
   classString += "}\n";
   return classString;
@@ -30,9 +30,22 @@ String _generateFontClass(List<String> fonts) {
 String _generateAssetsClass(List<Asset> assets) {
   String classString = "class Assets {\n";
   for (var asset in assets) {
-    String assetName = ReCase(asset.name).camelCase;
-    classString += "  static const String $assetName = \"${asset.path}\";\n";
+    classString +=
+        "  static const String ${_createVariableName(asset.name)} = \"${asset.path}\";\n";
   }
   classString += "}\n";
   return classString;
+}
+
+String _createVariableName(String name) {
+  return ReCase(name)
+      .camelCase
+      .replaceAll(r"ä", "ae")
+      .replaceAll(r"ö", "oe")
+      .replaceAll(r"ü", "ue")
+      .replaceAll(r"Ä", "Ae")
+      .replaceAll(r"Ö", "Oe")
+      .replaceAll(r"Ü", "Üe")
+      .replaceAll(r"ß", "ss")
+      .replaceAll(RegExp(r"[^a-zA-Z0-9]"), "");
 }

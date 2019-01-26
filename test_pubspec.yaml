@@ -34,6 +34,9 @@ flutter:
       - assets/sub2/
 
   fonts:
+     - family: H6allo%§ä
+       fonts:
+         - asset: fonts/temp-Regular.ttf
      - family: Schyler
        fonts:
          - asset: fonts/Schyler-Regular.ttf
