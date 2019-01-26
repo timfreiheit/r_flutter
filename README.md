@@ -31,9 +31,13 @@ TextStyle(
 
 ./flutterw packages pub run r_flutter:generate
 
-Optional Parameters:
-| Parameter     | Default value | Description                                                                             |
-|---------------|---------------|-----------------------------------------------------------------------------------------|
-| pubspec-file  | pubspec.yaml  | Specify the pubspec file of the project                                                 |
-| ignore-assets |               | Specify asset folder which should be ignored for generating constants. Seperated by "," |
-| output-file   | lib/r.g.dart  | Specify the output file.                                                                |
+#### Optional Parameters:
+
+##### pubspec-file (pubspec.yaml)
+Specify the pubspec file of the project
+
+#### ignore-assets
+Specify asset folder which should be ignored for generating constants. Seperated by "," 
+
+#### output-file (lib/r.g.dart)
+Specify the output file.
