@@ -1,9 +1,9 @@
 name: r_flutter
 version: 0.1.0
-author: Tim Freiheit
-description: 
+author: Tim Freiheit <freiheit.tim@gmail.com>
+description: Generate constants for resources which require using them as a String like fonts and assets.
 
-homepage: 
+homepage: https://github.com/timfreiheit/R.Flutter
 environment:
   sdk: '>=2.0.0-dev.33.0 <3.0.0'
 
