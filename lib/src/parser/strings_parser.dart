@@ -1,17 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-class StringReference {
-  final String name;
-  final List<String> placeholders;
-  final String value;
-
-  StringReference({
-    this.name,
-    this.placeholders,
-    this.value,
-  });
-}
+import 'package:r_flutter/src/model/resources.dart';
 
 List<StringReference> parseStrings(String arbFilepath) {
   if (arbFilepath.isEmpty) {

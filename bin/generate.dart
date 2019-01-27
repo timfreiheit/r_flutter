@@ -3,10 +3,11 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:r_flutter/src/arguments.dart';
-import 'package:r_flutter/src/assets_parser.dart';
-import 'package:r_flutter/src/fonts_parser.dart';
-import 'package:r_flutter/src/output.dart';
-import 'package:r_flutter/src/strings_parser.dart';
+import 'package:r_flutter/src/generator/generator.dart';
+import 'package:r_flutter/src/model/resources.dart';
+import 'package:r_flutter/src/parser/assets_parser.dart';
+import 'package:r_flutter/src/parser/fonts_parser.dart';
+import 'package:r_flutter/src/parser/strings_parser.dart';
 import 'package:yaml/yaml.dart';
 
 main(List<String> args) {
@@ -20,14 +21,14 @@ main(List<String> args) {
   }
 
   final yaml = loadYaml(pubspecFile.readAsStringSync());
-  final output = Output(
+  final res = Resources(
     fonts: parseFonts(yaml),
     assets: parseAssets(yaml, arguments.ignoreAssets),
     stringReferences: parseStrings(arguments.intlFilename)
   );
 
   final outoutFile = File(arguments.outputFilename);
-  outoutFile.writeAsStringSync(output.generateFile());
+  outoutFile.writeAsStringSync(generateFile(res));
 
   print("${outoutFile.path} generated successfully");
 }

@@ -1,17 +1,6 @@
 import 'dart:io';
 import 'package:path/path.dart' as path;
-
-class Asset {
-  final String name;
-  final String path;
-
-  Asset({this.name, this.path});
-
-  @override
-  String toString() {
-    return "Asset(name: $name, path: $path)";
-  }
-}
+import 'package:r_flutter/src/model/resources.dart';
 
 List<Asset> parseAssets(yaml, List<String> ignoreAssets) {
   final flutter = yaml["flutter"];
@@ -50,7 +39,7 @@ List<String> _findFiles(String asset, List<String> ignoreAssets) {
             .map((entry) {
               final entryType = FileSystemEntity.typeSync(entry.path);
               if (entryType == FileSystemEntityType.file) {
-                if (assetShouldBeIgnored(entry.path, ignoreAssets)){
+                if (assetShouldBeIgnored(entry.path, ignoreAssets)) {
                   return null;
                 }
                 return entry.path;
@@ -65,10 +54,24 @@ List<String> _findFiles(String asset, List<String> ignoreAssets) {
   }
 }
 
+AssetType _findAssetTypeFromPath(String pathString) {
+  switch (path.extension(pathString).toLowerCase()) {
+    case ".png":
+    case ".jpg":
+    case ".gif":
+      return AssetType.IMAGE;
+    default:
+      return AssetType.OTHER;
+  }
+}
+
 List<Asset> _convertToAssets(List<String> assetPaths) {
   List<Asset> rawAssets = assetPaths
       .map((pathString) => Asset(
-          name: path.basenameWithoutExtension(pathString), path: pathString))
+            name: path.basenameWithoutExtension(pathString),
+            path: pathString,
+            type: _findAssetTypeFromPath(pathString),
+          ))
       .toList();
 
   List<Asset> assets = [];
@@ -122,7 +125,9 @@ List<Asset> specifyAssetNames(List<Asset> assets) {
             item.first.name;
         newParentDir = item.second.parent;
       }
-      return _Pair(Asset(name: newName, path: item.first.path), newParentDir);
+      return _Pair(
+          Asset(name: newName, path: item.first.path, type: item.first.type),
+          newParentDir);
     }).toList();
   }
   return list.map((item) => item.first).toList();
