@@ -6,5 +6,6 @@
   "@hello": {
     "type": "text",
     "placeholders": {}
-  }
+  },
+  "withLineBreak": "test\n\nlint\nbreak"
 }

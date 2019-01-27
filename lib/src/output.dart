@@ -54,7 +54,7 @@ String _generateStringBindingClass(List<StringReference> stringReferences) {
   for (var ref in stringReferences) {
       if (ref.placeholders.isEmpty) {
         classString +=
-        '  String get ${ref.name} => Intl.message("${ref.value}", name: "${ref.name}");\n';
+        '  String get ${ref.name} => Intl.message("", name: "${ref.name}");\n';
       } else {
         classString +=
         '  String ${ref.name}(';
@@ -65,7 +65,7 @@ String _generateStringBindingClass(List<StringReference> stringReferences) {
           classString += "String ${placeholder}";
         }
         classString += ") {\n";
-        classString += '    return Intl.message("${ref.value}", name: "${ref.name}", args: ['; // number])
+        classString += '    return Intl.message("", name: "${ref.name}", args: ['; // number])
         for (var placeholder in ref.placeholders) {
           if (!classString.endsWith("[")){
             classString += ", ";
