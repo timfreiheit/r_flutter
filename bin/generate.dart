@@ -6,6 +6,7 @@ import 'package:r_flutter/src/arguments.dart';
 import 'package:r_flutter/src/assets_parser.dart';
 import 'package:r_flutter/src/fonts_parser.dart';
 import 'package:r_flutter/src/output.dart';
+import 'package:r_flutter/src/strings_parser.dart';
 import 'package:yaml/yaml.dart';
 
 main(List<String> args) {
@@ -22,6 +23,7 @@ main(List<String> args) {
   final output = Output(
     fonts: parseFonts(yaml),
     assets: parseAssets(yaml, arguments.ignoreAssets),
+    stringReferences: parseStrings(arguments.intlFilename)
   );
 
   final outoutFile = File(arguments.outputFilename);

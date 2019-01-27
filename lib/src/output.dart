@@ -1,15 +1,23 @@
 import 'dart:io';
 import 'package:r_flutter/src/assets_parser.dart';
+import 'package:r_flutter/src/strings_parser.dart';
 import 'package:recase/recase.dart';
 
 class Output {
   final List<String> fonts;
   final List<Asset> assets;
+  final List<StringReference> stringReferences;
 
-  Output({this.fonts, this.assets});
+  Output({
+    this.fonts,
+    this.assets,
+    this.stringReferences,
+  });
 
   String generateFile() {
     String outputString = "";
+    outputString += _generateStringBindingClass(stringReferences);
+    outputString += "\n";
     outputString += _generateFontClass(fonts);
     outputString += "\n";
     outputString += _generateAssetsClass(assets);
@@ -32,6 +40,41 @@ String _generateAssetsClass(List<Asset> assets) {
   for (var asset in assets) {
     classString +=
         "  static const String ${_createVariableName(asset.name)} = \"${asset.path}\";\n";
+  }
+  classString += "}\n";
+  return classString;
+}
+
+String _generateStringBindingClass(List<StringReference> stringReferences) {
+  if (stringReferences.isEmpty) {
+    return "";
+  }
+
+  String classString = "import 'package:intl/intl.dart';\n\nclass StringsBinding {\n";
+  for (var ref in stringReferences) {
+      if (ref.placeholders.isEmpty) {
+        classString +=
+        '  String get ${ref.name} => Intl.message("${ref.value}", name: "${ref.name}");\n';
+      } else {
+        classString +=
+        '  String ${ref.name}(';
+        for (var placeholder in ref.placeholders) {
+          if (!classString.endsWith("(")){
+            classString += ", ";
+          }
+          classString += "String ${placeholder}";
+        }
+        classString += ") {\n";
+        classString += '    return Intl.message("${ref.value}", name: "${ref.name}", args: ['; // number])
+        for (var placeholder in ref.placeholders) {
+          if (!classString.endsWith("[")){
+            classString += ", ";
+          }
+          classString += placeholder;
+        }
+        classString += "]);\n";
+        classString += "  }\n";
+      }
   }
   classString += "}\n";
   return classString;

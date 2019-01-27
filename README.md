@@ -29,7 +29,9 @@ TextStyle(
 
 ## Generate code
 
-./flutterw packages pub run r_flutter:generate
+```
+flutter packages pub run r_flutter:generate
+```
 
 #### Optional Parameters:
 

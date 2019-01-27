@@ -1,0 +1,10 @@
+{
+  "appName": "AppName",
+  "string1": "Content",
+  "stringWithPlaceholder": "String with {placeholder}",
+  "hello": "Hola",
+  "@hello": {
+    "type": "text",
+    "placeholders": {}
+  }
+}
