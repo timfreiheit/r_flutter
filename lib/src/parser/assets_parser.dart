@@ -97,7 +97,6 @@ List<Asset> _convertToAssets(List<String> assetPaths) {
 
 List<Asset> specifyAssetNames(List<Asset> assets) {
   bool containsDuplicates(List<_Pair<Asset, Directory>> list) {
-    final first = list.first;
     for (var item in list) {
       if (list.any((item2) {
         if (item == item2) {

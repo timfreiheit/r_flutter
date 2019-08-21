@@ -1,5 +1,4 @@
 #!/usr/bin/env dart
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:r_flutter/src/arguments.dart';
@@ -22,10 +21,9 @@ main(List<String> args) {
 
   final yaml = loadYaml(pubspecFile.readAsStringSync());
   final res = Resources(
-    fonts: parseFonts(yaml),
-    assets: parseAssets(yaml, arguments.ignoreAssets),
-    stringReferences: parseStrings(arguments.intlFilename)
-  );
+      fonts: parseFonts(yaml),
+      assets: parseAssets(yaml, arguments.ignoreAssets),
+      stringReferences: parseStrings(arguments.intlFilename));
 
   final outoutFile = File(arguments.outputFilename);
   outoutFile.writeAsStringSync(generateFile(res));

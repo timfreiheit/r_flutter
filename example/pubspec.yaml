@@ -1,6 +1,9 @@
 name: test_app
 description: A new Flutter application.
 
+environment:
+  sdk: ">=2.1.0 <3.0.0"
+
 dependencies:
   flutter:
     sdk: flutter
@@ -27,13 +30,13 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-      - example/assets/
-      - example/assets/sub/
-      - example/assets/sub/ignore1/
-      - example/assets/sub/ignore2/
-      - example/assets/sub/sub/
-      - example/assets/sub2/sub2.txt
-      - example/assets/sub2/
+      - assets/
+      - assets/sub/
+      - assets/sub/ignore1/
+      - assets/sub/ignore2/
+      - assets/sub/sub/
+      - assets/sub2/sub2.txt
+      - assets/sub2/
 
   fonts:
      - family: H6allo%§ä
