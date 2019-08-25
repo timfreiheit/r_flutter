@@ -40,13 +40,22 @@ Arguments parseYamlArguments(YamlMap yaml) {
 class AssetsBuilder extends Builder {
   @override
   FutureOr<void> build(BuildStep buildStep) async {
-    log.warning('AssetsAndFontsBuilder: ${buildStep.inputId}');
+    log.info('processing: ${buildStep.inputId}');
+
     final input = buildStep.inputId;
+
     final path = p.join(p.dirname(input.path), 'assets.dart');
     final output = AssetId(input.package, path);
 
-    final configRaw = loadYaml(await buildStep.readAsString(input));
+    final configId = AssetId(input.package, 'lib/assets.yaml');
+
+    final configRaw = loadYaml(await buildStep.readAsString(configId));
     final config = parseYamlArguments(configRaw);
+
+    // this ensures correct refreshing after changing en.arb
+    final ok =
+        await buildStep.canRead(AssetId(input.package, config.intlFilename));
+    assert(ok);
     final generated = generate(config);
 
     await buildStep.writeAsString(output, generated);
@@ -54,7 +63,7 @@ class AssetsBuilder extends Builder {
 
   @override
   Map<String, List<String>> get buildExtensions => {
-        "assets.yaml": ["assets.dart"]
+        "assets.yaml": ["assets.dart"],
       };
 }
 

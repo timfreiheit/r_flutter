@@ -1,5 +1,5 @@
-intl: assets/i18n/en.arb
+intl: lib/i18n/en.arb
 ignore:
   - assets/sub/ignore1
   - assets/sub/ignore2
-  - assets/i18n
+  - lib/i18n

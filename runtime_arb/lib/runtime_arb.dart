@@ -21,7 +21,7 @@ class RuntimeArb extends MessageLookupByLibrary {
 
     Intl.defaultLocale = localeName;
 
-    final arb = await rootBundle.loadString('assets/i18n/$localeName.arb');
+    final arb = await rootBundle.loadString('lib/i18n/$localeName.arb');
     final Map<String, Object> parsed = json.decode(arb);
 
     parsed.removeWhere((key, value) {

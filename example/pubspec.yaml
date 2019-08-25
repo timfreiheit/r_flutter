@@ -28,7 +28,7 @@ flutter:
       - assets/sub/sub/
       - assets/sub2/sub2.txt
       - assets/sub2/
-      - assets/i18n/
+      - lib/i18n/
 
 #   fonts:
 #      - family: H6allo%§ä

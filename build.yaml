@@ -3,6 +3,6 @@ builders:
     import: "package:r_flutter/builder.dart"
     builder_factories:
       - "builder"
-    build_extensions: {"assets.yaml": ["assets.dart"]}
+    build_extensions: {}
     auto_apply: root_package
     build_to: cache

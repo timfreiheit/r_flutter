@@ -30,7 +30,7 @@ class HomePage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Text(Assets.testAsset2),
-            Text(i18n.hello),
+            Text(i18n.hello_there),
             Text(i18n.stringWithPlaceholder('hello')),
           ],
         ),
