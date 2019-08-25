@@ -1,0 +1,4 @@
+intl: assets/i18n/strings.arb
+ignore:
+  - assets/sub/ignore1
+  - assets/sub/ignore2

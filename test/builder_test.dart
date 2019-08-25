@@ -1,11 +1,15 @@
+import 'dart:io';
+
 import 'package:package_resolver/package_resolver.dart';
 import 'package:r_flutter/builder.dart';
 import 'package:test/test.dart';
 import 'package:build_test/build_test.dart';
 
 PackageAssetReader readerForExampleAssets() {
+  Directory.current = Directory('example');
+
   final resolver = SyncPackageResolver.config({
-    'example': Uri.file('example'),
+    'example': Uri.file('lib'),
   });
 
   final reader = PackageAssetReader(resolver, 'example');
@@ -14,7 +18,7 @@ PackageAssetReader readerForExampleAssets() {
 
 void main() {
   test('test assets.dart created', () async {
-    final builder = AssetsAndFontsBuilder();
+    final builder = AssetsBuilder();
 
     await testBuilder(
       builder,

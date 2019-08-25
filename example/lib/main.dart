@@ -10,7 +10,12 @@ class MyApp extends StatelessWidget {
       title: 'r_flutter',
       home: Scaffold(
         appBar: AppBar(),
-        body: Text(Assets.testAsset2),
+        body: Column(
+          children: <Widget>[
+            Text(Assets.testAsset2),
+            Text(StringsBinding().appName)
+          ],
+        ),
       ),
     );
   }
