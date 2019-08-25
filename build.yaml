@@ -1,12 +1,8 @@
 builders:
-  json_widget:
+  r_flutter:
     import: "package:r_flutter/builder.dart"
     builder_factories:
       - "builder"
-    build_extensions: {".json": [".dart"]}
+    build_extensions: {"assets.yaml": ["assets.dart"]}
     auto_apply: root_package
     build_to: cache
-    defaults:
-      generate_for:
-        include:
-          - lib/**

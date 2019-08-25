@@ -1,4 +1,4 @@
-name: test_app
+name: example
 description: A new Flutter application.
 
 environment:
@@ -20,20 +20,16 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-# For information on the generic Dart part of this file, see the
-# following page: https://www.dartlang.org/tools/pub/pubspec
-
-# The following section is specific to Flutter.
-# flutter:
-#   uses-material-design: true
-#   assets:
-#       - assets/
-#       - assets/sub/
-#       - assets/sub/ignore1/
-#       - assets/sub/ignore2/
-#       - assets/sub/sub/
-#       - assets/sub2/sub2.txt
-#       - assets/sub2/
+flutter:
+  uses-material-design: true
+  assets:
+      - assets/
+      - assets/sub/
+      - assets/sub/ignore1/
+      - assets/sub/ignore2/
+      - assets/sub/sub/
+      - assets/sub2/sub2.txt
+      - assets/sub2/
 
 #   fonts:
 #      - family: H6allo%§ä
