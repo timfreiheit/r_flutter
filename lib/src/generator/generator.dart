@@ -16,7 +16,7 @@ String generateFile(Resources res) {
   String fullCode = "";
   for (var dartClass in classes) {
     for (var import in dartClass.imports) {
-      fullCode += "import '${import}';\n";
+      fullCode += "import '$import';\n";
     }
   }
 

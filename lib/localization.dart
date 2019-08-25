@@ -6,17 +6,15 @@ import 'package:intl/intl.dart';
 import 'package:intl/message_lookup_by_library.dart';
 import 'package:intl/src/intl_helpers.dart';
 
-import 'assets.dart';
-
 // ignore_for_file: implementation_imports
 
-class Strings extends StringsBinding with MessageLookupByLibrary {
+class RuntimeArb extends MessageLookupByLibrary {
   final String localeName;
   final Map<String, String> messages;
 
-  Strings(this.localeName, this.messages);
+  RuntimeArb(this.localeName, this.messages);
 
-  static Future<Strings> load(Locale locale) async {
+  static Future<RuntimeArb> load(Locale locale) async {
     final String localeName = locale.languageCode;
 
     Intl.defaultLocale = localeName;
@@ -28,7 +26,7 @@ class Strings extends StringsBinding with MessageLookupByLibrary {
       return !(value is String);
     });
 
-    final result = Strings(locale.languageCode, parsed.cast());
+    final result = RuntimeArb(locale.languageCode, parsed.cast());
 
     initializeInternalMessageLookup(() => CompositeMessageLookup());
 
@@ -54,16 +52,16 @@ class Strings extends StringsBinding with MessageLookupByLibrary {
       return string;
     }
   }
-
-  static Strings of(BuildContext context) {
-    return Localizations.of<Strings>(context, Strings);
-  }
 }
 
-class StringsDelegate extends LocalizationsDelegate<Strings> {
+/// Loads localization strings from .arb file in assets.
+/// 1. Make sure you have assets/i18n/en.arb and other languages.
+/// 2. Add assets/i18n/ to your flutter assets.
+/// 3. Correctly define supported locales.
+class RuntimeArbDelegate extends LocalizationsDelegate<RuntimeArb> {
   final Set<String> locales;
 
-  const StringsDelegate(this.locales);
+  const RuntimeArbDelegate(this.locales);
 
   @override
   bool isSupported(Locale locale) {
@@ -71,12 +69,12 @@ class StringsDelegate extends LocalizationsDelegate<Strings> {
   }
 
   @override
-  Future<Strings> load(Locale locale) {
-    return Strings.load(locale);
+  Future<RuntimeArb> load(Locale locale) {
+    return RuntimeArb.load(locale);
   }
 
   @override
-  bool shouldReload(LocalizationsDelegate<Strings> old) {
+  bool shouldReload(LocalizationsDelegate<RuntimeArb> old) {
     return false;
   }
 }

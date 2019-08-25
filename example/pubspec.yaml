@@ -7,10 +7,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_localizations:
-    sdk: flutter
-  intl:
-  intl_translation:
+  r_flutter: # this is only for localization.dart, possibly should be in separate package
+    path: ../
 
 builders:
   r_flutter:

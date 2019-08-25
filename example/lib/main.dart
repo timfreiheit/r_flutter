@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'assets.dart';
-import 'localization.dart';
+import 'package:r_flutter/localization.dart';
+
+final i18n = StringsBinding();
 
 void main() => runApp(MyApp());
 
@@ -10,7 +12,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'r_flutter',
       localizationsDelegates: [
-        StringsDelegate({'en'})
+        RuntimeArbDelegate({'en'})
       ],
       home: HomePage(),
     );
@@ -28,8 +30,8 @@ class HomePage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Text(Assets.testAsset2),
-            Text(Strings.of(context).appName),
-            Text(Strings.of(context).stringWithPlaceholder('hello')),
+            Text(i18n.appName),
+            Text(i18n.stringWithPlaceholder('hello')),
           ],
         ),
       ),
