@@ -2,7 +2,7 @@ name: example
 description: A new Flutter application.
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.2.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -30,6 +30,7 @@ flutter:
       - assets/sub/sub/
       - assets/sub2/sub2.txt
       - assets/sub2/
+      - assets/i18n/
 
 #   fonts:
 #      - family: H6allo%§ä

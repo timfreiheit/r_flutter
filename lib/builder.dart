@@ -40,7 +40,7 @@ Arguments parseYamlArguments(YamlMap yaml) {
 class AssetsBuilder extends Builder {
   @override
   FutureOr<void> build(BuildStep buildStep) async {
-    log.info('AssetsAndFontsBuilder: ${buildStep.inputId}');
+    log.warning('AssetsAndFontsBuilder: ${buildStep.inputId}');
     final input = buildStep.inputId;
     final path = p.join(p.dirname(input.path), 'assets.dart');
     final output = AssetId(input.package, path);
@@ -54,7 +54,7 @@ class AssetsBuilder extends Builder {
 
   @override
   Map<String, List<String>> get buildExtensions => {
-        "assets.yaml": ["assets.dart"],
+        "assets.yaml": ["assets.dart"]
       };
 }
 
