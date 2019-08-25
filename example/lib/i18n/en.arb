@@ -8,7 +8,7 @@
     "placeholders": {}
   },
   "withLineBreak": "test\n\nlint\nbreak",
-  "hello_there": "ok"
+  "hello_there": "hello_there"
 }
 
 
