@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:runtime_arb/runtime_arb.dart';
 import 'assets.dart';
-import 'package:r_flutter/localization.dart';
 
 final i18n = StringsBinding();
 
@@ -30,7 +30,7 @@ class HomePage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Text(Assets.testAsset2),
-            Text(i18n.appName),
+            Text(i18n.hello),
             Text(i18n.stringWithPlaceholder('hello')),
           ],
         ),

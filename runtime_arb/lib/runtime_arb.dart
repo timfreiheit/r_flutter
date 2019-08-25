@@ -1,3 +1,5 @@
+library runtime_arb;
+
 import 'dart:convert';
 
 import 'package:flutter/services.dart';

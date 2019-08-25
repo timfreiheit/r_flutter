@@ -7,8 +7,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  r_flutter: # this is only for localization.dart, possibly should be in separate package
-    path: ../
+  runtime_arb:
+    path: ../runtime_arb
 
 builders:
   r_flutter:
