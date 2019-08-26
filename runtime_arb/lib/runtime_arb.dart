@@ -16,19 +16,17 @@ class RuntimeArb extends MessageLookupByLibrary {
 
   RuntimeArb(this.localeName, this.messages);
 
-  static Future<RuntimeArb> load(Locale locale) async {
-    final String localeName = locale.languageCode;
-
+  static Future<RuntimeArb> load(String localeName, String path) async {
     Intl.defaultLocale = localeName;
 
-    final arb = await rootBundle.loadString('lib/i18n/$localeName.arb');
+    final arb = await rootBundle.loadString(path);
     final Map<String, Object> parsed = json.decode(arb);
 
     parsed.removeWhere((key, value) {
       return !(value is String);
     });
 
-    final result = RuntimeArb(locale.languageCode, parsed.cast());
+    final result = RuntimeArb(localeName, parsed.cast());
 
     initializeInternalMessageLookup(() => CompositeMessageLookup());
 
@@ -63,7 +61,16 @@ class RuntimeArb extends MessageLookupByLibrary {
 class RuntimeArbDelegate extends LocalizationsDelegate<RuntimeArb> {
   final Set<String> locales;
 
-  const RuntimeArbDelegate(this.locales);
+  /// Patern to use when loading localization file. Must include {localeName} substring.
+  /// Example: 'lib/i18n/{localeName}.arb'
+  /// It is recommended that localization files are inside lib directory
+  /// Otherwise code generation may not update properly
+  final String pattern;
+
+  const RuntimeArbDelegate(
+    this.locales, [
+    this.pattern = 'lib/i18n/{localeName}.arb',
+  ]);
 
   @override
   bool isSupported(Locale locale) {
@@ -72,7 +79,8 @@ class RuntimeArbDelegate extends LocalizationsDelegate<RuntimeArb> {
 
   @override
   Future<RuntimeArb> load(Locale locale) {
-    return RuntimeArb.load(locale);
+    final path = pattern.replaceFirst('{localeName}', locale.languageCode);
+    return RuntimeArb.load(locale.languageCode, path);
   }
 
   @override
