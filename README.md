@@ -60,8 +60,9 @@ dependencies:
   flutter:
     sdk: flutter
   runtime_arb:
-    git: https://github.com/szotp/r_flutter.git
-    path: runtime_arb
+    git: 
+      url:https://github.com/szotp/r_flutter.git
+      path: runtime_arb
 
 builders:
   r_flutter:
