@@ -38,6 +38,15 @@ Arguments parseYamlArguments(YamlMap yaml) {
 }
 
 class AssetsBuilder extends Builder {
+  /// This is needed to let build system know that we depend on given file
+  Future<void> check(BuildStep buildStep, String filename) async {
+    if (filename == null) {
+      return;
+    }
+
+    await buildStep.canRead(AssetId(buildStep.inputId.package, filename));
+  }
+
   @override
   FutureOr<void> build(BuildStep buildStep) async {
     log.info('processing: ${buildStep.inputId}');
@@ -52,12 +61,8 @@ class AssetsBuilder extends Builder {
     final configRaw = loadYaml(await buildStep.readAsString(configId));
     final config = parseYamlArguments(configRaw ?? YamlMap());
 
-    // this ensures correct refreshing after changing en.arb
-    if (config.intlFilename != null) {
-      final ok =
-          await buildStep.canRead(AssetId(input.package, config.intlFilename));
-      assert(ok);
-    }
+    await check(buildStep, config.intlFilename);
+    await check(buildStep, config.pubspecFilename);
 
     final generated = generate(config);
 

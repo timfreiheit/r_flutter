@@ -12,6 +12,10 @@ class StringsBinding {
   String get hello_there => Intl.message("", name: "hello_there");
 }
 
+class Fonts {
+  static const String testFont = "TestFont";
+}
+
 class Assets {
   static const String assetsTestAsset = "assets/test_asset.txt";
   static const String assetsSubTestAsset = "assets/sub/test_asset.txt";
