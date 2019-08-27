@@ -1,7 +1,8 @@
 r_flutter
 ====
 
-Generate constants for resources which require using them as a String like fonts and assets.
+Generate constants for resources which require using them as a String like fonts and assets. Generated file will look like this:
+[assets.dart](/example/.dart_tool/build/generated/example/lib/assets.dart)
 
 ##### Images
 
