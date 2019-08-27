@@ -34,7 +34,7 @@ Arguments parseYamlArguments(YamlMap yaml) {
     ..intlFilename = yaml['intl']
     ..pubspecFilename = 'pubspec.yaml'
     ..outputFilename = 'assets.dart'
-    ..ignoreAssets = ignoreRaw.map((x) => x as String).toList();
+    ..ignoreAssets = ignoreRaw?.map((x) => x as String)?.toList() ?? [];
 }
 
 class AssetsBuilder extends Builder {
@@ -50,12 +50,15 @@ class AssetsBuilder extends Builder {
     final configId = AssetId(input.package, 'lib/assets.yaml');
 
     final configRaw = loadYaml(await buildStep.readAsString(configId));
-    final config = parseYamlArguments(configRaw);
+    final config = parseYamlArguments(configRaw ?? YamlMap());
 
     // this ensures correct refreshing after changing en.arb
-    final ok =
-        await buildStep.canRead(AssetId(input.package, config.intlFilename));
-    assert(ok);
+    if (config.intlFilename != null) {
+      final ok =
+          await buildStep.canRead(AssetId(input.package, config.intlFilename));
+      assert(ok);
+    }
+
     final generated = generate(config);
 
     await buildStep.writeAsString(output, generated);

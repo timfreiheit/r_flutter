@@ -1,4 +1,4 @@
-R.Flutter
+r_flutter
 ====
 
 Generate constants for resources which require using them as a String like fonts and assets.
@@ -39,64 +39,53 @@ await rootBundle.loadString(Assets.data)
 ```
 
 
-## Generate code
+## Setup
 
+1. Add assets.yaml configuration file to in your app's lib directory:
+```yaml
+intl: lib/i18n/en.arb
+ignore:
+  - assets/sub/ignore1 #use ignore option to skip 
+  - assets/sub/ignore2
+  - lib/i18n
 ```
-flutter packages pub run r_flutter:generate
+Options:
+- intl: Points to a localization file that would be used to generate localization keys. arb files are essentialy json files with some special, optional keys. Specifing this is optional.
+- ignore: specifies a list of files/directories that should be skipped during code generation. 
+
+2. Add dependencies in your pubspec.yaml:
+```yaml
+dependencies:
+  flutter:
+    sdk: flutter
+  runtime_arb:
+    git: https://github.com/szotp/r_flutter.git
+    path: runtime_arb
+
+builders:
+  r_flutter:
+    git: https://github.com/szotp/r_flutter.git
 ```
 
-#### Optional Parameters:
-
-##### pubspec-file (pubspec.yaml)
-Specify the pubspec file of the project
-
-#### ignore-assets
-Specify asset folder which should be ignored for generating constants. Seperated by "," 
-
-example:
-```
-flutter packages pub run r_flutter:generate \
-  --ignore-assets=assets/thumbs/,assets/large_collection_of_files
-```
-
-#### intl-file
-Specify intl arb file to generate bindings for.
-
-example:
-```
-flutter packages pub run r_flutter:generate --intl-file=lib/i18n/strings_en.arb
-```
-
-this generates a ``` StringsBinding ``` which looks like
-
+3. Import `runtime_arb` package and add RuntimeArbDelegate to your localization delegates:
 ```dart
-class StringsBinding {
-  String get appName => Intl.message("", name: "appName");
-}
+MaterialApp(
+  title: 'r_flutter',
+  localizationsDelegates: [
+    // runtimeArbDelegate will expect lib/i18n/en.arb and lib/i18n/en.arb to exist in your app
+    // make sure they have been added to your assets
+    RuntimeArbDelegate({'en', 'pl'})
+  ],
+  home: HomePage(),
+)
 ```
+4. Execute `flutter generate` command in your project's directory. You could also run tests or just build the app. Compiler must run at least once to generate the file.
 
-usage with the intl
+5. Import `assets.yaml` and start using it:
 ```dart
-class Strings extends StringsBinding {
-
-  final Locale _locale;
-
-  Strings(this._locale);
-
-  static Future<Strings> load(Locale locale) async {
-    final String name =
-        locale.countryCode.isEmpty ? locale.languageCode : locale.toString();
-    final String localeName = Intl.canonicalizedLocale(name);
-    await initializeMessages(localeName);
-    Intl.defaultLocale = localeName;
-    return new Strings(locale);
-  }
-
-  static Strings of(BuildContext context) {
-    return Localizations.of<Strings>(context, Strings);
-  }
-}
+import 'assets.yaml'
+Text(i18n.hello_there)
 ```
 
-#### output-file (lib/r.g.dart)
-Specify the output file.
+Note: if something doesn't work, check the example project.
+
