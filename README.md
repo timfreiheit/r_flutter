@@ -4,42 +4,6 @@ r_flutter
 Generate constants for resources which require using them as a String like fonts and assets. Generated file will look like this:
 [assets.dart](/example/.dart_tool/build/generated/example/lib/assets.dart)
 
-##### Images
-
-Instead of writing:
-```dart
-Image(image: AssetImage("assets/path/to/image.png"))
-```
-you can write:
-```dart
-Image(image: Images.image)
-```
-
-##### Fonts
-Instead of writing:
-```dart
-TextStyle(
-    fontFamily: "Roboto",
-)
-```
-you can write:
-```dart
-TextStyle(
-    fontFamily: Fonts.roboto,
-)
-```
-
-##### Fonts
-Instead of writing:
-```dart
-await rootBundle.loadString("assets/path/to/data.json")
-```
-you can write:
-```dart
-await rootBundle.loadString(Assets.data)
-```
-
-
 ## Setup
 
 1. Add assets.yaml configuration file to in your app's lib directory:
@@ -90,4 +54,41 @@ Text(i18n.hello_there)
 ```
 
 Note: if something doesn't work, check the example project.
+
+## Examples
+
+##### Images
+
+Instead of writing:
+```dart
+Image(image: AssetImage("assets/path/to/image.png"))
+```
+you can write:
+```dart
+Image(image: Images.image)
+```
+
+##### Fonts
+Instead of writing:
+```dart
+TextStyle(
+    fontFamily: "Roboto",
+)
+```
+you can write:
+```dart
+TextStyle(
+    fontFamily: Fonts.roboto,
+)
+```
+
+##### Fonts
+Instead of writing:
+```dart
+await rootBundle.loadString("assets/path/to/data.json")
+```
+you can write:
+```dart
+await rootBundle.loadString(Assets.data)
+```
 
