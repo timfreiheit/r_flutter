@@ -6,19 +6,7 @@ Generate constants for resources which require using them as a String like fonts
 
 ## Setup
 
-1. Add assets.yaml configuration file to in your app's lib directory:
-```yaml
-intl: lib/i18n/en.arb
-ignore:
-  - assets/sub/ignore1 #use ignore option to skip 
-  - assets/sub/ignore2
-  - lib/i18n
-```
-Options:
-- intl: Points to a localization file that would be used to generate localization keys. arb files are essentialy json files with some special, optional keys. Specifing this is optional.
-- ignore: specifies a list of files/directories that should be skipped during code generation. 
-
-2. Add dependencies in your pubspec.yaml:
+1. Add dependencies in your pubspec.yaml:
 ```yaml
 dependencies:
   flutter:
@@ -32,6 +20,20 @@ builders:
   r_flutter:
     git: https://github.com/szotp/r_flutter.git
 ```
+
+2. Add r_flutter configuration in your pubspec.yaml:
+```yaml
+# important: this is root level option
+r_flutter:
+  intl: lib/i18n/en.arb
+  ignore:
+    - assets/sub/ignore1 #use ignore option to skip 
+    - assets/sub/ignore2
+    - lib/i18n
+```
+Options:
+- intl: Points to a localization file that would be used to generate localization keys. arb files are essentialy json files with some special, optional keys. Specifing this is optional.
+- ignore: specifies a list of files/directories that should be skipped during code generation. 
 
 3. Import `runtime_arb` package and add RuntimeArbDelegate to your localization delegates:
 ```dart
