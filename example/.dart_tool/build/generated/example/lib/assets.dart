@@ -17,16 +17,17 @@ class Fonts {
 }
 
 class Assets {
-  static const String assetsTestAsset = "assets/test_asset.txt";
-  static const String assetsSubTestAsset = "assets/sub/test_asset.txt";
-  static const String subSubTestAsset = "assets/sub/sub/test_asset.txt";
-  static const String testAsset2 = "assets/test_asset2.txt";
-  static const String aesset = "assets/äßet.txt";
-  static const String temp = "assets/sub/temp.txt";
-  static const String sub2 = "assets/sub2/sub2.txt";
+  static const String testAsset2 = "lib/assets/test_asset2.txt";
+  static const String aesset = "lib/assets/äßet.txt";
+  static const String temp = "lib/assets/sub/temp.txt";
+  static const String assetsSubTestAsset = "lib/assets/sub/test_asset.txt";
+  static const String subSubTestAsset = "lib/assets/sub/sub/test_asset.txt";
+  static const String ignore1Test = "lib/assets/sub/ignore1/test.txt";
+  static const String ignore2Test = "lib/assets/sub/ignore2/test.txt";
+  static const String sub2 = "lib/assets/sub2/sub2.txt";
 }
 
 class Images {
-  static AssetImage get extension => const AssetImage("assets/extension.png");
+  static AssetImage get extension => const AssetImage("lib/assets/extension.png");
 }
 

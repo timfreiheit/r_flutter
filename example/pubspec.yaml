@@ -21,13 +21,13 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-      - assets/
-      - assets/sub/
-      - assets/sub/ignore1/
-      - assets/sub/ignore2/
-      - assets/sub/sub/
-      - assets/sub2/sub2.txt
-      - assets/sub2/
+      - lib/assets/
+      - lib/assets/sub/
+      - lib/assets/sub/ignore1/
+      - lib/assets/sub/ignore2/
+      - lib/assets/sub/sub/
+      - lib/assets/sub2/sub2.txt
+      - lib/assets/sub2/
       - lib/i18n/
 
   fonts:

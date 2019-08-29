@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:build/build.dart';
+import 'package:glob/glob.dart';
 import 'package:path/path.dart' as p;
 import 'package:yaml/yaml.dart';
 
@@ -63,6 +64,9 @@ class AssetsBuilder extends Builder {
 
     await check(buildStep, config.intlFilename);
     await check(buildStep, config.pubspecFilename);
+
+    // this ensures that we will react to added / removed assets
+    await buildStep.findAssets(Glob("**/*")).toList();
 
     final generated = generate(config);
 
