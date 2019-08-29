@@ -15,12 +15,11 @@ dependencies:
     sdk: flutter
   runtime_arb:
     git: 
-      url:https://github.com/szotp/r_flutter.git
+      url: https://github.com/timfreiheit/r_flutter.git
       path: runtime_arb
 
 builders:
-  r_flutter:
-    git: https://github.com/szotp/r_flutter.git
+  r_flutter: <version>
 ```
 
 3. Add r_flutter configuration in your pubspec.yaml:
