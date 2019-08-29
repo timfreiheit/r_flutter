@@ -33,11 +33,11 @@ flutter:
   fonts:
       - family: TestFont
         fonts:
-          - asset: fonts/Roboto-Thin.ttf
+          - asset: lib/fonts/Roboto-Thin.ttf
 
 r_flutter:
   intl: lib/i18n/en.arb
   ignore:
-    - assets/sub/ignore1
-    - assets/sub/ignore2
+    - lib/assets/sub/ignore1
+    - lib/assets/sub/ignore2
     - lib/i18n

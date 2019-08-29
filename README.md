@@ -6,7 +6,9 @@ Generate constants for resources which require using them as a String like fonts
 
 ## Setup
 
-1. Add dependencies in your pubspec.yaml:
+1. Ensure that your assets and localization files are inside lib directory. This is required for builder plugin to detect changes.
+
+2. Add dependencies in your pubspec.yaml:
 ```yaml
 dependencies:
   flutter:
@@ -21,21 +23,21 @@ builders:
     git: https://github.com/szotp/r_flutter.git
 ```
 
-2. Add r_flutter configuration in your pubspec.yaml:
+3. Add r_flutter configuration in your pubspec.yaml:
 ```yaml
 # important: this is root level option
 r_flutter:
   intl: lib/i18n/en.arb
   ignore:
-    - assets/sub/ignore1 #use ignore option to skip 
-    - assets/sub/ignore2
+    - lib/assets/sub/ignore1 #use ignore option to skip 
+    - lib/assets/sub/ignore2
     - lib/i18n
 ```
 Options:
 - intl: Points to a localization file that would be used to generate localization keys. arb files are essentialy json files with some special, optional keys. Specifing this is optional.
 - ignore: specifies a list of files/directories that should be skipped during code generation. 
 
-3. Import `runtime_arb` package and add RuntimeArbDelegate to your localization delegates:
+4. Import `runtime_arb` package and add RuntimeArbDelegate to your localization delegates:
 ```dart
 MaterialApp(
   title: 'r_flutter',
@@ -47,9 +49,9 @@ MaterialApp(
   home: HomePage(),
 )
 ```
-4. Execute `flutter generate` command in your project's directory. You could also run tests or just build the app. Compiler must run at least once to generate the file.
+5. Execute `flutter generate` command in your project's directory. You could also run tests or just build the app. Compiler must run at least once to generate the file.
 
-5. Import `assets.yaml` and start using it:
+6. Import `assets.yaml` and start using it:
 ```dart
 import 'assets.yaml'
 Text(i18n.hello_there)

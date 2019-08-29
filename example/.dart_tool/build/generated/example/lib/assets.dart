@@ -22,8 +22,6 @@ class Assets {
   static const String temp = "lib/assets/sub/temp.txt";
   static const String assetsSubTestAsset = "lib/assets/sub/test_asset.txt";
   static const String subSubTestAsset = "lib/assets/sub/sub/test_asset.txt";
-  static const String ignore1Test = "lib/assets/sub/ignore1/test.txt";
-  static const String ignore2Test = "lib/assets/sub/ignore2/test.txt";
   static const String sub2 = "lib/assets/sub2/sub2.txt";
 }
 
