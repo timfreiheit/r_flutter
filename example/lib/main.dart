@@ -38,3 +38,7 @@ class HomePage extends StatelessWidget {
     );
   }
 }
+
+// this is only needed to run r_flutter tests
+// do not add this in your own app
+// ignore_for_file: undefined_identifier, undefined_function, uri_does_not_exist

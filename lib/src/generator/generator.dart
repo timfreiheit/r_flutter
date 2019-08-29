@@ -9,7 +9,7 @@ String generateFile(Resources res) {
   List<DartClass> classes = [];
   classes.add(generateStringBindingClass(res.stringReferences));
   classes.add(generateFontClass(res.fonts));
-  classes.addAll(generateAssetsClass(res.assets));
+  classes.addAll(generateAssetsClass(res.assets.assets));
 
   classes = classes.where((item) => item != null).toList();
 

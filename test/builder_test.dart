@@ -6,8 +6,12 @@ import 'package:test/test.dart';
 import 'package:build_test/build_test.dart';
 import 'package:path/path.dart' as p;
 
+Directory savedCurrentDirectory;
+
 PackageAssetReader readerForExampleAssets() {
-  final path = p.join(Directory.current.path, 'example', 'lib');
+  Directory.current = savedCurrentDirectory.path + '/example';
+
+  final path = p.join(Directory.current.path, 'lib');
 
   final resolver = SyncPackageResolver.config({
     'example': Uri.file(path),
@@ -17,7 +21,27 @@ PackageAssetReader readerForExampleAssets() {
   return reader;
 }
 
+class ContainsString extends Matcher {
+  final String value;
+
+  ContainsString(this.value);
+
+  @override
+  Description describe(Description description) {
+    return description;
+  }
+
+  @override
+  bool matches(item, Map matchState) {
+    List<int> bytes = item;
+    final string = String.fromCharCodes(bytes);
+    return string.contains(value);
+  }
+}
+
 void main() {
+  savedCurrentDirectory = Directory.current;
+
   group('test AssetsBuilder', () {
     test('test assets.dart created', () async {
       final builder = AssetsBuilder();
@@ -25,33 +49,29 @@ void main() {
       await testBuilder(
         builder,
         {
-          'example|lib/assets.yaml': null,
+          'example|lib/main.dart': '',
         },
         outputs: {
-          'example|lib/assets.dart': isNotNull,
+          'example|lib/assets.dart': ContainsString('Assets'),
         },
         reader: readerForExampleAssets(),
       );
     });
 
-    test('test empty assets.yaml file', () async {
+    test('test empty pubspec.yaml file', () async {
+      Directory.current = savedCurrentDirectory.path;
       final builder = AssetsBuilder();
 
       await testBuilder(
         builder,
         {
-          'example|lib/assets.yaml': '',
+          'example|lib/main.dart': '',
+          'example|pubspec.yaml': '',
         },
         outputs: {
           'example|lib/assets.dart': '',
         },
       );
-    });
-
-    test('test no assets.yaml file', () async {
-      final builder = AssetsBuilder();
-
-      await testBuilder(builder, {}, outputs: {});
     });
   });
 }
