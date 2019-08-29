@@ -2,25 +2,27 @@ import 'dart:io';
 import 'package:path/path.dart' as path;
 import 'package:r_flutter/src/model/resources.dart';
 
-List<Asset> parseAssets(yaml, List<String> ignoreAssets) {
+Assets parseAssets(yaml, List<String> ignoreAssets) {
   final flutter = yaml["flutter"];
   if (flutter == null) {
-    return [];
+    return Assets.empty;
   }
 
   List assets = flutter["assets"];
   if (assets == null) {
-    return [];
+    return Assets.empty;
   }
 
   Set<String> assetFiles = Set();
-  for (var asset in assets) {
+  List<String> declared = [];
+  for (String asset in assets) {
     if (assetShouldBeIgnored(asset, ignoreAssets)) {
       continue;
     }
+    declared.add(asset);
     assetFiles.addAll(_findFiles(asset, ignoreAssets));
   }
-  return _convertToAssets(assetFiles.toList());
+  return Assets(_convertToAssets(assetFiles.toList()), declared);
 }
 
 bool assetShouldBeIgnored(String path, List<String> ignoreAssets) {
@@ -97,7 +99,6 @@ List<Asset> _convertToAssets(List<String> assetPaths) {
 
 List<Asset> specifyAssetNames(List<Asset> assets) {
   bool containsDuplicates(List<_Pair<Asset, Directory>> list) {
-    final first = list.first;
     for (var item in list) {
       if (list.any((item2) {
         if (item == item2) {

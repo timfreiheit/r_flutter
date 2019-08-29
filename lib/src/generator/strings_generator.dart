@@ -17,7 +17,7 @@ DartClass generateStringBindingClass(List<StringReference> stringReferences) {
         if (!classString.endsWith("(")) {
           classString += ", ";
         }
-        classString += "String ${placeholder}";
+        classString += "String $placeholder";
       }
       classString += ") {\n";
       classString +=

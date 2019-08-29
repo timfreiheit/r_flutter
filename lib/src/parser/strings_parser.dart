@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:r_flutter/src/model/resources.dart';
 
 List<StringReference> parseStrings(String arbFilepath) {
-  if (arbFilepath.isEmpty) {
+  if (arbFilepath == null || arbFilepath.isEmpty) {
     return [];
   }
   File arbFile = File(arbFilepath);

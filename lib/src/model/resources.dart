@@ -1,6 +1,6 @@
 class Resources {
   final List<String> fonts;
-  final List<Asset> assets;
+  final Assets assets;
   final List<StringReference> stringReferences;
 
   Resources({
@@ -8,6 +8,18 @@ class Resources {
     this.assets,
     this.stringReferences,
   });
+}
+
+class Assets {
+  /// Actually found asset files
+  final List<Asset> assets;
+
+  /// Asset paths as declared in pubspec, minus the ignored ones
+  final List<String> declared;
+
+  const Assets(this.assets, this.declared);
+
+  static const empty = Assets([], []);
 }
 
 class Asset {
