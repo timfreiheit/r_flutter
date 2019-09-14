@@ -26,7 +26,8 @@ Assets parseAssets(yaml, List<String> ignoreAssets) {
 }
 
 bool assetShouldBeIgnored(String path, List<String> ignoreAssets) {
-  return ignoreAssets.any((item) => path.startsWith(item));
+  return ignoreAssets.any((item) => path.startsWith(item))
+    || path.endsWith(".DS_Store");
 }
 
 List<String> _findFiles(String asset, List<String> ignoreAssets) {

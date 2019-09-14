@@ -33,7 +33,7 @@ flutter:
   fonts:
       - family: TestFont
         fonts:
-          - asset: lib/fonts/Roboto-Thin.ttf
+          - asset: lib/assets/fonts/Roboto-Thin.ttf
 
 r_flutter:
   intl: lib/i18n/en.arb
