@@ -17,11 +17,11 @@ class Fonts {
 }
 
 class Assets {
-  static const String testAsset2 = "lib/assets/test_asset2.txt";
   static const String aesset = "lib/assets/äßet.txt";
-  static const String temp = "lib/assets/sub/temp.txt";
+  static const String testAsset2 = "lib/assets/test_asset2.txt";
   static const String assetsSubTestAsset = "lib/assets/sub/test_asset.txt";
   static const String subSubTestAsset = "lib/assets/sub/sub/test_asset.txt";
+  static const String temp = "lib/assets/sub/temp.txt";
   static const String sub2 = "lib/assets/sub2/sub2.txt";
 }
 
