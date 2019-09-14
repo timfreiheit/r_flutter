@@ -18,6 +18,8 @@ DartClass _generateAssetConstantsClass(List<Asset> assets) {
   String classString = "class Assets {\n";
   for (var asset in assets) {
     classString +=
+        "  /// ![](${asset.fileUri})\n";
+    classString +=
         "  static const String ${createVariableName(asset.name)} = \"${asset.path}\";\n";
   }
   classString += "}\n";
@@ -30,6 +32,8 @@ DartClass _generateImageAssetsClass(List<Asset> assets) {
   }
   String classString = "class Images {\n";
   for (var asset in assets) {
+    classString +=
+        "  /// ![](${asset.fileUri})\n";
     classString +=
         "  static AssetImage get ${createVariableName(asset.name)} => const AssetImage(\"${asset.path}\");\n";
   }
