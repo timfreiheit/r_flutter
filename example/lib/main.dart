@@ -29,6 +29,7 @@ class HomePage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
+            Image(image: Images.extension),
             Text(Assets.testAsset2),
             Text(i18n.hello_there),
             Text(i18n.stringWithPlaceholder('hello')),

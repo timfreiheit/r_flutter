@@ -13,7 +13,7 @@ Assets parseAssets(yaml, List<String> ignoreAssets) {
     return Assets.empty;
   }
 
-  Set<String> assetFiles = Set();
+  Set<File> assetFiles = Set();
   List<String> declared = [];
   for (String asset in assets) {
     if (assetShouldBeIgnored(asset, ignoreAssets)) {
@@ -30,10 +30,10 @@ bool assetShouldBeIgnored(String path, List<String> ignoreAssets) {
     || path.endsWith(".DS_Store");
 }
 
-List<String> _findFiles(String asset, List<String> ignoreAssets) {
+List<File> _findFiles(String asset, List<String> ignoreAssets) {
   switch (FileSystemEntity.typeSync(asset)) {
     case FileSystemEntityType.file:
-      return [asset];
+      return [File(asset)];
     case FileSystemEntityType.directory:
       {
         final dir = Directory(asset);
@@ -45,7 +45,7 @@ List<String> _findFiles(String asset, List<String> ignoreAssets) {
                 if (assetShouldBeIgnored(entry.path, ignoreAssets)) {
                   return null;
                 }
-                return entry.path;
+                return File(entry.path);
               }
               return null;
             })
@@ -68,14 +68,15 @@ AssetType _findAssetTypeFromPath(String pathString) {
   }
 }
 
-List<Asset> _convertToAssets(List<String> assetPaths) {
-  List<Asset> rawAssets = assetPaths
-      .map((pathString) => Asset(
-            name: path.basenameWithoutExtension(pathString),
-            path: pathString,
-            type: _findAssetTypeFromPath(pathString),
+List<Asset> _convertToAssets(List<File> assetFiles) {
+  Set<Asset> rawAssets = assetFiles
+      .map((file) => Asset(
+            name: path.basenameWithoutExtension(file.path),
+            path: file.path,
+            fileUri: file.absolute.uri.toString(),
+            type: _findAssetTypeFromPath(file.path),
           ))
-      .toList();
+      .toSet();
 
   List<Asset> assets = [];
   for (var asset in rawAssets) {
@@ -128,7 +129,9 @@ List<Asset> specifyAssetNames(List<Asset> assets) {
         newParentDir = item.second.parent;
       }
       return _Pair(
-          Asset(name: newName, path: item.first.path, type: item.first.type),
+          item.first.copyWith(
+            name: newName
+          ),
           newParentDir);
     }).toList();
   }

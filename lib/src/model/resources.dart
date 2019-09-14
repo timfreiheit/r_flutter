@@ -25,18 +25,42 @@ class Assets {
 class Asset {
   final String name;
   final String path;
+  final String fileUri;
   final AssetType type;
 
   Asset({
     this.name,
     this.path,
+    this.fileUri,
     this.type,
   });
+
+  Asset copyWith({
+    String name = null,
+    String path = null,
+    String fileUri = null,
+    AssetType type = null,
+  }) {
+    return Asset(
+      name: name ?? this.name,
+      path: path ?? this.path,
+      fileUri: fileUri ?? this.fileUri,
+      type: type ?? this.type
+    );
+  }
 
   @override
   String toString() {
     return "Asset(name: $name, path: $path)";
   }
+
+  @override
+  bool operator ==(other) {
+    return (other is Asset && other.fileUri == fileUri);
+  }
+
+  @override
+  int get hashCode => fileUri.hashCode;
 }
 
 enum AssetType { IMAGE, OTHER }
