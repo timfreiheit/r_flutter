@@ -5,6 +5,7 @@ class Arguments {
   List<String> ignoreAssets = [];
   String outputFilename;
   String intlFilename;
+  Map<String, String> assetClasses;
 
   void parse(List<String> args) {
     ArgParser()
@@ -24,12 +25,10 @@ class Arguments {
         help:
             'Specify asset folder which should be ignored for generating constants. Seperated by ","',
       )
-      ..addOption(
-        "intl-file",
-        defaultsTo: '',
-        callback: (value) => intlFilename = value,
-        help: 'Specify intl arb file to generate bindings for.'
-      )
+      ..addOption("intl-file",
+          defaultsTo: '',
+          callback: (value) => intlFilename = value,
+          help: 'Specify intl arb file to generate bindings for.')
       ..addOption(
         "output-file",
         defaultsTo: 'lib/r.g.dart',

@@ -1,0 +1,9 @@
+
+flutter:
+  assets:
+    - ../example/lib/assets/test_asset2.txt
+    - ../example/lib/assets/svg.svg
+
+r_flutter:
+  asset_classes:
+    ".svg": SvgFile

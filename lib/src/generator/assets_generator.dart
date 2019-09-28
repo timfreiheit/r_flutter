@@ -5,9 +5,9 @@ import 'package:r_flutter/src/model/resources.dart';
 List<DartClass> generateAssetsClass(List<Asset> assets) {
   return [
     _generateAssetConstantsClass(
-        assets.where((item) => item.type == AssetType.OTHER).toList()),
+        assets.where((item) => item.type != AssetType.image).toList()),
     _generateImageAssetsClass(
-        assets.where((item) => item.type == AssetType.IMAGE).toList())
+        assets.where((item) => item.type == AssetType.image).toList())
   ];
 }
 
@@ -17,10 +17,16 @@ DartClass _generateAssetConstantsClass(List<Asset> assets) {
   }
   String classString = "class Assets {\n";
   for (var asset in assets) {
-    classString +=
-        "  /// ![](${asset.fileUri})\n";
-    classString +=
-        "  static const String ${createVariableName(asset.name)} = \"${asset.path}\";\n";
+    classString += createComment(asset);
+
+    final custom = asset.type.customClass;
+    if (custom != null) {
+      classString +=
+          "  static const $custom ${createVariableName(asset.name)} = $custom(\"${asset.path}\");\n";
+    } else {
+      classString +=
+          "  static const String ${createVariableName(asset.name)} = \"${asset.path}\";\n";
+    }
   }
   classString += "}\n";
   return DartClass(code: classString);
@@ -32,8 +38,7 @@ DartClass _generateImageAssetsClass(List<Asset> assets) {
   }
   String classString = "class Images {\n";
   for (var asset in assets) {
-    classString +=
-        "  /// ![](${asset.fileUri})\n";
+    classString += createComment(asset);
     classString +=
         "  static AssetImage get ${createVariableName(asset.name)} => const AssetImage(\"${asset.path}\");\n";
   }
@@ -42,4 +47,24 @@ DartClass _generateImageAssetsClass(List<Asset> assets) {
     imports: ["package:flutter/widgets.dart"],
     code: classString,
   );
+}
+
+bool isExample;
+
+String createComment(Asset asset) {
+  String path = asset.fileUri;
+
+  const examplePath = 'r_flutter/example/';
+
+  if (isExample == null) {
+    isExample = path.contains(examplePath);
+  }
+
+  // a hack to prevent commited assets.dart from changing constantly
+  if (isExample) {
+    path = path.substring(path.indexOf(examplePath) + examplePath.length);
+    path = 'file:///Users/user/path/$path';
+  }
+
+  return "  /// ![]($path)\n";
 }

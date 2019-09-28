@@ -42,11 +42,10 @@ class Asset {
     AssetType type = null,
   }) {
     return Asset(
-      name: name ?? this.name,
-      path: path ?? this.path,
-      fileUri: fileUri ?? this.fileUri,
-      type: type ?? this.type
-    );
+        name: name ?? this.name,
+        path: path ?? this.path,
+        fileUri: fileUri ?? this.fileUri,
+        type: type ?? this.type);
   }
 
   @override
@@ -63,7 +62,16 @@ class Asset {
   int get hashCode => fileUri.hashCode;
 }
 
-enum AssetType { IMAGE, OTHER }
+class AssetType {
+  final String key;
+  final String customClass;
+  const AssetType(this.key) : customClass = null;
+
+  static const image = AssetType('image');
+  static const stringPath = AssetType('stringPath');
+
+  AssetType.custom(this.customClass) : key = customClass;
+}
 
 class StringReference {
   final String name;
