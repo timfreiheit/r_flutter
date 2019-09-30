@@ -1,5 +1,5 @@
 name: r_flutter
-version: 0.2.1
+version: 0.3.0
 author: Tim Freiheit <freiheit.tim@gmail.com>
 description: Generate constants for resources which require using them as a String like fonts and assets.
 
