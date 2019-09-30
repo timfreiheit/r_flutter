@@ -6,4 +6,7 @@ flutter:
 
 r_flutter:
   asset_classes:
-    ".svg": SvgFile
+    ".svg": 
+      import: asset_classes.dart
+      class: SvgFile
+    ".txt": TxtFile

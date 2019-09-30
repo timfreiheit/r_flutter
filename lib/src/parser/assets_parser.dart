@@ -3,7 +3,7 @@ import 'package:path/path.dart' as path;
 import 'package:r_flutter/src/model/resources.dart';
 
 Assets parseAssets(
-    yaml, List<String> ignoreAssets, Map<String, String> assetClasses) {
+    yaml, List<String> ignoreAssets, List<CustomAssetType> assetClasses) {
   final flutter = yaml["flutter"];
   if (flutter == null) {
     return Assets.empty;
@@ -63,11 +63,11 @@ List<File> _findFiles(String asset, List<String> ignoreAssets) {
 }
 
 AssetType _findAssetTypeFromPath(
-    String pathString, Map<String, String> assetClasses) {
+    String pathString, List<CustomAssetType> assetClasses) {
   if (assetClasses != null) {
-    for (var key in assetClasses.keys) {
-      if (pathString.endsWith(key)) {
-        return AssetType.custom(assetClasses[key]);
+    for (var obj in assetClasses) {
+      if (pathString.endsWith(obj.extension)) {
+        return obj;
       }
     }
   }
@@ -83,7 +83,7 @@ AssetType _findAssetTypeFromPath(
 }
 
 List<Asset> _convertToAssets(
-    List<File> assetFiles, Map<String, String> assetClasses) {
+    List<File> assetFiles, List<CustomAssetType> assetClasses) {
   Set<Asset> rawAssets = assetFiles
       .map((file) => Asset(
             name: path.basenameWithoutExtension(file.path),

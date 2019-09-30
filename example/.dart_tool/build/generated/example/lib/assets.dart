@@ -1,6 +1,7 @@
 import 'package:intl/intl.dart';
-import 'package:flutter/widgets.dart';
 import 'asset_classes.dart';
+import 'package:flutter/widgets.dart';
+
 class StringsBinding {
   String get appName => Intl.message("", name: "appName");
   String get string1 => Intl.message("", name: "string1");

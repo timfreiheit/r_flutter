@@ -21,10 +21,6 @@ String generateFile(Resources res, Arguments arguments) {
     }
   }
 
-  if (arguments.assetClasses?.isNotEmpty == true) {
-    fullCode += "import 'asset_classes.dart';";
-  }
-
   if (fullCode.isNotEmpty) {
     fullCode += "\n";
   }

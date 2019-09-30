@@ -29,9 +29,10 @@ void main() {
     expect(contents, isNotNull);
   });
 
-  test('test svg', () {
+  test('test asset classes', () {
     final contents = processPubspec('pubspec_asset_classes.yaml');
     expect(contents, contains('SvgFile'));
+    expect(contents, contains('TxtFile'));
   });
 
   test('test simple', () {

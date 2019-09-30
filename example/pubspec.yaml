@@ -1,5 +1,6 @@
 name: example
 description: A new Flutter application.
+version: "1.0.0"
 
 environment:
   sdk: ">=2.2.0 <3.0.0"
@@ -43,4 +44,6 @@ r_flutter:
     - lib/assets/sub/ignore2
     - lib/i18n
   asset_classes:
-    ".svg": SvgFile
+    ".svg":
+      import: asset_classes.dart
+      class: SvgFile

@@ -41,7 +41,23 @@ Arguments parseYamlArguments(YamlMap yaml) {
   arguments.intlFilename = yaml['intl'];
 
   final YamlMap assetClasses = yaml['asset_classes'];
-  arguments.assetClasses = assetClasses?.cast();
+  final classes = <CustomAssetType>[];
+  for (var key in assetClasses.keys) {
+    final Object value = assetClasses[key];
+    var import = CustomAssetType.defaultImport;
+    String className;
+    if (value is YamlMap) {
+      className = value['class'];
+      import = value['import'] ?? import;
+    } else if (value is String) {
+      className = value;
+    } else {
+      assert(false);
+    }
+
+    classes.add(CustomAssetType(className, key, import));
+  }
+  arguments.assetClasses = classes;
 
   return arguments;
 }

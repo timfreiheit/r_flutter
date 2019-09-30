@@ -64,13 +64,22 @@ class Asset {
 
 class AssetType {
   final String key;
-  final String customClass;
-  const AssetType(this.key) : customClass = null;
+
+  const AssetType(this.key);
 
   static const image = AssetType('image');
   static const stringPath = AssetType('stringPath');
+}
 
-  AssetType.custom(this.customClass) : key = customClass;
+class CustomAssetType extends AssetType {
+  final String extension;
+  final String customClass;
+  final String import;
+
+  static const defaultImport = 'asset_classes.dart';
+
+  const CustomAssetType(this.customClass, this.extension, this.import)
+      : super(customClass);
 }
 
 class StringReference {

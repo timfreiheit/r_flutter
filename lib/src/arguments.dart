@@ -1,11 +1,12 @@
 import 'package:args/args.dart';
+import 'package:r_flutter/src/model/resources.dart';
 
 class Arguments {
   String pubspecFilename;
   List<String> ignoreAssets = [];
   String outputFilename;
   String intlFilename;
-  Map<String, String> assetClasses;
+  List<CustomAssetType> assetClasses;
 
   void parse(List<String> args) {
     ArgParser()
