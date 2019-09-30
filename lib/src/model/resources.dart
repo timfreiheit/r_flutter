@@ -42,11 +42,10 @@ class Asset {
     AssetType type = null,
   }) {
     return Asset(
-      name: name ?? this.name,
-      path: path ?? this.path,
-      fileUri: fileUri ?? this.fileUri,
-      type: type ?? this.type
-    );
+        name: name ?? this.name,
+        path: path ?? this.path,
+        fileUri: fileUri ?? this.fileUri,
+        type: type ?? this.type);
   }
 
   @override
@@ -63,7 +62,25 @@ class Asset {
   int get hashCode => fileUri.hashCode;
 }
 
-enum AssetType { IMAGE, OTHER }
+class AssetType {
+  final String key;
+
+  const AssetType(this.key);
+
+  static const image = AssetType('image');
+  static const stringPath = AssetType('stringPath');
+}
+
+class CustomAssetType extends AssetType {
+  final String extension;
+  final String customClass;
+  final String import;
+
+  static const defaultImport = 'asset_classes.dart';
+
+  const CustomAssetType(this.customClass, this.extension, this.import)
+      : super(customClass);
+}
 
 class StringReference {
   final String name;

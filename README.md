@@ -58,6 +58,22 @@ Text(i18n.hello_there)
 
 Note: if something doesn't work, check the example project.
 
+##### Custom asset classes
+
+r_flutter supports third party packages like flutter_svg by providing option to convert generated constants directly into the desired class. To use it, you need to configure which file extension should by handled by which class, for example:
+
+```yaml
+r_flutter:
+  asset_classes:
+    ".svg": 
+      import: asset_classes.dart
+      class: SvgFile
+```
+And then, r_flutter will use SvgFile class for all svg assets:
+```dart
+static const SvgFile svg = SvgFile("lib/assets/svg.svg")
+```
+
 ## Examples
 
 ##### Images

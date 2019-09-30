@@ -1,3 +1,4 @@
+import 'package:r_flutter/src/arguments.dart';
 import 'package:r_flutter/src/generator/assets_generator.dart';
 import 'package:r_flutter/src/generator/fonts_generator.dart';
 import 'package:r_flutter/src/generator/strings_generator.dart';
@@ -5,7 +6,7 @@ import 'package:r_flutter/src/model/dart_class.dart';
 import 'package:r_flutter/src/model/resources.dart';
 import 'package:recase/recase.dart';
 
-String generateFile(Resources res) {
+String generateFile(Resources res, Arguments arguments) {
   List<DartClass> classes = [];
   classes.add(generateStringBindingClass(res.stringReferences));
   classes.add(generateFontClass(res.fonts));

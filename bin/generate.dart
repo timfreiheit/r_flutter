@@ -10,7 +10,7 @@ main(List<String> args) {
   arguments.parse(args);
 
   final res = parseResources(arguments);
-  final contents = generateFile(res);
+  final contents = generateFile(res, arguments);
 
   final outoutFile = File(arguments.outputFilename);
   outoutFile.writeAsStringSync(contents);

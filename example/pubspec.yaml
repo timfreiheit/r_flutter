@@ -1,10 +1,12 @@
 name: example
 description: A new Flutter application.
+version: "1.0.0"
 
 environment:
   sdk: ">=2.2.0 <3.0.0"
 
 dependencies:
+  flutter_svg:
   flutter:
     sdk: flutter
   runtime_arb:
@@ -41,3 +43,7 @@ r_flutter:
     - lib/assets/sub/ignore1
     - lib/assets/sub/ignore2
     - lib/i18n
+  asset_classes:
+    ".svg":
+      import: asset_classes.dart
+      class: SvgFile

@@ -5,14 +5,6 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "generate",
-            "type": "PowerShell",
-            "request": "launch",
-            "script": "${workspaceFolder}/example/generate.ps1",
-            "args": [],
-            "cwd": "${workspaceFolder}/example"
-        },
-        {
             "name": "example",
             "type": "dart",
             "request": "launch",

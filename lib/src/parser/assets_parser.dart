@@ -2,7 +2,8 @@ import 'dart:io';
 import 'package:path/path.dart' as path;
 import 'package:r_flutter/src/model/resources.dart';
 
-Assets parseAssets(yaml, List<String> ignoreAssets) {
+Assets parseAssets(
+    yaml, List<String> ignoreAssets, List<CustomAssetType> assetClasses) {
   final flutter = yaml["flutter"];
   if (flutter == null) {
     return Assets.empty;
@@ -22,12 +23,16 @@ Assets parseAssets(yaml, List<String> ignoreAssets) {
     declared.add(asset);
     assetFiles.addAll(_findFiles(asset, ignoreAssets));
   }
-  return Assets(_convertToAssets(assetFiles.toList()), declared);
+
+  final files = assetFiles.toList();
+  files.sort((lhs, rhs) => lhs.path.compareTo(rhs.path));
+
+  return Assets(_convertToAssets(files, assetClasses), declared);
 }
 
 bool assetShouldBeIgnored(String path, List<String> ignoreAssets) {
-  return ignoreAssets.any((item) => path.startsWith(item))
-    || path.endsWith(".DS_Store");
+  return ignoreAssets.any((item) => path.startsWith(item)) ||
+      path.endsWith(".DS_Store");
 }
 
 List<File> _findFiles(String asset, List<String> ignoreAssets) {
@@ -57,24 +62,34 @@ List<File> _findFiles(String asset, List<String> ignoreAssets) {
   }
 }
 
-AssetType _findAssetTypeFromPath(String pathString) {
+AssetType _findAssetTypeFromPath(
+    String pathString, List<CustomAssetType> assetClasses) {
+  if (assetClasses != null) {
+    for (var obj in assetClasses) {
+      if (pathString.endsWith(obj.extension)) {
+        return obj;
+      }
+    }
+  }
+
   switch (path.extension(pathString).toLowerCase()) {
     case ".png":
     case ".jpg":
     case ".gif":
-      return AssetType.IMAGE;
+      return AssetType.image;
     default:
-      return AssetType.OTHER;
+      return AssetType.stringPath;
   }
 }
 
-List<Asset> _convertToAssets(List<File> assetFiles) {
+List<Asset> _convertToAssets(
+    List<File> assetFiles, List<CustomAssetType> assetClasses) {
   Set<Asset> rawAssets = assetFiles
       .map((file) => Asset(
             name: path.basenameWithoutExtension(file.path),
             path: file.path,
             fileUri: file.absolute.uri.toString(),
-            type: _findAssetTypeFromPath(file.path),
+            type: _findAssetTypeFromPath(file.path, assetClasses),
           ))
       .toSet();
 
@@ -128,11 +143,7 @@ List<Asset> specifyAssetNames(List<Asset> assets) {
             item.first.name;
         newParentDir = item.second.parent;
       }
-      return _Pair(
-          item.first.copyWith(
-            name: newName
-          ),
-          newParentDir);
+      return _Pair(item.first.copyWith(name: newName), newParentDir);
     }).toList();
   }
   return list.map((item) => item.first).toList();
