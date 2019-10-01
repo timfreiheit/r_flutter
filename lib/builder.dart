@@ -42,7 +42,7 @@ Arguments parseYamlArguments(YamlMap yaml) {
 
   final YamlMap assetClasses = yaml['asset_classes'];
   final classes = <CustomAssetType>[];
-  for (var key in assetClasses.keys) {
+  for (var key in assetClasses?.keys ?? []) {
     final Object value = assetClasses[key];
     var import = CustomAssetType.defaultImport;
     String className;
