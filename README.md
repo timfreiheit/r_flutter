@@ -50,9 +50,10 @@ MaterialApp(
 ```
 5. Execute `flutter generate` command in your project's directory. You could also run tests or just build the app. Compiler must run at least once to generate the file.
 
-6. Import `assets.yaml` and start using it:
+6. Import `assets.dart` and start using it:
 ```dart
-import 'assets.yaml'
+import 'assets.dart'
+final i18n = StringsBinding()
 Text(i18n.hello_there)
 ```
 
