@@ -1,3 +1,7 @@
+## 0.3.1
+
+* fix NullPointerException when trying to access undefined asset classes
+
 ## 0.3.0
 
 * add custom asset classes support. Thanks to [@szotp](https://github.com/szotp)
