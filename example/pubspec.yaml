@@ -9,6 +9,8 @@ dependencies:
   flutter_svg:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
   runtime_arb:
     path: ../runtime_arb
 
@@ -30,7 +32,6 @@ flutter:
       - lib/assets/sub/sub/
       - lib/assets/sub2/sub2.txt
       - lib/assets/sub2/
-      - lib/i18n/
 
   fonts:
       - family: TestFont

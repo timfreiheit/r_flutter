@@ -1,12 +1,14 @@
+import 'package:r_flutter/src/model/i18n.dart';
+
 class Resources {
   final List<String> fonts;
   final Assets assets;
-  final List<StringReference> stringReferences;
+  final I18nLocales i18n;
 
   Resources({
     this.fonts,
     this.assets,
-    this.stringReferences,
+    this.i18n,
   });
 }
 

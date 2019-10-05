@@ -1,24 +1,27 @@
 import 'package:r_flutter/src/arguments.dart';
 import 'package:r_flutter/src/generator/assets_generator.dart';
 import 'package:r_flutter/src/generator/fonts_generator.dart';
-import 'package:r_flutter/src/generator/strings_generator.dart';
 import 'package:r_flutter/src/model/dart_class.dart';
 import 'package:r_flutter/src/model/resources.dart';
 import 'package:recase/recase.dart';
 
+import 'i18n/generator.dart';
+
 String generateFile(Resources res, Arguments arguments) {
   List<DartClass> classes = [];
-  classes.add(generateStringBindingClass(res.stringReferences));
+  if (res.i18n != null) {
+    classes.addAll(generateI18nClasses(res.i18n));
+  }
   classes.add(generateFontClass(res.fonts));
   classes.addAll(generateAssetsClass(res.assets.assets));
 
   classes = classes.where((item) => item != null).toList();
 
   String fullCode = "";
-  for (var dartClass in classes) {
-    for (var import in dartClass.imports) {
-      fullCode += "import '$import';\n";
-    }
+  List<String> imports = classes.expand((it) => it.imports).toSet().toList();
+  imports.sort();
+  for (var import in imports) {
+    fullCode += "import '$import';\n";
   }
 
   if (fullCode.isNotEmpty) {

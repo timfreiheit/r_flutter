@@ -1,0 +1,7 @@
+{
+  "string1": "Text",
+  "stringWithPlaceholder": "String mit {placeholder}",
+  "hello": "Hallo",
+  "withLineBreak": "test\n\nmit\nbreak",
+  "hello_there": "hallo_hier"
+}
