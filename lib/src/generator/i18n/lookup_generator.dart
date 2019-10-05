@@ -22,6 +22,16 @@ List<DartClass> generateLookupClasses(I18nLocales i18n) {
   return classes;
 }
 
+///
+/// ```dart
+/// class I18nLookup_de_AT extends I18nLookup_de {
+///  @override
+///  String get string1 {
+///    return "Text_AT";
+///  }
+/// }
+/// ```
+///
 DartClass _generateLookupClass(
     {I18nLocales i18n, I18nLocale value, bool isDefaultClass}) {
   String code = "class I18nLookup";
@@ -51,7 +61,7 @@ DartClass _generateLookupClass(
       code += "\n";
     }
     isFirstMethod = false;
-    
+
     I18nString defaultItem;
     if (value != defaultLocale) {
       defaultItem =

@@ -2,6 +2,47 @@ import 'package:r_flutter/src/generator/i18n/i18n_generator_utils.dart';
 import 'package:r_flutter/src/model/dart_class.dart';
 import 'package:r_flutter/src/model/i18n.dart';
 
+///
+/// ```dart
+/// class I18n {
+///  final I18nLookup _lookup;
+///
+///  I18n(this._lookup);
+///
+///  static Locale _locale;
+///
+///  static Locale get currentLocale => _locale;
+///
+///  /// add custom locale lookup which will be called first
+///  static I18nLookup customLookup;
+///
+///  static const I18nDelegate delegate = I18nDelegate();
+///
+///  static I18n of(BuildContext context) => Localizations.of<I18n>(context, I18n);
+///
+///  static List<Locale> get supportedLocales {
+///    return const <Locale>[
+///      Locale("en"),
+///      Locale("de"),
+///      Locale("pl"),
+///      Locale("de", "AT")
+///    ];
+///  }
+/// 
+///  String get hello {
+///    return customLookup?.hello ?? _lookup.hello;
+///  }
+/// 
+///  String getString(String key, [Map<String, String> placeholders]) {
+///    switch (key) {
+///      case I18nKeys.hello:
+///        return hello;
+///    }
+///    return null;
+///  }
+///}
+/// ```
+///
 DartClass generateI18nClass(I18nLocales i18n) {
   String classString = """class I18n {
   final I18nLookup _lookup;

@@ -13,10 +13,6 @@ Generate constants for resources which require using them as a String like fonts
 dependencies:
   flutter:
     sdk: flutter
-  runtime_arb:
-    git: 
-      url: https://github.com/timfreiheit/r_flutter.git
-      path: runtime_arb
 
 builders:
   r_flutter: <version>
@@ -36,30 +32,46 @@ Options:
 - intl: Points to a localization file that would be used to generate localization keys. arb files are essentialy json files with some special, optional keys. Specifing this is optional.
 - ignore: specifies a list of files/directories that should be skipped during code generation. 
 
-4. Import `runtime_arb` package and add RuntimeArbDelegate to your localization delegates:
-```dart
-MaterialApp(
-  title: 'r_flutter',
-  localizationsDelegates: [
-    // runtimeArbDelegate will expect lib/i18n/en.arb and lib/i18n/en.arb to exist in your app
-    // make sure they have been added to your assets
-    RuntimeArbDelegate({'en', 'pl'})
-  ],
-  home: HomePage(),
-)
-```
-5. Execute `flutter generate` command in your project's directory. You could also run tests or just build the app. Compiler must run at least once to generate the file.
+4. Execute `flutter generate` command in your project's directory. You could also run tests or just build the app. Compiler must run at least once to generate the file.
+`assets.dart` will be generated into `.dart_tool/build/generated/YOUR_PACKAGE_NAME/assets.dart`
 
-6. Import `assets.dart` and start using it:
+5. Import `assets.dart` and start using it:
 ```dart
 import 'assets.dart'
-final i18n = StringsBinding()
-Text(i18n.hello_there)
+Image(image: Images.image)
 ```
 
 Note: if something doesn't work, check the example project.
 
-##### Custom asset classes
+### I18n
+
+1. Add default localization file to `pubspec.yaml`
+```yaml
+r_flutter:
+  intl: lib/i18n/en.arb
+```
+
+Other locales will be searched at ` lib/i18n/<locale>.arb `
+
+2. Add it to your app.
+```dart
+MaterialApp(
+  title: 'r_flutter',
+  supportedLocales: I18n.supportedLocales,
+  localizationsDelegates: [
+    I18n.delegate
+  ],
+  home: HomePage(),
+)
+```
+
+3. Use it
+```dart
+import 'assets.dart'
+Text(I18n.of(context).hello)
+```
+
+### Custom asset classes
 
 r_flutter supports third party packages like flutter_svg by providing option to convert generated constants directly into the desired class. To use it, you need to configure which file extension should by handled by which class, for example:
 
