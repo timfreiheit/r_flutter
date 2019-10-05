@@ -105,6 +105,9 @@ class AssetsBuilder extends Builder {
     await buildStep.writeAsString(output, generated);
   }
 
+  ///
+  /// mark intl files to the BuildStep to update the code generation when one of the files changes
+  ///
   void _markIntlFiles(BuildStep buildStep, Arguments arguments) async {
     if (arguments.intlFilename == null) {
       return;
