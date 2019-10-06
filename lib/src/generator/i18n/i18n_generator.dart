@@ -114,6 +114,11 @@ String _generateAccessorMethods(I18nLocales i18n) {
 
 String _genrateAccessorMethodComment(I18nLocales i18n, I18nString string) {
   String code = "  ///\n";
+  code += "  /// <table style=\"width:100%\">\n";
+  code += "  ///   <tr>\n";
+  code += "  ///     <th>Locale</th>\n";
+  code += "  ///     <th>Translation</th>\n";
+  code += "  ///   </tr>\n";
 
   final locales = i18n.locales.toList()
     ..sort((item1, item2) =>
@@ -123,20 +128,21 @@ String _genrateAccessorMethodComment(I18nLocales i18n, I18nString string) {
 
   for (var item in locales) {
     String localeString = item.locale.toString();
-    if (item == i18n.defaultValues) {
-      localeString += " (default)";
-    }
-
     final translation = item.strings
         .firstWhere((it) => it.key == string.key, orElse: () => null);
+    
+    code += "  ///   <tr>\n";
+    code += "  ///     <td style=\"width:60px;\">$localeString</td>\n";
+    
     if (translation == null) {
-      code += "  /// ${localeString}: not set\n";
+      code += "  ///     <td><font color=\"yellow\">⚠</font></td>\n";
     } else {
-      code +=
-          "  /// ${localeString}: \"${escapeStringLiteral(translation.value) ?? "-"}\"\n";
+      code += "  ///     <td>\"${escapeStringLiteral(translation.value)}\"</td>\n";
     }
-    code += "  ///\n";
+    code += "  ///   </tr>\n";
   }
+  code += "  ///  </table>\n";
+  code += "  ///\n";
   return code;
 }
 

@@ -28,78 +28,168 @@ class I18n {
   }
 
   ///
-  /// en (default): "AppName"
-  ///
-  /// de: not set
-  ///
-  /// de_AT: not set
-  ///
-  /// pl: not set
+  /// <table style="width:100%">
+  ///   <tr>
+  ///     <th>Locale</th>
+  ///     <th>Translation</th>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">en</td>
+  ///     <td>"AppName"</td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">de</td>
+  ///     <td><font color="yellow">⚠</font></td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">de_AT</td>
+  ///     <td><font color="yellow">⚠</font></td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">pl</td>
+  ///     <td><font color="yellow">⚠</font></td>
+  ///   </tr>
+  ///  </table>
   ///
   String get appName {
     return customLookup?.appName ?? _lookup.appName;
   }
 
   ///
-  /// en (default): "Content"
-  ///
-  /// de: "Text"
-  ///
-  /// de_AT: "Text_AT"
-  ///
-  /// pl: "tekst"
+  /// <table style="width:100%">
+  ///   <tr>
+  ///     <th>Locale</th>
+  ///     <th>Translation</th>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">en</td>
+  ///     <td>"Content"</td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">de</td>
+  ///     <td>"Text"</td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">de_AT</td>
+  ///     <td>"Text_AT"</td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">pl</td>
+  ///     <td>"tekst"</td>
+  ///   </tr>
+  ///  </table>
   ///
   String get string1 {
     return customLookup?.string1 ?? _lookup.string1;
   }
 
   ///
-  /// en (default): "String with {placeholder}"
-  ///
-  /// de: "String mit {placeholder}"
-  ///
-  /// de_AT: not set
-  ///
-  /// pl: "Tekst z {placeholder}"
+  /// <table style="width:100%">
+  ///   <tr>
+  ///     <th>Locale</th>
+  ///     <th>Translation</th>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">en</td>
+  ///     <td>"String with {placeholder}"</td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">de</td>
+  ///     <td>"String mit {placeholder}"</td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">de_AT</td>
+  ///     <td><font color="yellow">⚠</font></td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">pl</td>
+  ///     <td>"Tekst z {placeholder}"</td>
+  ///   </tr>
+  ///  </table>
   ///
   String stringWithPlaceholder(String placeholder) {
     return customLookup?.stringWithPlaceholder(placeholder) ?? _lookup.stringWithPlaceholder(placeholder);
   }
 
   ///
-  /// en (default): "Hola"
-  ///
-  /// de: "Hallo"
-  ///
-  /// de_AT: not set
-  ///
-  /// pl: "cześć"
+  /// <table style="width:100%">
+  ///   <tr>
+  ///     <th>Locale</th>
+  ///     <th>Translation</th>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">en</td>
+  ///     <td>"Hola"</td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">de</td>
+  ///     <td>"Hallo"</td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">de_AT</td>
+  ///     <td><font color="yellow">⚠</font></td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">pl</td>
+  ///     <td>"cześć"</td>
+  ///   </tr>
+  ///  </table>
   ///
   String get hello {
     return customLookup?.hello ?? _lookup.hello;
   }
 
   ///
-  /// en (default): "test\n\nlint\nbreak"
-  ///
-  /// de: "test\n\nmit\nbreak"
-  ///
-  /// de_AT: not set
-  ///
-  /// pl: not set
+  /// <table style="width:100%">
+  ///   <tr>
+  ///     <th>Locale</th>
+  ///     <th>Translation</th>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">en</td>
+  ///     <td>"test\n\nlint\nbreak"</td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">de</td>
+  ///     <td>"test\n\nmit\nbreak"</td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">de_AT</td>
+  ///     <td><font color="yellow">⚠</font></td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">pl</td>
+  ///     <td><font color="yellow">⚠</font></td>
+  ///   </tr>
+  ///  </table>
   ///
   String get withLineBreak {
     return customLookup?.withLineBreak ?? _lookup.withLineBreak;
   }
 
   ///
-  /// en (default): "hello_there"
-  ///
-  /// de: "hallo_hier"
-  ///
-  /// de_AT: not set
-  ///
-  /// pl: not set
+  /// <table style="width:100%">
+  ///   <tr>
+  ///     <th>Locale</th>
+  ///     <th>Translation</th>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">en</td>
+  ///     <td>"hello_there"</td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">de</td>
+  ///     <td>"hallo_hier"</td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">de_AT</td>
+  ///     <td><font color="yellow">⚠</font></td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">pl</td>
+  ///     <td><font color="yellow">⚠</font></td>
+  ///   </tr>
+  ///  </table>
   ///
   String get hello_there {
     return customLookup?.hello_there ?? _lookup.hello_there;
