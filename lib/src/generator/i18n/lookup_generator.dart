@@ -34,31 +34,31 @@ List<DartClass> generateLookupClasses(I18nLocales i18n) {
 ///
 DartClass _generateLookupClass(
     {I18nLocales i18n, I18nLocale value, bool isDefaultClass}) {
-  String code = "class I18nLookup";
+  StringBuffer code = new StringBuffer("class I18nLookup");
 
   if (!isDefaultClass) {
-    code += "_" + value.locale.toString();
-    code += " extends I18nLookup";
+    code.write("_" + value.locale.toString());
+    code.write(" extends I18nLookup");
 
     I18nLocale parent = _findParent(i18n, value);
     if (parent != null) {
-      code += "_" + parent.locale.toString();
+      code.write("_" + parent.locale.toString());
     }
   }
-  code += " {\n";
+  code.write(" {\n");
 
   if (isDefaultClass) {
-    code +=
-        "  String getString(String key, [Map<String, String> placeholders]) {\n";
-    code += "    return null;\n";
-    code += "  }\n\n";
+    code.writeln(
+        "  String getString(String key, [Map<String, String> placeholders]) {");
+    code.writeln("    return null;");
+    code.writeln("  }\n");
   }
 
   bool isFirstMethod = true;
   final defaultLocale = i18n.defaultValues;
   for (var item in value.strings) {
     if (!isFirstMethod) {
-      code += "\n";
+      code.write("\n");
     }
     isFirstMethod = false;
 
@@ -88,10 +88,10 @@ DartClass _generateLookupClass(
         methodCode += ");";
       }
 
-      code += generateMethod(
+      code.write(generateMethod(
           name: defaultItem.escapedKey,
           parameters: defaultItem.placeholders,
-          code: methodCode);
+          code: methodCode));
     } else {
       String valueString = item.value;
       valueString = escapeStringLiteral(valueString);
@@ -99,16 +99,16 @@ DartClass _generateLookupClass(
         valueString =
             valueString.replaceAll("{$placeholder}", "\${$placeholder}");
       }
-      code += "  @override\n";
-      code += generateMethod(
+      code.writeln("  @override");
+      code.write(generateMethod(
           name: defaultItem.escapedKey,
           parameters: defaultItem.placeholders,
-          code: "    return \"${valueString}\";");
+          code: "    return \"${valueString}\";"));
     }
   }
 
-  code += "}\n";
-  return DartClass(code: code);
+  code.writeln("}");
+  return DartClass(code: code.toString());
 }
 
 I18nLocale _findParent(I18nLocales i18n, I18nLocale value) {

@@ -10,13 +10,13 @@ import 'package:r_flutter/src/model/i18n.dart';
 /// ```
 ///
 DartClass generateI18nKeysClass(I18nLocales locales) {
-  String classString = "class I18nKeys {\n";
+  StringBuffer classString = new StringBuffer("class I18nKeys {\n");
 
   final items = locales.defaultValues.strings;
   for (var item in items) {
-    classString += "  static const String ${item.escapedKey} = \"${item.key}\";\n";
+    classString.writeln("  static const String ${item.escapedKey} = \"${item.key}\";");
   }
 
-  classString += "}\n";
-  return DartClass(code: classString);
+  classString.writeln("}");
+  return DartClass(code: classString.toString());
 }

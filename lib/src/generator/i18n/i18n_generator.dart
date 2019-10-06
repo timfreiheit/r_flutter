@@ -28,11 +28,11 @@ import 'package:r_flutter/src/model/i18n.dart';
 ///      Locale("de", "AT")
 ///    ];
 ///  }
-/// 
+///
 ///  String get hello {
 ///    return customLookup?.hello ?? _lookup.hello;
 ///  }
-/// 
+///
 ///  String getString(String key, [Map<String, String> placeholders]) {
 ///    switch (key) {
 ///      case I18nKeys.hello:
@@ -44,7 +44,7 @@ import 'package:r_flutter/src/model/i18n.dart';
 /// ```
 ///
 DartClass generateI18nClass(I18nLocales i18n) {
-  String classString = """class I18n {
+  StringBuffer classString = new StringBuffer("""class I18n {
   final I18nLookup _lookup;
 
   I18n(this._lookup);
@@ -60,37 +60,35 @@ DartClass generateI18nClass(I18nLocales i18n) {
 
   static I18n of(BuildContext context) => Localizations.of<I18n>(context, I18n);
 
-""";
+""");
 
-  classString += _generateSupportedLocales(i18n);
-  classString += "\n";
-  classString += _generateAccessorMethods(i18n);
-  classString += _generateGetStringMethod(i18n);
+  classString.writeln(_generateSupportedLocales(i18n));
+  classString.write(_generateAccessorMethods(i18n));
+  classString.write(_generateGetStringMethod(i18n));
 
-  classString += "}\n";
-  return DartClass(code: classString);
+  classString.writeln("}");
+  return DartClass(code: classString.toString());
 }
 
 String _generateSupportedLocales(I18nLocales i18n) {
-  String code = """  static List<Locale> get supportedLocales {
+  StringBuffer code = new StringBuffer("""  static List<Locale> get supportedLocales {
     return const <Locale>[
-""";
+""");
 
   List<Locale> locales = i18n.locales
       .map((it) => it.locale)
       .where((it) => it != i18n.defaultLocale)
       .toList();
 
-  code +=
-      "      Locale(\"${i18n.defaultLocale.toString().split("_").join(", ")}\")";
+  code.write("      Locale(\"${i18n.defaultLocale.toString().split("_").join(", ")}\")");
   for (var locale in locales) {
     String localeParameters = locale.toString().split("_").join("\", \"");
-    code += ",\n      Locale(\"${localeParameters}\")";
+    code.write(",\n      Locale(\"${localeParameters}\")");
   }
-  code += "\n";
-  code += "    ];\n";
-  code += "  }\n";
-  return code;
+  code.write("\n");
+  code.writeln("    ];");
+  code.writeln("  }");
+  return code.toString();
 }
 
 String _generateAccessorMethods(I18nLocales i18n) {
@@ -113,12 +111,14 @@ String _generateAccessorMethods(I18nLocales i18n) {
 }
 
 String _genrateAccessorMethodComment(I18nLocales i18n, I18nString string) {
-  String code = "  ///\n";
-  code += "  /// <table style=\"width:100%\">\n";
-  code += "  ///   <tr>\n";
-  code += "  ///     <th>Locale</th>\n";
-  code += "  ///     <th>Translation</th>\n";
-  code += "  ///   </tr>\n";
+  StringBuffer code = new StringBuffer();
+  code
+    ..writeln("  ///")
+    ..writeln("  /// <table style=\"width:100%\">")
+    ..writeln("  ///   <tr>")
+    ..writeln("  ///     <th>Locale</th>")
+    ..writeln("  ///     <th>Translation</th>")
+    ..writeln("  ///   </tr>");
 
   final locales = i18n.locales.toList()
     ..sort((item1, item2) =>
@@ -130,20 +130,22 @@ String _genrateAccessorMethodComment(I18nLocales i18n, I18nString string) {
     String localeString = item.locale.toString();
     final translation = item.strings
         .firstWhere((it) => it.key == string.key, orElse: () => null);
-    
-    code += "  ///   <tr>\n";
-    code += "  ///     <td style=\"width:60px;\">$localeString</td>\n";
-    
+
+    code
+      ..writeln("  ///   <tr>")
+      ..writeln("  ///     <td style=\"width:60px;\">$localeString</td>");
+
     if (translation == null) {
-      code += "  ///     <td><font color=\"yellow\">⚠</font></td>\n";
+      code.writeln("  ///     <td><font color=\"yellow\">⚠</font></td>");
     } else {
-      code += "  ///     <td>\"${escapeStringLiteral(translation.value)}\"</td>\n";
+      code.writeln(
+          "  ///     <td>\"${escapeStringLiteral(translation.value)}\"</td>");
     }
-    code += "  ///   </tr>\n";
+    code.writeln("  ///   </tr>");
   }
-  code += "  ///  </table>\n";
-  code += "  ///\n";
-  return code;
+  code.writeln("  ///  </table>");
+  code.writeln("  ///");
+  return code.toString();
 }
 
 String _stringValueMethodName(I18nString value) {
@@ -155,12 +157,13 @@ String _stringValueMethodName(I18nString value) {
 }
 
 String _generateGetStringMethod(I18nLocales i18n) {
-  String code =
-      "  String getString(String key, [Map<String, String> placeholders]) {\n";
+  StringBuffer code = new StringBuffer();
+  code
+    ..writeln(
+        "  String getString(String key, [Map<String, String> placeholders]) {")
+    ..writeln("    switch (key) {");
 
   List<I18nString> values = i18n.defaultValues.strings;
-
-  code += "    switch (key) {\n";
 
   for (var value in values) {
     String methodName;
@@ -177,12 +180,14 @@ String _generateGetStringMethod(I18nLocales i18n) {
       methodName += ")";
     }
 
-    code += "      case I18nKeys.${value.escapedKey}:\n";
-    code += "        return ${methodName};\n";
+    code
+      ..writeln("      case I18nKeys.${value.escapedKey}:")
+      ..writeln("        return ${methodName};");
   }
 
-  code += "    }\n";
-  code += "    return null;\n";
-  code += "  }\n";
-  return code;
+  code
+    ..writeln("    }")
+    ..writeln("    return null;")
+    ..writeln("  }");
+  return code.toString();
 }

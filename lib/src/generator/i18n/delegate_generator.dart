@@ -40,8 +40,7 @@ import 'i18n_generator_utils.dart';
 /// ```
 ///
 DartClass generateI18nDelegate(I18nLocales locales) {
-  String classString =
-      """class I18nDelegate extends LocalizationsDelegate<I18n> {
+  StringBuffer classString = StringBuffer("""class I18nDelegate extends LocalizationsDelegate<I18n> {
   const I18nDelegate();
 
   @override
@@ -57,30 +56,30 @@ DartClass generateI18nDelegate(I18nLocales locales) {
   bool shouldReload(I18nDelegate old) => false;
 
   I18nLookup _findLookUpFromLocale(Locale locale) {
-""";
+""");
 
   List<Locale> localesWithCountry = findLocalesWithCountry(locales);
   if (localesWithCountry.isNotEmpty) {
-    classString +=
-        "    final String lang = locale != null ? locale.toString() : \"\";\n";
-    classString += _generateLookupSwitch("lang", localesWithCountry);
+    classString
+      ..writeln(
+          "    final String lang = locale != null ? locale.toString() : \"\";")
+      ..write(_generateLookupSwitch("lang", localesWithCountry));
   }
 
   List<Locale> localesWithoutCountry = findLocalesWithoutCountry(locales);
   if (localesWithoutCountry.isNotEmpty) {
-    classString +=
-        "    final String languageCode = locale != null ? locale.languageCode : \"\";\n";
-
-    classString += _generateLookupSwitch("languageCode", localesWithoutCountry);
+    classString
+      ..writeln(
+          "    final String languageCode = locale != null ? locale.languageCode : \"\";")
+      ..write(_generateLookupSwitch("languageCode", localesWithoutCountry));
   }
 
-  classString +=
-      "    return I18nLookup_${locales.defaultLocale.toString()}();\n";
-  classString += "  }\n";
-
-  classString += "}\n";
+  classString
+    ..writeln("    return I18nLookup_${locales.defaultLocale.toString()}();")
+    ..writeln("  }")
+    ..writeln("}");
   return DartClass(
-    code: classString,
+    code: classString.toString(),
     imports: [
       'package:flutter/foundation.dart',
       'package:flutter/widgets.dart'
@@ -89,14 +88,15 @@ DartClass generateI18nDelegate(I18nLocales locales) {
 }
 
 String _generateLookupSwitch(String condition, List<Locale> locales) {
-  String switchCode = "";
-  switchCode += "    switch ($condition) {\n";
+  StringBuffer switchCode = new StringBuffer();
+  switchCode.writeln("    switch ($condition) {");
 
   for (var locale in locales) {
-    switchCode += "        case \"${locale.toString()}\":\n";
-    switchCode += "          return I18nLookup_${locale.toString()}();\n";
+    switchCode
+      ..writeln("        case \"${locale.toString()}\":")
+      ..writeln("          return I18nLookup_${locale.toString()}();");
   }
 
-  switchCode += "    }\n";
-  return switchCode;
+  switchCode.writeln("    }");
+  return switchCode.toString();
 }
