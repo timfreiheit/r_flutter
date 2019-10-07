@@ -88,7 +88,7 @@ DartClass generateI18nDelegate(I18nLocales locales) {
 }
 
 String _generateLookupSwitch(String condition, List<Locale> locales) {
-  StringBuffer switchCode = new StringBuffer();
+  StringBuffer switchCode = StringBuffer();
   switchCode.writeln("    switch ($condition) {");
 
   for (var locale in locales) {

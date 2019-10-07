@@ -39,7 +39,7 @@ String generateMethod(
     String name,
     List<String> parameters,
     String code}) {
-  StringBuffer methodCode = new StringBuffer("");
+  StringBuffer methodCode = StringBuffer("");
   if (parameters.isEmpty) {
     methodCode.writeln('  $resurnType get $name {\n$code\n  }');
   } else {

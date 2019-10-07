@@ -34,7 +34,7 @@ List<DartClass> generateLookupClasses(I18nLocales i18n) {
 ///
 DartClass _generateLookupClass(
     {I18nLocales i18n, I18nLocale value, bool isDefaultClass}) {
-  StringBuffer code = new StringBuffer("class I18nLookup");
+  StringBuffer code = StringBuffer("class I18nLookup");
 
   if (!isDefaultClass) {
     code.write("_" + value.locale.toString());

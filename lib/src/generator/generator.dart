@@ -17,7 +17,7 @@ String generateFile(Resources res, Arguments arguments) {
 
   classes = classes.where((item) => item != null).toList();
 
-  StringBuffer fullCode = new StringBuffer("");
+  StringBuffer fullCode = StringBuffer("");
   List<String> imports = classes.expand((it) => it.imports).toSet().toList();
   imports.sort();
   for (var import in imports) {

@@ -18,7 +18,7 @@ DartClass _generateAssetConstantsClass(List<Asset> assets) {
 
   final imports = Set<String>();
 
-  StringBuffer classString = new StringBuffer("class Assets {\n");
+  StringBuffer classString = StringBuffer("class Assets {\n");
   for (var asset in assets) {
     classString.write(createComment(asset));
 
@@ -40,7 +40,7 @@ DartClass _generateImageAssetsClass(List<Asset> assets) {
   if (assets.isEmpty) {
     return null;
   }
-  StringBuffer classString = new StringBuffer("class Images {\n");
+  StringBuffer classString = StringBuffer("class Images {\n");
   for (var asset in assets) {
     classString.write(createComment(asset));
     classString.writeln("  static AssetImage get ${createVariableName(asset.name)} => const AssetImage(\"${asset.path}\");");

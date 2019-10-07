@@ -5,7 +5,7 @@ DartClass generateFontClass(List<String> fonts) {
   if (fonts.isEmpty) {
     return null;
   }
-  StringBuffer classString = new StringBuffer("class Fonts {\n");
+  StringBuffer classString = StringBuffer("class Fonts {\n");
   for (var font in fonts) {
     classString.writeln("  static const String ${createVariableName(font)} = \"$font\";");
   }

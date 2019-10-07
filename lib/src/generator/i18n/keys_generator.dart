@@ -10,7 +10,7 @@ import 'package:r_flutter/src/model/i18n.dart';
 /// ```
 ///
 DartClass generateI18nKeysClass(I18nLocales locales) {
-  StringBuffer classString = new StringBuffer("class I18nKeys {\n");
+  StringBuffer classString = StringBuffer("class I18nKeys {\n");
 
   final items = locales.defaultValues.strings;
   for (var item in items) {

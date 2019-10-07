@@ -44,7 +44,7 @@ import 'package:r_flutter/src/model/i18n.dart';
 /// ```
 ///
 DartClass generateI18nClass(I18nLocales i18n) {
-  StringBuffer classString = new StringBuffer("""class I18n {
+  StringBuffer classString = StringBuffer("""class I18n {
   final I18nLookup _lookup;
 
   I18n(this._lookup);
@@ -71,7 +71,7 @@ DartClass generateI18nClass(I18nLocales i18n) {
 }
 
 String _generateSupportedLocales(I18nLocales i18n) {
-  StringBuffer code = new StringBuffer("""  static List<Locale> get supportedLocales {
+  StringBuffer code = StringBuffer("""  static List<Locale> get supportedLocales {
     return const <Locale>[
 """);
 
@@ -111,7 +111,7 @@ String _generateAccessorMethods(I18nLocales i18n) {
 }
 
 String _genrateAccessorMethodComment(I18nLocales i18n, I18nString string) {
-  StringBuffer code = new StringBuffer();
+  StringBuffer code = StringBuffer();
   code
     ..writeln("  ///")
     ..writeln("  /// <table style=\"width:100%\">")
@@ -157,7 +157,7 @@ String _stringValueMethodName(I18nString value) {
 }
 
 String _generateGetStringMethod(I18nLocales i18n) {
-  StringBuffer code = new StringBuffer();
+  StringBuffer code = StringBuffer();
   code
     ..writeln(
         "  String getString(String key, [Map<String, String> placeholders]) {")
