@@ -7,34 +7,44 @@ void main() {
     I18nLocale(Locale("en"), [
       I18nString(key: "key_1", value: "value_KEY_1"),
       I18nString(key: "key.2", value: "value_KEY_2"),
-      I18nString(key: "key_3", value: "value_KEY_3 {p1}", placeholders: ["p1"]),
       I18nString(
-          key: "key_4",
-          value: "value_KEY_4 {p1} {p2} {p3}",
-          placeholders: ["p1", "p2", "p3"]),
+        key: "key_3",
+        value: "value_KEY_3 {p1}",
+        placeholders: ["p1"],
+      ),
       I18nString(
-          key: "key_5",
-          value: "value_KEY_5 {p1}, {p1}, {p2}, {p3}",
-          placeholders: ["p1", "p2", "p3"]),
+        key: "key_4",
+        value: "value_KEY_4 {p1} {p2} {p3}",
+        placeholders: ["p1", "p2", "p3"],
+      ),
       I18nString(
-          key: "key_5",
-          value: "value_KEY_5 {p1}",
-          placeholders: ["p1", "p2", "p3", "p4"])
+        key: "key_5",
+        value: "value_KEY_5 {p1}, {p1}, {p2}, {p3}",
+        placeholders: ["p1", "p2", "p3"],
+      ),
+      I18nString(
+        key: "key_5",
+        value: "value_KEY_5 {p1}",
+        placeholders: ["p1", "p2", "p3", "p4"],
+      )
     ]),
     I18nLocale(Locale("de"), [
       I18nString(
-          key: "key_5",
-          value: "value_KEY_5 {p1}",
-          placeholders: ["p1", "p2", "parameter_not_set_in_default_locale"])
+        key: "key_5",
+        value: "value_KEY_5 {p1}",
+        placeholders: ["p1", "p2", "parameter_not_set_in_default_locale"],
+      )
     ]),
     I18nLocale(Locale("pl"), [
-      I18nString(key: "key_1", value: "value_KEY_1")
+      I18nString(key: "key_1", value: "value_KEY_1"),
     ]),
   ]);
 
   test("test secondary language", () {
     final lookupClass = generateLookupClass(
-        i18n: testData, value: testData.locales.firstWhere((it) => it.locale == Locale("pl")), isDefaultClass: false);
+        i18n: testData,
+        value: testData.locales.firstWhere((it) => it.locale == Locale("pl")),
+        isDefaultClass: false);
     expect(lookupClass.imports, []);
     expect(lookupClass.code, """class I18nLookup_pl extends I18nLookup_en {
   @override
@@ -45,9 +55,13 @@ void main() {
 """);
   });
 
-  test("test secondary language with different placeholder list. should take values from default locale", () {
- final lookupClass = generateLookupClass(
-        i18n: testData, value: testData.locales.firstWhere((it) => it.locale == Locale("de")), isDefaultClass: false);
+  test(
+      "test secondary language with different placeholder list. should take values from default locale",
+      () {
+    final lookupClass = generateLookupClass(
+        i18n: testData,
+        value: testData.locales.firstWhere((it) => it.locale == Locale("de")),
+        isDefaultClass: false);
     expect(lookupClass.imports, []);
     expect(lookupClass.code, """class I18nLookup_de extends I18nLookup_en {
   @override
@@ -59,7 +73,7 @@ void main() {
   });
 
   test("test default lookup", () {
-final lookupClass = generateLookupClass(
+    final lookupClass = generateLookupClass(
         i18n: testData, value: testData.locales[0], isDefaultClass: true);
     expect(lookupClass.imports, []);
     expect(lookupClass.code, """class I18nLookup {
