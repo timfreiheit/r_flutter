@@ -5,14 +5,14 @@ import 'package:r_flutter/src/model/i18n.dart';
 List<DartClass> generateLookupClasses(I18nLocales i18n) {
   List<DartClass> classes = [];
 
-  classes.add(_generateLookupClass(
+  classes.add(generateLookupClass(
     i18n: i18n,
     value: i18n.defaultValues,
     isDefaultClass: true,
   ));
 
   for (var locale in i18n.locales) {
-    classes.add(_generateLookupClass(
+    classes.add(generateLookupClass(
       i18n: i18n,
       value: locale,
       isDefaultClass: false,
@@ -32,7 +32,7 @@ List<DartClass> generateLookupClasses(I18nLocales i18n) {
 /// }
 /// ```
 ///
-DartClass _generateLookupClass(
+DartClass generateLookupClass(
     {I18nLocales i18n, I18nLocale value, bool isDefaultClass}) {
   StringBuffer code = StringBuffer("class I18nLookup");
 

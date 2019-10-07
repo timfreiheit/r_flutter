@@ -49,8 +49,8 @@ String generateMethod(
     for (var parameter in parameters) {
       if (!isFirstParameter) {
         methodCode.write(", ");
-        isFirstParameter = false;
       }
+      isFirstParameter = false;
       methodCode.write("String $parameter");
     }
     methodCode.write(") {\n");

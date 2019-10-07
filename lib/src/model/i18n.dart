@@ -2,7 +2,7 @@ class Locale {
   final String languageCode;
   final String countryCode;
 
-  Locale(this.languageCode, this.countryCode);
+  Locale(this.languageCode, [this.countryCode]);
 
   @override
   String toString() {
@@ -46,7 +46,7 @@ class I18nString {
   final String value;
   final List<String> placeholders;
 
-  I18nString({this.key, this.value, this.placeholders});
+  I18nString({this.key, this.value, this.placeholders = const []});
 
   String get escapedKey => key.replaceAll(".", "_");
 }
