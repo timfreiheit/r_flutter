@@ -1,5 +1,3 @@
-import 'dart:io';
-
 class Locale {
   final String languageCode;
   final String countryCode;
