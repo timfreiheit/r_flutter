@@ -39,20 +39,23 @@ String generateMethod(
     String name,
     List<String> parameters,
     String code}) {
-  String methodCode = "";
+  StringBuffer methodCode = new StringBuffer("");
   if (parameters.isEmpty) {
-    methodCode += '  $resurnType get $name {\n$code\n  }\n';
+    methodCode.writeln('  $resurnType get $name {\n$code\n  }');
   } else {
-    methodCode += '  $resurnType $name(';
+    methodCode.write('  $resurnType $name(');
+
+    bool isFirstParameter = true;
     for (var parameter in parameters) {
-      if (!methodCode.endsWith("(")) {
-        methodCode += ", ";
+      if (!isFirstParameter) {
+        methodCode.write(", ");
+        isFirstParameter = false;
       }
-      methodCode += "String $parameter";
+      methodCode.write("String $parameter");
     }
-    methodCode += ") {\n";
-    methodCode += code;
-    methodCode += "\n  }\n";
+    methodCode.write(") {\n");
+    methodCode.write(code);
+    methodCode.writeln("\n  }");
   }
-  return methodCode;
+  return methodCode.toString();
 }

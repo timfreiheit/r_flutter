@@ -17,21 +17,21 @@ String generateFile(Resources res, Arguments arguments) {
 
   classes = classes.where((item) => item != null).toList();
 
-  String fullCode = "";
+  StringBuffer fullCode = new StringBuffer("");
   List<String> imports = classes.expand((it) => it.imports).toSet().toList();
   imports.sort();
   for (var import in imports) {
-    fullCode += "import '$import';\n";
+    fullCode.writeln("import '$import';");
   }
 
   if (fullCode.isNotEmpty) {
-    fullCode += "\n";
+    fullCode.write("\n");
   }
 
   for (var dartClass in classes) {
-    fullCode += dartClass.code + "\n";
+    fullCode.writeln(dartClass.code);
   }
-  return fullCode;
+  return fullCode.toString();
 }
 
 String createVariableName(String name) {

@@ -38,10 +38,10 @@ class Asset {
   });
 
   Asset copyWith({
-    String name = null,
-    String path = null,
-    String fileUri = null,
-    AssetType type = null,
+    String name,
+    String path,
+    String fileUri,
+    AssetType type,
   }) {
     return Asset(
         name: name ?? this.name,

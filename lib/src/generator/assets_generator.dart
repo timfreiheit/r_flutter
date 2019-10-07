@@ -12,45 +12,43 @@ List<DartClass> generateAssetsClass(List<Asset> assets) {
 }
 
 DartClass _generateAssetConstantsClass(List<Asset> assets) {
-  if (assets.length == 0) {
+  if (assets.isEmpty) {
     return null;
   }
 
   final imports = Set<String>();
 
-  String classString = "class Assets {\n";
+  StringBuffer classString = new StringBuffer("class Assets {\n");
   for (var asset in assets) {
-    classString += createComment(asset);
+    classString.write(createComment(asset));
 
     final type = asset.type;
     if (type is CustomAssetType) {
       imports.add(type.import);
       final custom = type.customClass;
-      classString +=
-          "  static const $custom ${createVariableName(asset.name)} = $custom(\"${asset.path}\");\n";
+      classString.writeln("  static const $custom ${createVariableName(asset.name)} = $custom(\"${asset.path}\");");
     } else {
-      classString +=
-          "  static const String ${createVariableName(asset.name)} = \"${asset.path}\";\n";
+      classString.writeln(
+          "  static const String ${createVariableName(asset.name)} = \"${asset.path}\";");
     }
   }
-  classString += "}\n";
-  return DartClass(code: classString, imports: imports.toList()..sort());
+  classString.writeln("}");
+  return DartClass(code: classString.toString(), imports: imports.toList()..sort());
 }
 
 DartClass _generateImageAssetsClass(List<Asset> assets) {
-  if (assets.length == 0) {
+  if (assets.isEmpty) {
     return null;
   }
-  String classString = "class Images {\n";
+  StringBuffer classString = new StringBuffer("class Images {\n");
   for (var asset in assets) {
-    classString += createComment(asset);
-    classString +=
-        "  static AssetImage get ${createVariableName(asset.name)} => const AssetImage(\"${asset.path}\");\n";
+    classString.write(createComment(asset));
+    classString.writeln("  static AssetImage get ${createVariableName(asset.name)} => const AssetImage(\"${asset.path}\");");
   }
-  classString += "}\n";
+  classString.writeln("}");
   return DartClass(
     imports: ["package:flutter/widgets.dart"],
-    code: classString,
+    code: classString.toString(),
   );
 }
 
