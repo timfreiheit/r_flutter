@@ -1,0 +1,5 @@
+{
+  "string1": "tekst",
+  "stringWithPlaceholder": "Tekst z {placeholder}",
+  "hello": "cześć"
+}

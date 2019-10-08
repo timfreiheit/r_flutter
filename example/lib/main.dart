@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:runtime_arb/runtime_arb.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'assets.dart';
-
-final i18n = StringsBinding();
 
 void main() => runApp(MyApp());
 
@@ -11,8 +9,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'r_flutter',
+      supportedLocales: I18n.supportedLocales,
       localizationsDelegates: [
-        RuntimeArbDelegate({'en'})
+        I18n.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
       ],
       home: HomePage(),
     );
@@ -23,7 +24,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(title: Text(I18n.of(context).appName)),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -32,8 +33,8 @@ class HomePage extends StatelessWidget {
             Image(image: Images.extension),
             Assets.svg,
             Text(Assets.testAsset2),
-            Text(i18n.hello_there),
-            Text(i18n.stringWithPlaceholder('hello')),
+            Text(I18n.of(context).hello_there),
+            Text(I18n.of(context).stringWithPlaceholder('hello')),
           ],
         ),
       ),

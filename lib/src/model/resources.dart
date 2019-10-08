@@ -1,12 +1,14 @@
+import 'package:r_flutter/src/model/i18n.dart';
+
 class Resources {
   final List<String> fonts;
   final Assets assets;
-  final List<StringReference> stringReferences;
+  final I18nLocales i18n;
 
   Resources({
     this.fonts,
     this.assets,
-    this.stringReferences,
+    this.i18n,
   });
 }
 
@@ -36,10 +38,10 @@ class Asset {
   });
 
   Asset copyWith({
-    String name = null,
-    String path = null,
-    String fileUri = null,
-    AssetType type = null,
+    String name,
+    String path,
+    String fileUri,
+    AssetType type,
   }) {
     return Asset(
         name: name ?? this.name,
