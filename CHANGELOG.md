@@ -1,3 +1,9 @@
+## 0.4.0
+
+* generate complete i18n code.
+    * there is no need for the RuntimeArb anymore
+    * see the README for integration steps
+
 ## 0.3.1
 
 * fix NullPointerException when trying to access undefined asset classes
