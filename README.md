@@ -87,6 +87,24 @@ And then, r_flutter will use SvgFile class for all svg assets:
 static const SvgFile svg = SvgFile("lib/assets/svg.svg")
 ```
 
+## Troubleshooting
+
+#### `assets.dart` not found
+
+Execute `flutter generate` command in your project's directory. You could also run tests or just build the app. Compiler must run at least once to generate the file.
+`assets.dart` will be generated into `.dart_tool/build/generated/YOUR_PACKAGE_NAME/assets.dart`
+
+#### news keys not resolvable in IDE
+
+When `assets.dart` is regenerated, sometimes it is not correctly indexed by the IDE:
+Building should run anyway, even though that the IDE shows an error.
+
+If the error constits, check the `assets.dart` and maybe add a Whitespace somewhere. That will trigger the IDE to re-index.
+
+#### iOS won't show the correct language
+
+The iOS project need to be updated: [Documentation](https://flutter.dev/docs/development/accessibility-and-localization/internationalization#appendix-updating-the-ios-app-bundle)
+
 ## Examples
 
 ##### Images
