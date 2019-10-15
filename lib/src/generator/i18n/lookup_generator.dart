@@ -57,18 +57,22 @@ DartClass generateLookupClass(
   bool isFirstMethod = true;
   final defaultLocale = i18n.defaultValues;
   for (var item in value.strings) {
+    I18nString defaultItem;
+    if (value != defaultLocale) {
+      defaultItem =
+          defaultLocale.strings.firstWhere((it) => it.key == item.key, orElse: () => null);
+    } else {
+      defaultItem = item;
+    }
+
+    if (defaultItem == null) {
+        continue;
+    }
+
     if (!isFirstMethod) {
       code.write("\n");
     }
     isFirstMethod = false;
-
-    I18nString defaultItem;
-    if (value != defaultLocale) {
-      defaultItem =
-          defaultLocale.strings.firstWhere((it) => it.key == item.key);
-    } else {
-      defaultItem = item;
-    }
 
     if (isDefaultClass) {
       String methodCode = "    return getString(I18nKeys.${item.escapedKey}";
