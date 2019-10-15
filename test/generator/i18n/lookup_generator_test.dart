@@ -117,6 +117,19 @@ void main() {
   });
 
   test(
+      "test additional keys in none default locales are ignored",
+      () {
+    final lookupClass = generateLookupClass(
+        i18n: testData,
+        value: testData.locales.firstWhere((it) => it.locale == Locale("ru")),
+        isDefaultClass: false);
+    expect(lookupClass.imports, []);
+    expect(lookupClass.code, """class I18nLookup_ru extends I18nLookup_en {
+}
+""");
+  });
+
+  test(
       "test additional keys in none default locales are ignored 2",
       () {
     final lookupClass = generateLookupClass(
