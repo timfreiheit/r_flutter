@@ -57,11 +57,6 @@ DartClass generateLookupClass(
   bool isFirstMethod = true;
   final defaultLocale = i18n.defaultValues;
   for (var item in value.strings) {
-    if (!isFirstMethod) {
-      code.write("\n");
-    }
-    isFirstMethod = false;
-
     I18nString defaultItem;
     if (value != defaultLocale) {
       defaultItem =
@@ -73,6 +68,11 @@ DartClass generateLookupClass(
     if (defaultItem == null) {
         continue;
     }
+
+    if (!isFirstMethod) {
+      code.write("\n");
+    }
+    isFirstMethod = false;
 
     if (isDefaultClass) {
       String methodCode = "    return getString(I18nKeys.${item.escapedKey}";

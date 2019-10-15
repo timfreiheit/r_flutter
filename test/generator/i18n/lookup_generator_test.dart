@@ -41,6 +41,11 @@ void main() {
     I18nLocale(Locale("ru"), [
       I18nString(key: "unknown_key_1", value: "value_KEY_1"),
     ]),
+    I18nLocale(Locale("gr"), [
+      I18nString(key: "key_1", value: "value_KEY_1"),
+      I18nString(key: "unknown_key_2", value: "value_KEY_2"),
+      I18nString(key: "key.2", value: "value_KEY_3"),
+    ]),
   ]);
 
   test("test secondary language", () {
@@ -112,14 +117,23 @@ void main() {
   });
 
   test(
-      "test additional keys in none default locales are ignored",
+      "test additional keys in none default locales are ignored 2",
       () {
     final lookupClass = generateLookupClass(
         i18n: testData,
-        value: testData.locales.firstWhere((it) => it.locale == Locale("ru")),
+        value: testData.locales.firstWhere((it) => it.locale == Locale("gr")),
         isDefaultClass: false);
     expect(lookupClass.imports, []);
-    expect(lookupClass.code, """class I18nLookup_ru extends I18nLookup_en {
+    expect(lookupClass.code, """class I18nLookup_gr extends I18nLookup_en {
+  @override
+  String get key_1 {
+    return "value_KEY_1";
+  }
+
+  @override
+  String get key_2 {
+    return "value_KEY_3";
+  }
 }
 """);
   });
