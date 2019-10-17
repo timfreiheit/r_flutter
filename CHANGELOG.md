@@ -1,3 +1,7 @@
+## 0.4.1
+
+* fix crash when none default locales have additional keys
+
 ## 0.4.0
 
 * generate complete i18n code.
