@@ -1,4 +1,3 @@
-
 import 'package:r_flutter/src/generator/i18n/i18n_generator.dart';
 import 'package:r_flutter/src/generator/i18n/lookup_generator.dart';
 import 'package:r_flutter/src/model/dart_class.dart';

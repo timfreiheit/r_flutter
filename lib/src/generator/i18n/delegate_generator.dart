@@ -40,7 +40,8 @@ import 'i18n_generator_utils.dart';
 /// ```
 ///
 DartClass generateI18nDelegate(I18nLocales locales) {
-  StringBuffer classString = StringBuffer("""class I18nDelegate extends LocalizationsDelegate<I18n> {
+  StringBuffer classString =
+      StringBuffer("""class I18nDelegate extends LocalizationsDelegate<I18n> {
   const I18nDelegate();
 
   @override

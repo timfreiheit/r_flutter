@@ -88,7 +88,7 @@ class AssetsBuilder extends Builder {
     final config = parseYamlArguments(configRaw ?? YamlMap());
 
     _markIntlFiles(buildStep, config);
-  
+
     await check(buildStep, config.intlFilename);
     await check(buildStep, config.pubspecFilename);
     final res = parseResources(config);

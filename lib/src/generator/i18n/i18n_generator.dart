@@ -71,7 +71,8 @@ DartClass generateI18nClass(I18nLocales i18n) {
 }
 
 String _generateSupportedLocales(I18nLocales i18n) {
-  StringBuffer code = StringBuffer("""  static List<Locale> get supportedLocales {
+  StringBuffer code =
+      StringBuffer("""  static List<Locale> get supportedLocales {
     return const <Locale>[
 """);
 
@@ -80,7 +81,8 @@ String _generateSupportedLocales(I18nLocales i18n) {
       .where((it) => it != i18n.defaultLocale)
       .toList();
 
-  code.write("      Locale(\"${i18n.defaultLocale.toString().split("_").join(", ")}\")");
+  code.write(
+      "      Locale(\"${i18n.defaultLocale.toString().split("_").join(", ")}\")");
   for (var locale in locales) {
     String localeParameters = locale.toString().split("_").join("\", \"");
     code.write(",\n      Locale(\"${localeParameters}\")");
@@ -185,9 +187,6 @@ String _generateGetStringMethod(I18nLocales i18n) {
       ..writeln("        return ${methodName};");
   }
 
-  code
-    ..writeln("    }")
-    ..writeln("    return null;")
-    ..writeln("  }");
+  code..writeln("    }")..writeln("    return null;")..writeln("  }");
   return code.toString();
 }

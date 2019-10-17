@@ -59,14 +59,14 @@ DartClass generateLookupClass(
   for (var item in value.strings) {
     I18nString defaultItem;
     if (value != defaultLocale) {
-      defaultItem =
-          defaultLocale.strings.firstWhere((it) => it.key == item.key, orElse: () => null);
+      defaultItem = defaultLocale.strings
+          .firstWhere((it) => it.key == item.key, orElse: () => null);
     } else {
       defaultItem = item;
     }
 
     if (defaultItem == null) {
-        continue;
+      continue;
     }
 
     if (!isFirstMethod) {

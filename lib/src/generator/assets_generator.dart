@@ -26,14 +26,16 @@ DartClass _generateAssetConstantsClass(List<Asset> assets) {
     if (type is CustomAssetType) {
       imports.add(type.import);
       final custom = type.customClass;
-      classString.writeln("  static const $custom ${createVariableName(asset.name)} = $custom(\"${asset.path}\");");
+      classString.writeln(
+          "  static const $custom ${createVariableName(asset.name)} = $custom(\"${asset.path}\");");
     } else {
       classString.writeln(
           "  static const String ${createVariableName(asset.name)} = \"${asset.path}\";");
     }
   }
   classString.writeln("}");
-  return DartClass(code: classString.toString(), imports: imports.toList()..sort());
+  return DartClass(
+      code: classString.toString(), imports: imports.toList()..sort());
 }
 
 DartClass _generateImageAssetsClass(List<Asset> assets) {
@@ -43,7 +45,8 @@ DartClass _generateImageAssetsClass(List<Asset> assets) {
   StringBuffer classString = StringBuffer("class Images {\n");
   for (var asset in assets) {
     classString.write(createComment(asset));
-    classString.writeln("  static AssetImage get ${createVariableName(asset.name)} => const AssetImage(\"${asset.path}\");");
+    classString.writeln(
+        "  static AssetImage get ${createVariableName(asset.name)} => const AssetImage(\"${asset.path}\");");
   }
   classString.writeln("}");
   return DartClass(

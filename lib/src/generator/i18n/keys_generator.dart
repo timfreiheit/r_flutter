@@ -14,7 +14,8 @@ DartClass generateI18nKeysClass(I18nLocales locales) {
 
   final items = locales.defaultValues.strings;
   for (var item in items) {
-    classString.writeln("  static const String ${item.escapedKey} = \"${item.key}\";");
+    classString
+        .writeln("  static const String ${item.escapedKey} = \"${item.key}\";");
   }
 
   classString.writeln("}");
