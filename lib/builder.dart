@@ -13,7 +13,7 @@ import 'src/model/resources.dart';
 import 'src/parser/assets_parser.dart';
 import 'src/parser/fonts_parser.dart';
 
-Resources parseResources(Arguments arguments) {
+Resources parseResources(Config arguments) {
   final pubspecFile = File(arguments.pubspecFilename).absolute;
   if (!pubspecFile.existsSync()) {
     print("pubspec file does not exists: " + pubspecFile.path);
@@ -27,42 +27,6 @@ Resources parseResources(Arguments arguments) {
     assets: parseAssets(yaml, arguments.ignoreAssets, arguments.assetClasses),
     i18n: parseStrings(arguments.intlFilename),
   );
-}
-
-Arguments parseYamlArguments(YamlMap yaml) {
-  final arguments = Arguments()
-    ..pubspecFilename = 'pubspec.yaml'
-    ..outputFilename = 'assets.dart';
-
-  yaml = yaml["r_flutter"];
-  if (yaml == null) {
-    return arguments;
-  }
-
-  final YamlList ignoreRaw = yaml['ignore'];
-  arguments.ignoreAssets = ignoreRaw?.map((x) => x as String)?.toList() ?? [];
-  arguments.intlFilename = yaml['intl'];
-
-  final YamlMap assetClasses = yaml['asset_classes'];
-  final classes = <CustomAssetType>[];
-  for (var key in assetClasses?.keys ?? []) {
-    final Object value = assetClasses[key];
-    var import = CustomAssetType.defaultImport;
-    String className;
-    if (value is YamlMap) {
-      className = value['class'];
-      import = value['import'] ?? import;
-    } else if (value is String) {
-      className = value;
-    } else {
-      assert(false);
-    }
-
-    classes.add(CustomAssetType(className, key, import));
-  }
-  arguments.assetClasses = classes;
-
-  return arguments;
 }
 
 class AssetsBuilder extends Builder {
@@ -85,7 +49,7 @@ class AssetsBuilder extends Builder {
     final configId = AssetId(input.package, 'pubspec.yaml');
 
     final configRaw = loadYaml(await buildStep.readAsString(configId));
-    final config = parseYamlArguments(configRaw ?? YamlMap());
+    final config = Config.parsePubspecConfig(configRaw ?? YamlMap());
 
     _markIntlFiles(buildStep, config);
 
@@ -108,7 +72,7 @@ class AssetsBuilder extends Builder {
   ///
   /// mark intl files to the BuildStep to update the code generation when one of the files changes
   ///
-  void _markIntlFiles(BuildStep buildStep, Arguments arguments) async {
+  void _markIntlFiles(BuildStep buildStep, Config arguments) async {
     if (arguments.intlFilename == null) {
       return;
     }

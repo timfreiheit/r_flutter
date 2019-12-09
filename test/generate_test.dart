@@ -8,10 +8,10 @@ import 'package:yaml/yaml.dart';
 
 import 'current_directory.dart';
 
-Arguments loadPubspec(String name, String currentDirectory) {
+Config loadPubspec(String name, String currentDirectory) {
   setCurrentDirectory(currentDirectory);
   final yaml = loadYaml(File(name).readAsStringSync());
-  final args = parseYamlArguments(yaml);
+  final args = Config.parsePubspecConfig(yaml);
   args.pubspecFilename = name;
   return args;
 }

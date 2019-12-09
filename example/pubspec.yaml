@@ -21,6 +21,8 @@ builders:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  r_flutter:
+    path: ../
 
 flutter:
   uses-material-design: true
