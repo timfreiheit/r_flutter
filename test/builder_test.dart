@@ -6,10 +6,10 @@ import 'package:test/test.dart';
 import 'package:build_test/build_test.dart';
 import 'package:path/path.dart' as p;
 
-Directory savedCurrentDirectory;
+import 'current_directory.dart';
 
 PackageAssetReader readerForExampleAssets() {
-  Directory.current = savedCurrentDirectory.path + '/example';
+  setCurrentDirectory(savedCurrentDirectory.path + '/example');
 
   final path = p.join(Directory.current.path, 'lib');
 
@@ -40,8 +40,6 @@ class ContainsString extends Matcher {
 }
 
 void main() {
-  savedCurrentDirectory = Directory.current;
-
   group('test AssetsBuilder', () {
     test('test assets.dart created', () async {
       final builder = AssetsBuilder();
@@ -59,7 +57,7 @@ void main() {
     });
 
     test('test empty pubspec.yaml file', () async {
-      Directory.current = savedCurrentDirectory.path;
+      setCurrentDirectory(savedCurrentDirectory.path);
       final builder = AssetsBuilder();
 
       await testBuilder(
