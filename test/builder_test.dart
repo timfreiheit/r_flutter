@@ -72,4 +72,5 @@ void main() {
       );
     });
   });
+  setCurrentDirectory(null);
 }
