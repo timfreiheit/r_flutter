@@ -18,4 +18,4 @@ jobs:
     - name: Install dependencies
       run: pub get
     - name: Run tests
-      run: pub run test
+      run: pub run test --concurrency=1
