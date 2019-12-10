@@ -9,8 +9,7 @@ import 'package:yaml/yaml.dart';
 import 'current_directory.dart';
 
 Config loadPubspec(String name, String currentDirectory) {
-  setCurrentDirectory(null);
-  setCurrentDirectory(Directory.current.path + "/" + currentDirectory);
+  setCurrentDirectory(savedCurrentDirectory.path + "/" + currentDirectory);
   final yaml = loadYaml(File(name).readAsStringSync());
   final args = Config.parsePubspecConfig(yaml);
   args.pubspecFilename = name;
@@ -25,6 +24,10 @@ String processPubspec(String name, [String currentDirectory = 'test']) {
 }
 
 void main() {
+  setUp(() {
+    setCurrentDirectory(null);
+  });
+
   test('test example', () {
     final contents = processPubspec('pubspec.yaml', 'example');
     expect(contents, isNotNull);
@@ -40,6 +43,4 @@ void main() {
     final contents = processPubspec('pubspec_simple.yaml');
     expect(contents, contains('svg.svg'));
   });
-
-  setCurrentDirectory(null);
 }

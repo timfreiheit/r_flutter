@@ -41,9 +41,12 @@ class ContainsString extends Matcher {
 
 void main() {
   group('test AssetsBuilder', () {
+    setUp(() {
+      setCurrentDirectory(null);
+    });
+
     test('test assets.dart created', () async {
       final builder = AssetsBuilder();
-
       await testBuilder(
         builder,
         {
@@ -57,9 +60,7 @@ void main() {
     });
 
     test('test empty pubspec.yaml file', () async {
-      setCurrentDirectory(savedCurrentDirectory.path);
       final builder = AssetsBuilder();
-
       await testBuilder(
         builder,
         {
@@ -72,5 +73,4 @@ void main() {
       );
     });
   });
-  setCurrentDirectory(null);
 }
