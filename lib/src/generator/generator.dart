@@ -7,7 +7,7 @@ import 'package:recase/recase.dart';
 
 import 'i18n/generator.dart';
 
-String generateFile(Resources res, Arguments arguments) {
+String generateFile(Resources res, Config arguments) {
   List<DartClass> classes = [];
   if (res.i18n != null) {
     classes.addAll(generateI18nClasses(res.i18n));

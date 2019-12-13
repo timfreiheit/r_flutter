@@ -8,7 +8,7 @@ List<DartClass> generateAssetsClass(List<Asset> assets) {
         assets.where((item) => item.type != AssetType.image).toList()),
     _generateImageAssetsClass(
         assets.where((item) => item.type == AssetType.image).toList())
-  ];
+  ].where((it) => it != null).toList();
 }
 
 DartClass _generateAssetConstantsClass(List<Asset> assets) {

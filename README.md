@@ -89,6 +89,20 @@ static const SvgFile svg = SvgFile("lib/assets/svg.svg")
 
 ## Troubleshooting
 
+#### incompatibility issued with [build_runner](https://pub.dev/packages/build_runner)
+
+At the moment this integration does not work well together with [build_runner](https://pub.dev/packages/build_runner).
+In this case the code generation can be executed using the command line tool.
+```yaml
+dev_dependencies:
+  r_flutter: <version>
+```
+
+Execution:
+```
+flutter packages pub run r_flutter:generate
+```
+
 #### `assets.dart` not found
 
 Execute `flutter generate` command in your project's directory. You could also run tests or just build the app. Compiler must run at least once to generate the file.
