@@ -1,3 +1,7 @@
+## 0.5.0
+
+* align command line and builder capabilities
+
 ## 0.4.1
 
 * fix crash when none default locales have additional keys
