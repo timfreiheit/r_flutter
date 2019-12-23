@@ -117,9 +117,12 @@ DartClass generateLookupClass(
 
 I18nLocale _findParent(I18nLocales i18n, I18nLocale value) {
   if (value.locale.countryCode != null) {
-    I18nLocale parent = i18n.locales.firstWhere((it) =>
-        it.locale.countryCode == null &&
-        it.locale.languageCode == value.locale.languageCode);
+    I18nLocale parent = i18n.locales.firstWhere(
+      (it) =>
+          it.locale.countryCode == null &&
+          it.locale.languageCode == value.locale.languageCode,
+      orElse: () => null,
+    );
     if (parent != null) {
       return parent;
     }
