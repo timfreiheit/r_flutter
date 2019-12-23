@@ -5,13 +5,14 @@ import 'package:args/args.dart';
 import 'package:r_flutter/builder.dart';
 import 'package:r_flutter/src/arguments.dart';
 import 'package:r_flutter/src/generator/generator.dart';
+import 'package:r_flutter/src/utils/utils.dart';
 import 'package:yaml/yaml.dart';
 
-main(List<String> args) {
+void main(List<String> args) {
   final arguments = CommandLineArguments()
     ..parse(args);
 
-  final configRaw = loadYaml(File(arguments.pubspecFilename).absolute.readAsStringSync());
+  final configRaw = safeCast<YamlMap>(loadYaml(File(arguments.pubspecFilename).absolute.readAsStringSync()));
   final config = Config.parsePubspecConfig(configRaw ?? YamlMap());
 
   final res = parseResources(config);
@@ -32,13 +33,13 @@ class CommandLineArguments {
       ..addOption(
         "pubspec-file",
         defaultsTo: 'pubspec.yaml',
-        callback: (value) => pubspecFilename = value,
+        callback: (value) => pubspecFilename = safeCast(value),
         help: 'Specify the pubspec file.',
       )
       ..addOption(
         "output-file",
         defaultsTo: 'lib/assets.dart',
-        callback: (value) => outputFilename = value,
+        callback: (value) => outputFilename = safeCast(value),
         help: 'Specify the output file.',
       )
       ..parse(args);

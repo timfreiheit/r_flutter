@@ -8,7 +8,9 @@ class Config {
   String intlFilename;
   List<CustomAssetType> assetClasses = [];
 
-  static Config parsePubspecConfig(YamlMap yaml) {
+  Config();
+
+  factory Config.parsePubspecConfig(YamlMap yaml) {
     final arguments = Config()..pubspecFilename = 'pubspec.yaml';
 
     final rFlutterConfig = safeCast<YamlMap>(yaml["r_flutter"]);

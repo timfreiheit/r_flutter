@@ -75,27 +75,31 @@ DartClass generateLookupClass(
     isFirstMethod = false;
 
     if (isDefaultClass) {
-      String methodCode = "    return getString(I18nKeys.${item.escapedKey}";
+      final methodCode =
+          StringBuffer("    return getString(I18nKeys.${item.escapedKey}");
 
       if (defaultItem.placeholders.isNotEmpty) {
-        methodCode += ", {";
+        methodCode.write(", {");
 
+        var isFirstPlaceholder = true;
         for (final placeholder in defaultItem.placeholders) {
-          if (!methodCode.endsWith("{")) {
-            methodCode += ", ";
+          if (!isFirstPlaceholder) {
+            methodCode.write(", ");
           }
-          methodCode += "\"$placeholder\": $placeholder";
+          isFirstPlaceholder = false;
+          methodCode.write("\"$placeholder\": $placeholder");
         }
 
-        methodCode += "});";
+        methodCode.write("});");
       } else {
-        methodCode += ");";
+        methodCode.write(");");
       }
 
       code.write(generateMethod(
-          name: defaultItem.escapedKey,
-          parameters: defaultItem.placeholders,
-          code: methodCode));
+        name: defaultItem.escapedKey,
+        parameters: defaultItem.placeholders,
+        code: methodCode.toString(),
+      ));
     } else {
       String valueString = item.value;
       valueString = escapeStringLiteral(valueString);

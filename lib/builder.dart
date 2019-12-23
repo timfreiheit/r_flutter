@@ -17,7 +17,6 @@ import 'src/parser/fonts_parser.dart';
 Resources parseResources(Config arguments) {
   final pubspecFile = File(arguments.pubspecFilename).absolute;
   if (!pubspecFile.existsSync()) {
-    print("pubspec file does not exists: ${pubspecFile.path}");
     exit(1);
   }
 

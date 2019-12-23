@@ -166,19 +166,22 @@ String _generateGetStringMethod(I18nLocales i18n) {
 
   final values = i18n.defaultValues.strings;
 
+  final methodName = StringBuffer();
   for (final value in values) {
-    String methodName;
+    methodName.clear();
     if (value.placeholders.isEmpty) {
-      methodName = value.escapedKey;
+      methodName.write(value.escapedKey);
     } else {
-      methodName = "${value.escapedKey}(";
+      methodName.write("${value.escapedKey}(");
+      var isFirstPlaceholder = true;
       for (final placeholder in value.placeholders) {
-        if (!methodName.endsWith("(")) {
-          methodName += ", ";
+        if (!isFirstPlaceholder) {
+          methodName.write(", ");
         }
-        methodName += "placeholders[\"$placeholder\"]";
+        isFirstPlaceholder = false;
+        methodName.write("placeholders[\"$placeholder\"]");
       }
-      methodName += ")";
+      methodName.write(")");
     }
 
     code
