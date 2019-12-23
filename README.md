@@ -51,7 +51,7 @@ r_flutter:
   intl: lib/i18n/en.arb
 ```
 
-Other locales will be searched at ` lib/i18n/<locale>.arb `
+Other locales will be searched at ` lib/i18n/<language_code>.arb ` and ` lib/i18n/<language_code>_<country_code>.arb `
 
 2. Add it to your app.
 ```dart

@@ -35,6 +35,12 @@ void main() {
         placeholders: ["p1", "p2", "parameter_not_set_in_default_locale"],
       )
     ]),
+    I18nLocale(Locale("de", "DE"), [
+      I18nString(key: "key_1", value: "value_de_DE"),
+    ]),
+    I18nLocale(Locale("zh", "HK"), [
+      I18nString(key: "key_1", value: "value_zh_HK"),
+    ]),
     I18nLocale(Locale("pl"), [
       I18nString(key: "key_1", value: "value_KEY_1"),
     ]),
@@ -146,6 +152,40 @@ void main() {
   @override
   String get key_2 {
     return "value_KEY_3";
+  }
+}
+""");
+  });
+
+  test(
+      "test locale with country code overrides the same locale without country code",
+      () {
+    final lookupClass = generateLookupClass(
+        i18n: testData,
+        value: testData.locales.firstWhere((it) => it.locale == Locale("de", "DE")),
+        isDefaultClass: false);
+    expect(lookupClass.imports, []);
+    expect(lookupClass.code, """class I18nLookup_de_DE extends I18nLookup_de {
+  @override
+  String get key_1 {
+    return "value_de_DE";
+  }
+}
+""");
+  });
+
+    test(
+      "test locale with country code without base locale support",
+      () {
+    final lookupClass = generateLookupClass(
+        i18n: testData,
+        value: testData.locales.firstWhere((it) => it.locale == Locale("zh", "HK")),
+        isDefaultClass: false);
+    expect(lookupClass.imports, []);
+    expect(lookupClass.code, """class I18nLookup_zh_HK extends I18nLookup_en {
+  @override
+  String get key_1 {
+    return "value_zh_HK";
   }
 }
 """);
