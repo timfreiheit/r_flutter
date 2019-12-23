@@ -3,7 +3,7 @@ import 'package:r_flutter/src/model/dart_class.dart';
 import 'package:r_flutter/src/model/i18n.dart';
 
 List<DartClass> generateLookupClasses(I18nLocales i18n) {
-  List<DartClass> classes = [];
+  final classes = <DartClass>[];
 
   classes.add(generateLookupClass(
     i18n: i18n,
@@ -11,7 +11,7 @@ List<DartClass> generateLookupClasses(I18nLocales i18n) {
     isDefaultClass: true,
   ));
 
-  for (var locale in i18n.locales) {
+  for (final locale in i18n.locales) {
     classes.add(generateLookupClass(
       i18n: i18n,
       value: locale,
@@ -34,15 +34,15 @@ List<DartClass> generateLookupClasses(I18nLocales i18n) {
 ///
 DartClass generateLookupClass(
     {I18nLocales i18n, I18nLocale value, bool isDefaultClass}) {
-  StringBuffer code = StringBuffer("class I18nLookup");
+  final code = StringBuffer("class I18nLookup");
 
   if (!isDefaultClass) {
-    code.write("_" + value.locale.toString());
+    code.write("_${value.locale}");
     code.write(" extends I18nLookup");
 
-    I18nLocale parent = _findParent(i18n, value);
+    final parent = _findParent(i18n, value);
     if (parent != null) {
-      code.write("_" + parent.locale.toString());
+      code.write("_${parent.locale}");
     }
   }
   code.write(" {\n");
@@ -56,7 +56,7 @@ DartClass generateLookupClass(
 
   bool isFirstMethod = true;
   final defaultLocale = i18n.defaultValues;
-  for (var item in value.strings) {
+  for (final item in value.strings) {
     I18nString defaultItem;
     if (value != defaultLocale) {
       defaultItem = defaultLocale.strings
@@ -80,7 +80,7 @@ DartClass generateLookupClass(
       if (defaultItem.placeholders.isNotEmpty) {
         methodCode += ", {";
 
-        for (var placeholder in defaultItem.placeholders) {
+        for (final placeholder in defaultItem.placeholders) {
           if (!methodCode.endsWith("{")) {
             methodCode += ", ";
           }
@@ -99,7 +99,7 @@ DartClass generateLookupClass(
     } else {
       String valueString = item.value;
       valueString = escapeStringLiteral(valueString);
-      for (var placeholder in defaultItem.placeholders) {
+      for (final placeholder in defaultItem.placeholders) {
         valueString =
             valueString.replaceAll("{$placeholder}", "\${$placeholder}");
       }
@@ -107,7 +107,7 @@ DartClass generateLookupClass(
       code.write(generateMethod(
           name: defaultItem.escapedKey,
           parameters: defaultItem.placeholders,
-          code: "    return \"${valueString}\";"));
+          code: "    return \"$valueString\";"));
     }
   }
 
@@ -117,7 +117,7 @@ DartClass generateLookupClass(
 
 I18nLocale _findParent(I18nLocales i18n, I18nLocale value) {
   if (value.locale.countryCode != null) {
-    I18nLocale parent = i18n.locales.firstWhere(
+    final parent = i18n.locales.firstWhere(
       (it) =>
           it.locale.countryCode == null &&
           it.locale.languageCode == value.locale.languageCode,
@@ -127,7 +127,7 @@ I18nLocale _findParent(I18nLocales i18n, I18nLocale value) {
       return parent;
     }
   }
-  I18nLocale parent = i18n.defaultValues;
+  final parent = i18n.defaultValues;
   if (parent == value) {
     return null;
   }

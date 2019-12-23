@@ -40,7 +40,7 @@ import 'i18n_generator_utils.dart';
 /// ```
 ///
 DartClass generateI18nDelegate(I18nLocales locales) {
-  StringBuffer classString =
+  final classString =
       StringBuffer("""class I18nDelegate extends LocalizationsDelegate<I18n> {
   const I18nDelegate();
 
@@ -59,7 +59,7 @@ DartClass generateI18nDelegate(I18nLocales locales) {
   I18nLookup _findLookUpFromLocale(Locale locale) {
 """);
 
-  List<Locale> localesWithCountry = findLocalesWithCountry(locales);
+  final localesWithCountry = findLocalesWithCountry(locales);
   if (localesWithCountry.isNotEmpty) {
     classString
       ..writeln(
@@ -67,7 +67,7 @@ DartClass generateI18nDelegate(I18nLocales locales) {
       ..write(_generateLookupSwitch("lang", localesWithCountry));
   }
 
-  List<Locale> localesWithoutCountry = findLocalesWithoutCountry(locales);
+  final localesWithoutCountry = findLocalesWithoutCountry(locales);
   if (localesWithoutCountry.isNotEmpty) {
     classString
       ..writeln(
@@ -89,10 +89,10 @@ DartClass generateI18nDelegate(I18nLocales locales) {
 }
 
 String _generateLookupSwitch(String condition, List<Locale> locales) {
-  StringBuffer switchCode = StringBuffer();
+  final switchCode = StringBuffer();
   switchCode.writeln("    switch ($condition) {");
 
-  for (var locale in locales) {
+  for (final locale in locales) {
     switchCode
       ..writeln("        case \"${locale.toString()}\":")
       ..writeln("          return I18nLookup_${locale.toString()}();");

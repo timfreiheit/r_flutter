@@ -4,21 +4,23 @@ import 'dart:io';
 import 'package:r_flutter/src/model/i18n.dart';
 import 'package:r_flutter/src/parser/i18n/i18n_parsing_utils.dart';
 import 'package:r_flutter/src/parser/i18n/i18n_parser.dart';
+import 'package:r_flutter/src/utils/utils.dart';
 
 class ArbI18nParser extends I18nParser {
   @override
   List<I18nString> parseFile(File file) {
-    Map data = json.decode(file.readAsStringSync());
+    final data = safeCast<Map>(json.decode(file.readAsStringSync())) ?? {};
 
-    List<I18nString> references = [];
+    final references = <I18nString>[];
     data.cast<String, dynamic>().forEach((key, value) {
       if (key.startsWith("@") || !(value is String)) {
         return;
       }
+      final valueString = value as String;
       references.add(I18nString(
         key: key,
-        placeholders: findPlaceholders(value),
-        value: value,
+        placeholders: findPlaceholders(valueString),
+        value: valueString,
       ));
     });
     return references;

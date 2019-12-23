@@ -56,8 +56,8 @@ class Asset {
   }
 
   @override
-  bool operator ==(other) {
-    return (other is Asset && other.fileUri == fileUri);
+  bool operator ==(dynamic other) {
+    return other is Asset && other.fileUri == fileUri;
   }
 
   @override

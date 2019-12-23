@@ -10,10 +10,10 @@ import 'package:r_flutter/src/model/i18n.dart';
 /// ```
 ///
 DartClass generateI18nKeysClass(I18nLocales locales) {
-  StringBuffer classString = StringBuffer("class I18nKeys {\n");
+  final classString = StringBuffer("class I18nKeys {\n");
 
   final items = locales.defaultValues.strings;
-  for (var item in items) {
+  for (final item in items) {
     classString
         .writeln("  static const String ${item.escapedKey} = \"${item.key}\";");
   }

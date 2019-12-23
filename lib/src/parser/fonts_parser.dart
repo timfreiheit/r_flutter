@@ -1,15 +1,19 @@
-List<String> parseFonts(yaml) {
+import 'package:r_flutter/src/utils/utils.dart';
+import 'package:yaml/yaml.dart';
+
+List<String> parseFonts(YamlMap yaml) {
   final flutter = yaml["flutter"];
   if (flutter == null) {
     return [];
   }
 
-  List fonts = flutter["fonts"];
+  final fonts = safeCast<List>(flutter["fonts"]);
   if (fonts == null) {
     return [];
   }
 
-  return fonts.map((item) {
-    return item["family"] as String;
-  }).toList();
+  return fonts
+      .map((item) => safeCast<String>(item["family"]))
+      .where((it) => it != null)
+      .toList();
 }

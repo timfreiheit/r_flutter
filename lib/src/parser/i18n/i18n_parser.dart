@@ -8,45 +8,47 @@ I18nLocales parseStrings(String defaultIntlFile) {
   if (defaultIntlFile == null || defaultIntlFile.isEmpty) {
     return null;
   }
-  File intlFile = File(defaultIntlFile);
+  final intlFile = File(defaultIntlFile);
   if (!intlFile.existsSync()) {
     return null;
   }
 
-  Locale defaultLocale = _localeFromFileName(intlFile);
+  final defaultLocale = _localeFromFileName(intlFile);
   if (defaultLocale == null) {
     return null;
   }
 
-  I18nParser parser =
+  final parser =
       I18nParser.all().firstWhere((parser) => parser.supportsFile(intlFile));
   if (parser == null) {
     return null;
   }
 
-  List<I18nLocale> locales = [];
+  final locales = <I18nLocale>[];
   final files = intlFile.parent.listSync();
-  for (var file in files) {
-    if (!parser.supportsFile(file)) {
-      continue;
+  for (final file in files) {
+    if (file is File) {
+      if (!parser.supportsFile(file)) {
+        continue;
+      }
+      final locale = _localeFromFileName(file);
+      if (locale == null) {
+        continue;
+      }
+      locales.add(I18nLocale(locale, parser.parseFile(file)));
     }
-    Locale locale = _localeFromFileName(file);
-    if (locale == null) {
-      continue;
-    }
-    locales.add(I18nLocale(locale, parser.parseFile(file)));
   }
 
   return I18nLocales(defaultLocale, locales);
 }
 
 Locale _localeFromFileName(File file) {
-  String name = basenameWithoutExtension(file.path);
+  final name = basenameWithoutExtension(file.path);
   if (RegExp(r'^[a-z]{2}$').hasMatch(name)) {
     return Locale(name, null);
   }
   if (RegExp(r'^[a-z]{2}_[A-Z]{2}$').hasMatch(name)) {
-    List<String> localeParts = name.split("_");
+    final localeParts = name.split("_");
     return Locale(localeParts[0], localeParts[1]);
   }
   return null;
