@@ -1,27 +1,31 @@
 import 'dart:io';
 import 'package:path/path.dart' as path;
 import 'package:r_flutter/src/model/resources.dart';
+import 'package:r_flutter/src/utils/utils.dart';
+import 'package:yaml/yaml.dart';
 
-Assets parseAssets(
-    yaml, List<String> ignoreAssets, List<CustomAssetType> assetClasses) {
+Assets parseAssets(YamlMap yaml, List<String> ignoreAssets,
+    List<CustomAssetType> assetClasses) {
   final flutter = yaml["flutter"];
   if (flutter == null) {
     return Assets.empty;
   }
 
-  List assets = flutter["assets"];
+  final assets = safeCast<List>(flutter["assets"]);
   if (assets == null) {
     return Assets.empty;
   }
 
-  Set<File> assetFiles = Set();
-  List<String> declared = [];
-  for (String asset in assets) {
-    if (assetShouldBeIgnored(asset, ignoreAssets)) {
-      continue;
+  final assetFiles = <File>{};
+  final declared = <String>[];
+  for (final asset in assets) {
+    if (asset is String) {
+      if (assetShouldBeIgnored(asset, ignoreAssets)) {
+        continue;
+      }
+      declared.add(asset);
+      assetFiles.addAll(_findFiles(asset, ignoreAssets));
     }
-    declared.add(asset);
-    assetFiles.addAll(_findFiles(asset, ignoreAssets));
   }
 
   final files = assetFiles.toList();
@@ -65,7 +69,7 @@ List<File> _findFiles(String asset, List<String> ignoreAssets) {
 AssetType _findAssetTypeFromPath(
     String pathString, List<CustomAssetType> assetClasses) {
   if (assetClasses != null) {
-    for (var obj in assetClasses) {
+    for (final obj in assetClasses) {
       if (pathString.endsWith(obj.extension)) {
         return obj;
       }
@@ -84,7 +88,7 @@ AssetType _findAssetTypeFromPath(
 
 List<Asset> _convertToAssets(
     List<File> assetFiles, List<CustomAssetType> assetClasses) {
-  Set<Asset> rawAssets = assetFiles
+  final rawAssets = assetFiles
       .map((file) => Asset(
             name: path.basenameWithoutExtension(file.path),
             path: file.path,
@@ -93,14 +97,14 @@ List<Asset> _convertToAssets(
           ))
       .toSet();
 
-  List<Asset> assets = [];
-  for (var asset in rawAssets) {
+  final assets = <Asset>[];
+  for (final asset in rawAssets) {
     if (assets.any((item) => item.path == asset.path)) {
       // asset already added
       continue;
     }
 
-    var duplicateNames =
+    final duplicateNames =
         rawAssets.where((item) => item.name == asset.name).toList();
     if (duplicateNames.length == 1) {
       // no duplicates found
@@ -116,7 +120,7 @@ List<Asset> _convertToAssets(
 
 List<Asset> specifyAssetNames(List<Asset> assets) {
   bool containsDuplicates(List<_Pair<Asset, Directory>> list) {
-    for (var item in list) {
+    for (final item in list) {
       if (list.any((item2) {
         if (item == item2) {
           return false;
@@ -138,9 +142,8 @@ List<Asset> specifyAssetNames(List<Asset> assets) {
       var newName = item.first.name;
       var newParentDir = item.second;
       if (item.second.path != ".") {
-        newName = path.basenameWithoutExtension(item.second.path) +
-            "_" +
-            item.first.name;
+        newName =
+            "${path.basenameWithoutExtension(item.second.path)}_${item.first.name}";
         newParentDir = item.second.parent;
       }
       return _Pair(item.first.copyWith(name: newName), newParentDir);

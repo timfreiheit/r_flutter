@@ -19,3 +19,4 @@ dependencies:
 dev_dependencies:
   test: any
   build_test: any
+  lint: ^1.0.0

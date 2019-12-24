@@ -19,7 +19,7 @@ r_flutter:
     ".svg": 
       import: asset_classes.dart
       class: SvgFile
-    """));
+    """) as YamlMap);
     expect(config, isNotNull);
     expect(config.pubspecFilename, "pubspec.yaml");
     expect(config.assetClasses, hasLength(1));
@@ -30,7 +30,7 @@ r_flutter:
     expect(config.intlFilename, isNull);
   });
 
-    test("test parse multiple asset classes to config", () {
+  test("test parse multiple asset classes to config", () {
     final config = Config.parsePubspecConfig(loadYaml("""
 r_flutter:
   asset_classes:
@@ -40,11 +40,11 @@ r_flutter:
     ".txt": 
       class: String
     ".txt2": String
-    """));
+    """) as YamlMap);
     expect(config, isNotNull);
     expect(config.pubspecFilename, "pubspec.yaml");
     expect(config.assetClasses, hasLength(3));
-    
+
     expect(config.assetClasses[0].extension, ".svg");
     expect(config.assetClasses[0].import, "abc.dart");
     expect(config.assetClasses[0].customClass, "SvgFile");
@@ -64,7 +64,7 @@ r_flutter:
     final config = Config.parsePubspecConfig(loadYaml("""
 r_flutter:
   intl: lib/i18n/en.arb
-    """));
+    """) as YamlMap);
     expect(config, isNotNull);
     expect(config.pubspecFilename, "pubspec.yaml");
     expect(config.assetClasses, []);
@@ -79,15 +79,16 @@ r_flutter:
     - lib/assets/sub/ignore1
     - lib/assets/sub/ignore2
     - lib/i18n
-    """));
+    """) as YamlMap);
     expect(config, isNotNull);
     expect(config.pubspecFilename, "pubspec.yaml");
     expect(config.assetClasses, []);
-    expect(config.ignoreAssets, ["lib/assets/sub/ignore1", "lib/assets/sub/ignore2", "lib/i18n"]);
+    expect(config.ignoreAssets,
+        ["lib/assets/sub/ignore1", "lib/assets/sub/ignore2", "lib/i18n"]);
     expect(config.intlFilename, isNull);
   });
 
-    test("test combined config to config", () {
+  test("test combined config to config", () {
     final config = Config.parsePubspecConfig(loadYaml("""
 r_flutter:
   asset_classes:
@@ -95,7 +96,7 @@ r_flutter:
   intl: lib/de.arb
   ignore:
     - lib/i18n
-    """));
+    """) as YamlMap);
     expect(config, isNotNull);
     expect(config.pubspecFilename, "pubspec.yaml");
     expect(config.assetClasses, hasLength(1));

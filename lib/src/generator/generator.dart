@@ -8,7 +8,7 @@ import 'package:recase/recase.dart';
 import 'i18n/generator.dart';
 
 String generateFile(Resources res, Config arguments) {
-  List<DartClass> classes = [];
+  var classes = <DartClass>[];
   if (res.i18n != null) {
     classes.addAll(generateI18nClasses(res.i18n));
   }
@@ -17,10 +17,10 @@ String generateFile(Resources res, Config arguments) {
 
   classes = classes.where((item) => item != null).toList();
 
-  StringBuffer fullCode = StringBuffer("");
-  List<String> imports = classes.expand((it) => it.imports).toSet().toList();
+  final fullCode = StringBuffer("");
+  final imports = classes.expand((it) => it.imports).toSet().toList();
   imports.sort();
-  for (var import in imports) {
+  for (final import in imports) {
     fullCode.writeln("import '$import';");
   }
 
@@ -28,7 +28,7 @@ String generateFile(Resources res, Config arguments) {
     fullCode.write("\n");
   }
 
-  for (var dartClass in classes) {
+  for (final dartClass in classes) {
     fullCode.writeln(dartClass.code);
   }
   return fullCode.toString();

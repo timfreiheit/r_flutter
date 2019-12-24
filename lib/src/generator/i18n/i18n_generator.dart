@@ -44,7 +44,7 @@ import 'package:r_flutter/src/model/i18n.dart';
 /// ```
 ///
 DartClass generateI18nClass(I18nLocales i18n) {
-  StringBuffer classString = StringBuffer("""class I18n {
+  final classString = StringBuffer("""class I18n {
   final I18nLookup _lookup;
 
   I18n(this._lookup);
@@ -71,21 +71,21 @@ DartClass generateI18nClass(I18nLocales i18n) {
 }
 
 String _generateSupportedLocales(I18nLocales i18n) {
-  StringBuffer code =
+  final code =
       StringBuffer("""  static List<Locale> get supportedLocales {
     return const <Locale>[
 """);
 
-  List<Locale> locales = i18n.locales
+  final locales = i18n.locales
       .map((it) => it.locale)
       .where((it) => it != i18n.defaultLocale)
       .toList();
 
   code.write(
       "      Locale(\"${i18n.defaultLocale.toString().split("_").join(", ")}\")");
-  for (var locale in locales) {
-    String localeParameters = locale.toString().split("_").join("\", \"");
-    code.write(",\n      Locale(\"${localeParameters}\")");
+  for (final locale in locales) {
+    final localeParameters = locale.toString().split("_").join("\", \"");
+    code.write(",\n      Locale(\"$localeParameters\")");
   }
   code.write("\n");
   code.writeln("    ];");
@@ -94,26 +94,25 @@ String _generateSupportedLocales(I18nLocales i18n) {
 }
 
 String _generateAccessorMethods(I18nLocales i18n) {
-  String code = "";
+  final code = StringBuffer("");
 
-  List<I18nString> values = i18n.defaultValues.strings;
+  final values = i18n.defaultValues.strings;
 
-  for (var value in values) {
-    String methodCall = _stringValueMethodName(value);
-    code += _genrateAccessorMethodComment(i18n, value);
-    code += generateMethod(
+  for (final value in values) {
+    final methodCall = _stringValueMethodName(value);
+    code.write(_genrateAccessorMethodComment(i18n, value));
+    code.writeln(generateMethod(
             name: value.escapedKey,
             parameters: value.placeholders,
             code:
-                "    return customLookup?.${methodCall} ?? _lookup.${methodCall};") +
-        "\n";
+                "    return customLookup?.$methodCall ?? _lookup.$methodCall;"));
   }
 
-  return code;
+  return code.toString();
 }
 
 String _genrateAccessorMethodComment(I18nLocales i18n, I18nString string) {
-  StringBuffer code = StringBuffer();
+  final code = StringBuffer();
   code
     ..writeln("  ///")
     ..writeln("  /// <table style=\"width:100%\">")
@@ -128,8 +127,8 @@ String _genrateAccessorMethodComment(I18nLocales i18n, I18nString string) {
     ..remove(i18n.defaultValues)
     ..insert(0, i18n.defaultValues);
 
-  for (var item in locales) {
-    String localeString = item.locale.toString();
+  for (final item in locales) {
+    final localeString = item.locale.toString();
     final translation = item.strings
         .firstWhere((it) => it.key == string.key, orElse: () => null);
 
@@ -159,32 +158,35 @@ String _stringValueMethodName(I18nString value) {
 }
 
 String _generateGetStringMethod(I18nLocales i18n) {
-  StringBuffer code = StringBuffer();
+  final code = StringBuffer();
   code
     ..writeln(
         "  String getString(String key, [Map<String, String> placeholders]) {")
     ..writeln("    switch (key) {");
 
-  List<I18nString> values = i18n.defaultValues.strings;
+  final values = i18n.defaultValues.strings;
 
-  for (var value in values) {
-    String methodName;
+  final methodName = StringBuffer();
+  for (final value in values) {
+    methodName.clear();
     if (value.placeholders.isEmpty) {
-      methodName = value.escapedKey;
+      methodName.write(value.escapedKey);
     } else {
-      methodName = "${value.escapedKey}(";
-      for (var placeholder in value.placeholders) {
-        if (!methodName.endsWith("(")) {
-          methodName += ", ";
+      methodName.write("${value.escapedKey}(");
+      var isFirstPlaceholder = true;
+      for (final placeholder in value.placeholders) {
+        if (!isFirstPlaceholder) {
+          methodName.write(", ");
         }
-        methodName += "placeholders[\"$placeholder\"]";
+        isFirstPlaceholder = false;
+        methodName.write("placeholders[\"$placeholder\"]");
       }
-      methodName += ")";
+      methodName.write(")");
     }
 
     code
       ..writeln("      case I18nKeys.${value.escapedKey}:")
-      ..writeln("        return ${methodName};");
+      ..writeln("        return $methodName;");
   }
 
   code..writeln("    }")..writeln("    return null;")..writeln("  }");

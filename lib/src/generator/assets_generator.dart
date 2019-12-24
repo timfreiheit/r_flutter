@@ -16,10 +16,10 @@ DartClass _generateAssetConstantsClass(List<Asset> assets) {
     return null;
   }
 
-  final imports = Set<String>();
+  final imports = <String>{};
 
-  StringBuffer classString = StringBuffer("class Assets {\n");
-  for (var asset in assets) {
+  final classString = StringBuffer("class Assets {\n");
+  for (final asset in assets) {
     classString.write(createComment(asset));
 
     final type = asset.type;
@@ -42,8 +42,8 @@ DartClass _generateImageAssetsClass(List<Asset> assets) {
   if (assets.isEmpty) {
     return null;
   }
-  StringBuffer classString = StringBuffer("class Images {\n");
-  for (var asset in assets) {
+  final classString = StringBuffer("class Images {\n");
+  for (final asset in assets) {
     classString.write(createComment(asset));
     classString.writeln(
         "  static AssetImage get ${createVariableName(asset.name)} => const AssetImage(\"${asset.path}\");");
@@ -62,9 +62,7 @@ String createComment(Asset asset) {
 
   const examplePath = 'r_flutter/example/';
 
-  if (isExample == null) {
-    isExample = path.contains(examplePath);
-  }
+  isExample ??= path.contains(examplePath);
 
   // a hack to prevent commited assets.dart from changing constantly
   if (isExample) {

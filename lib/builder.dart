@@ -5,6 +5,7 @@ import 'package:build/build.dart';
 import 'package:glob/glob.dart';
 import 'package:path/path.dart';
 import 'package:r_flutter/src/parser/i18n/i18n_parser.dart';
+import 'package:r_flutter/src/utils/utils.dart';
 import 'package:yaml/yaml.dart';
 
 import 'src/arguments.dart';
@@ -16,11 +17,10 @@ import 'src/parser/fonts_parser.dart';
 Resources parseResources(Config arguments) {
   final pubspecFile = File(arguments.pubspecFilename).absolute;
   if (!pubspecFile.existsSync()) {
-    print("pubspec file does not exists: " + pubspecFile.path);
     exit(1);
   }
 
-  final yaml = loadYaml(pubspecFile.readAsStringSync());
+  final yaml = loadYaml(pubspecFile.readAsStringSync()) as YamlMap;
 
   return Resources(
     fonts: parseFonts(yaml),
@@ -48,18 +48,18 @@ class AssetsBuilder extends Builder {
 
     final configId = AssetId(input.package, 'pubspec.yaml');
 
-    final configRaw = loadYaml(await buildStep.readAsString(configId));
+    final configRaw = safeCast<YamlMap>(loadYaml(await buildStep.readAsString(configId)));
     final config = Config.parsePubspecConfig(configRaw ?? YamlMap());
 
-    _markIntlFiles(buildStep, config);
+    await _markIntlFiles(buildStep, config);
 
     await check(buildStep, config.intlFilename);
     await check(buildStep, config.pubspecFilename);
     final res = parseResources(config);
 
-    for (var decl in res.assets.declared) {
+    for (final decl in res.assets.declared) {
       if (decl.endsWith('/')) {
-        final glob = Glob(decl + '*');
+        final glob = Glob('$decl*');
         final files = await buildStep.findAssets(glob).toList();
         log.finest('$glob $files');
       }
@@ -72,17 +72,17 @@ class AssetsBuilder extends Builder {
   ///
   /// mark intl files to the BuildStep to update the code generation when one of the files changes
   ///
-  void _markIntlFiles(BuildStep buildStep, Config arguments) async {
+  Future<void> _markIntlFiles(BuildStep buildStep, Config arguments) async {
     if (arguments.intlFilename == null) {
       return;
     }
-    String path =
+    final path =
         arguments.intlFilename.replaceAll(basename(arguments.intlFilename), "");
-    final glob = Glob(path + '*');
+    final glob = Glob('$path*');
     final files = await buildStep.findAssets(glob).toList();
-    files.forEach((file) {
+    for (final file in files) {
       buildStep.canRead(file);
-    });
+    }
   }
 
   @override

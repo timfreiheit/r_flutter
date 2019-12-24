@@ -2,7 +2,7 @@ import 'package:r_flutter/src/model/i18n.dart';
 
 /// Escape the string for use in generated Dart code.
 String escapeStringLiteral(String value) {
-  const Map<String, String> escapes = const {
+  const Map<String, String> escapes = {
     r"\": r"\\",
     '"': r'\"',
     "\b": r"\b",
@@ -39,14 +39,14 @@ String generateMethod(
     String name,
     List<String> parameters,
     String code}) {
-  StringBuffer methodCode = StringBuffer("");
+  final methodCode = StringBuffer("");
   if (parameters.isEmpty) {
     methodCode.writeln('  $resurnType get $name {\n$code\n  }');
   } else {
     methodCode.write('  $resurnType $name(');
 
     bool isFirstParameter = true;
-    for (var parameter in parameters) {
+    for (final parameter in parameters) {
       if (!isFirstParameter) {
         methodCode.write(", ");
       }

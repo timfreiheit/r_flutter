@@ -9,7 +9,7 @@ class Locale {
     if (countryCode == null) {
       return languageCode;
     }
-    return "${languageCode}_${countryCode}";
+    return "${languageCode}_$countryCode";
   }
 
   @override

@@ -43,7 +43,7 @@ void main() {
         name: "file",
         path: "lib/path/file.svg",
         fileUri: "file:///Users/user/path/lib/path/file.svg",
-        type: CustomAssetType(
+        type: const CustomAssetType(
           "SvgFile",
           ".svg",
           "asset_classes.dart",
@@ -89,7 +89,7 @@ void main() {
         name: "svgfile",
         path: "lib/path/svgfile.svg",
         fileUri: "file:///Users/user/path/lib/path/svgfile.svg",
-        type: CustomAssetType(
+        type: const CustomAssetType(
           "SvgFile",
           ".svg",
           "asset_classes.dart",
