@@ -1,3 +1,7 @@
+## 0.5.1
+
+  * fix locales with country code without support for the base language
+
 ## 0.5.0
 
 * align command line and builder capabilities
