@@ -28,7 +28,7 @@ void main() {
         placeholders: ["p1", "p2", "p3", "p4"],
       )
     ]),
-    I18nLocale(Locale("de_DE"), [
+    I18nLocale(Locale("de", "DE"), [
       I18nString(
         key: "key.2",
         value: "DE value_KEY_2",
@@ -38,10 +38,32 @@ void main() {
         value: "DE value_KEY_3",
       )
     ]),
-    I18nLocale(Locale("en_UK"), [
+    I18nLocale(Locale.fromSubtags(languageCode: "en", countryCode: "UK"), [
       I18nString(key: "key_1", value: "en_UK_value_KEY_1"),
       I18nString(key: "key.2", value: "en_UK_value_KEY_2"),
     ]),
+    I18nLocale(Locale.fromSubtags(languageCode: "zh", scriptCode: "Hans"), [
+      I18nString(key: "key_1", value: "zh_Hans_value_KEY_1"),
+      I18nString(key: "key.2", value: "zh_Hans_value_KEY_2"),
+    ]),
+    I18nLocale(Locale.fromSubtags(languageCode: "zh", scriptCode: "Hant"), [
+      I18nString(key: "key_3", value: "zh_Hant_value_KEY_3"),
+      I18nString(key: "key.4", value: "zh_Hant_value_KEY_4"),
+    ]),
+    I18nLocale(
+        Locale.fromSubtags(
+            languageCode: "zh", scriptCode: "Hans", countryCode: "CN"),
+        [
+          I18nString(key: "key_5", value: "zh_Hans_CN_value_KEY_5"),
+          I18nString(key: "key.6", value: "zh_Hans_CN_value_KEY_6"),
+        ]),
+    I18nLocale(
+        Locale.fromSubtags(
+            languageCode: "zh", scriptCode: "Hant", countryCode: "TW"),
+        [
+          I18nString(key: "key_7", value: "zh_Hant_TW_value_KEY_5"),
+          I18nString(key: "key.8", value: "zh_Hant_TW_value_KEY_6"),
+        ]),
   ]);
 
   test("test i18n generation", () {
@@ -67,7 +89,11 @@ void main() {
     return const <Locale>[
       Locale("en"),
       Locale("de", "DE"),
-      Locale("en", "UK")
+      Locale("en", "UK"),
+      Locale.fromSubtags(languageCode: "zh", scriptCode: "Hans"),
+      Locale.fromSubtags(languageCode: "zh", scriptCode: "Hant"),
+      Locale.fromSubtags(languageCode: "zh", scriptCode: "Hans", countryCode: "CN"),
+      Locale.fromSubtags(languageCode: "zh", scriptCode: "Hant", countryCode: "TW")
     ];
   }
 
@@ -88,6 +114,22 @@ void main() {
   ///   <tr>
   ///     <td style="width:60px;">en_UK</td>
   ///     <td>"en_UK_value_KEY_1"</td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">zh_Hans</td>
+  ///     <td>"zh_Hans_value_KEY_1"</td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">zh_Hans_CN</td>
+  ///     <td><font color="yellow">⚠</font></td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">zh_Hant</td>
+  ///     <td><font color="yellow">⚠</font></td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">zh_Hant_TW</td>
+  ///     <td><font color="yellow">⚠</font></td>
   ///   </tr>
   ///  </table>
   ///
@@ -113,6 +155,22 @@ void main() {
   ///     <td style="width:60px;">en_UK</td>
   ///     <td>"en_UK_value_KEY_2"</td>
   ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">zh_Hans</td>
+  ///     <td>"zh_Hans_value_KEY_2"</td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">zh_Hans_CN</td>
+  ///     <td><font color="yellow">⚠</font></td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">zh_Hant</td>
+  ///     <td><font color="yellow">⚠</font></td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">zh_Hant_TW</td>
+  ///     <td><font color="yellow">⚠</font></td>
+  ///   </tr>
   ///  </table>
   ///
   String get key_2 {
@@ -135,6 +193,22 @@ void main() {
   ///   </tr>
   ///   <tr>
   ///     <td style="width:60px;">en_UK</td>
+  ///     <td><font color="yellow">⚠</font></td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">zh_Hans</td>
+  ///     <td><font color="yellow">⚠</font></td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">zh_Hans_CN</td>
+  ///     <td><font color="yellow">⚠</font></td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">zh_Hant</td>
+  ///     <td>"zh_Hant_value_KEY_3"</td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">zh_Hant_TW</td>
   ///     <td><font color="yellow">⚠</font></td>
   ///   </tr>
   ///  </table>
@@ -161,6 +235,22 @@ void main() {
   ///     <td style="width:60px;">en_UK</td>
   ///     <td><font color="yellow">⚠</font></td>
   ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">zh_Hans</td>
+  ///     <td><font color="yellow">⚠</font></td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">zh_Hans_CN</td>
+  ///     <td><font color="yellow">⚠</font></td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">zh_Hant</td>
+  ///     <td><font color="yellow">⚠</font></td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">zh_Hant_TW</td>
+  ///     <td><font color="yellow">⚠</font></td>
+  ///   </tr>
   ///  </table>
   ///
   String key_4(String p1, String p2, String p3) {
@@ -185,6 +275,22 @@ void main() {
   ///     <td style="width:60px;">en_UK</td>
   ///     <td><font color="yellow">⚠</font></td>
   ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">zh_Hans</td>
+  ///     <td><font color="yellow">⚠</font></td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">zh_Hans_CN</td>
+  ///     <td>"zh_Hans_CN_value_KEY_5"</td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">zh_Hant</td>
+  ///     <td><font color="yellow">⚠</font></td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">zh_Hant_TW</td>
+  ///     <td><font color="yellow">⚠</font></td>
+  ///   </tr>
   ///  </table>
   ///
   String key_5(String p1, String p2, String p3) {
@@ -207,6 +313,22 @@ void main() {
   ///   </tr>
   ///   <tr>
   ///     <td style="width:60px;">en_UK</td>
+  ///     <td><font color="yellow">⚠</font></td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">zh_Hans</td>
+  ///     <td><font color="yellow">⚠</font></td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">zh_Hans_CN</td>
+  ///     <td>"zh_Hans_CN_value_KEY_5"</td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">zh_Hant</td>
+  ///     <td><font color="yellow">⚠</font></td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">zh_Hant_TW</td>
   ///     <td><font color="yellow">⚠</font></td>
   ///   </tr>
   ///  </table>

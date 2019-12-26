@@ -51,6 +51,21 @@ Locale _localeFromFileName(File file) {
     final localeParts = name.split("_");
     return Locale(localeParts[0], localeParts[1]);
   }
+  if (RegExp(r'^[a-z]{2}_[A-Z][a-z]{3}$').hasMatch(name)) {
+    final localeParts = name.split("_");
+    return Locale.fromSubtags(
+      languageCode: localeParts[0],
+      scriptCode: localeParts[1],
+    );
+  }
+  if (RegExp(r'^[a-z]{2}_[A-Z][a-z]{3}_[A-Z]{2}$').hasMatch(name)) {
+    final localeParts = name.split("_");
+    return Locale.fromSubtags(
+      languageCode: localeParts[0],
+      scriptCode: localeParts[1],
+      countryCode: localeParts[2],
+    );
+  }
   return null;
 }
 

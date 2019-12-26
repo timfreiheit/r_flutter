@@ -1,15 +1,28 @@
 class Locale {
   final String languageCode;
   final String countryCode;
+  final String scriptCode;
 
-  Locale(this.languageCode, [this.countryCode]);
+  Locale(this.languageCode, [this.countryCode]) : scriptCode = null;
+
+  Locale.fromSubtags({
+    this.languageCode,
+    this.scriptCode,
+    this.countryCode,
+  });
 
   @override
   String toString() {
-    if (countryCode == null) {
+    if (countryCode == null && scriptCode == null) {
       return languageCode;
     }
-    return "${languageCode}_$countryCode";
+    if (scriptCode == null) {
+      return "${languageCode}_$countryCode";
+    }
+    if (countryCode == null) {
+      return "${languageCode}_$scriptCode";
+    }
+    return "${languageCode}_${scriptCode}_$countryCode";
   }
 
   @override
@@ -18,10 +31,11 @@ class Locale {
       other is Locale &&
           runtimeType == other.runtimeType &&
           languageCode == other.languageCode &&
-          countryCode == other.countryCode;
+          countryCode == other.countryCode &&
+          scriptCode == other.scriptCode;
 
   @override
-  int get hashCode => languageCode.hashCode ^ countryCode.hashCode;
+  int get hashCode => toString().hashCode;
 }
 
 class I18nLocales {

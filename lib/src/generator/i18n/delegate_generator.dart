@@ -59,20 +59,20 @@ DartClass generateI18nDelegate(I18nLocales locales) {
   I18nLookup _findLookUpFromLocale(Locale locale) {
 """);
 
-  final localesWithCountry = findLocalesWithCountry(locales);
-  if (localesWithCountry.isNotEmpty) {
+  final localesWithSubtags = findLocalesWithSubtags(locales);
+  if (localesWithSubtags.isNotEmpty) {
     classString
       ..writeln(
           "    final String lang = locale != null ? locale.toString() : \"\";")
-      ..write(_generateLookupSwitch("lang", localesWithCountry));
+      ..write(_generateLookupSwitch("lang", localesWithSubtags));
   }
 
-  final localesWithoutCountry = findLocalesWithoutCountry(locales);
-  if (localesWithoutCountry.isNotEmpty) {
+  final localesWithoutSubtags = findLocalesWithoutSubtags(locales);
+  if (localesWithoutSubtags.isNotEmpty) {
     classString
       ..writeln(
           "    final String languageCode = locale != null ? locale.languageCode : \"\";")
-      ..write(_generateLookupSwitch("languageCode", localesWithoutCountry));
+      ..write(_generateLookupSwitch("languageCode", localesWithoutSubtags));
   }
 
   classString
