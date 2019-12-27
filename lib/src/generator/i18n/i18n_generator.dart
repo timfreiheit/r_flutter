@@ -81,11 +81,9 @@ String _generateSupportedLocales(I18nLocales i18n) {
       .where((it) => it != i18n.defaultLocale)
       .toList();
 
-  code.write(
-      "      Locale(\"${i18n.defaultLocale.toString().split("_").join(", ")}\")");
+  code.write("      ${_generateLocaleInitialization(i18n.defaultLocale)}");
   for (final locale in locales) {
-    final localeParameters = locale.toString().split("_").join("\", \"");
-    code.write(",\n      Locale(\"$localeParameters\")");
+    code.write(",\n      ${_generateLocaleInitialization(locale)}");
   }
   code.write("\n");
   code.writeln("    ];");
@@ -191,4 +189,17 @@ String _generateGetStringMethod(I18nLocales i18n) {
 
   code..writeln("    }")..writeln("    return null;")..writeln("  }");
   return code.toString();
+}
+
+String _generateLocaleInitialization(Locale locale) {
+  if (locale.countryCode == null && locale.scriptCode == null) {
+    return "Locale(\"${locale.languageCode}\")";
+  }
+  if (locale.scriptCode == null) {
+    return "Locale(\"${locale.languageCode}\", \"${locale.countryCode}\")";
+  }
+  if (locale.countryCode == null) {
+    return "Locale.fromSubtags(languageCode: \"${locale.languageCode}\", scriptCode: \"${locale.scriptCode}\")";
+  }
+  return "Locale.fromSubtags(languageCode: \"${locale.languageCode}\", scriptCode: \"${locale.scriptCode}\", countryCode: \"${locale.countryCode}\")";
 }

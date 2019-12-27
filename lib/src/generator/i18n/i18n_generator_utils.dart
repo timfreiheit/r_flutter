@@ -20,17 +20,17 @@ String escapeStringLiteral(String value) {
   return value.splitMapJoin("", onNonMatch: _escape);
 }
 
-List<Locale> findLocalesWithCountry(I18nLocales i18n) {
+List<Locale> findLocalesWithSubtags(I18nLocales i18n) {
   return i18n.locales
       .map((it) => it.locale)
-      .where((it) => it.countryCode != null)
+      .where((it) => it.countryCode != null || it.scriptCode != null)
       .toList();
 }
 
-List<Locale> findLocalesWithoutCountry(I18nLocales i18n) {
+List<Locale> findLocalesWithoutSubtags(I18nLocales i18n) {
   return i18n.locales
       .map((it) => it.locale)
-      .where((it) => it.countryCode == null)
+      .where((it) => it.countryCode == null && it.scriptCode == null)
       .toList();
 }
 

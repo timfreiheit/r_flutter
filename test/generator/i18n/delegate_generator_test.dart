@@ -186,4 +186,74 @@ void main() {
 }
 """);
   });
+
+  test("test multiple languages with subtags", () {
+    final testData = I18nLocales(
+      Locale("en", null),
+      [
+        I18nLocale(Locale("en", null), []),
+        I18nLocale(Locale("de", null), []),
+        I18nLocale(Locale("de", "AT"), []),
+        I18nLocale(Locale("pl", null), []),
+        I18nLocale(
+          Locale.fromSubtags(languageCode: "zh", scriptCode: "Hans"),
+          [],
+        ),
+        I18nLocale(
+          Locale.fromSubtags(languageCode: "zh", countryCode: "HK"),
+          [],
+        ),
+        I18nLocale(
+          Locale.fromSubtags(
+              languageCode: "zh", scriptCode: "Hant", countryCode: "TW"),
+          [],
+        )
+      ],
+    );
+
+    final result = generateI18nDelegate(testData);
+    expect(result.imports,
+        ['package:flutter/foundation.dart', 'package:flutter/widgets.dart']);
+    expect(
+        result.code, """class I18nDelegate extends LocalizationsDelegate<I18n> {
+  const I18nDelegate();
+
+  @override
+  Future<I18n> load(Locale locale) {
+    I18n._locale = locale;
+    return SynchronousFuture<I18n>(I18n(_findLookUpFromLocale(locale)));
+  }
+
+  @override
+  bool isSupported(Locale locale) => true;
+
+  @override
+  bool shouldReload(I18nDelegate old) => false;
+
+  I18nLookup _findLookUpFromLocale(Locale locale) {
+    final String lang = locale != null ? locale.toString() : "";
+    switch (lang) {
+        case "de_AT":
+          return I18nLookup_de_AT();
+        case "zh_Hans":
+          return I18nLookup_zh_Hans();
+        case "zh_HK":
+          return I18nLookup_zh_HK();
+        case "zh_Hant_TW":
+          return I18nLookup_zh_Hant_TW();
+    }
+    final String languageCode = locale != null ? locale.languageCode : "";
+    switch (languageCode) {
+        case "en":
+          return I18nLookup_en();
+        case "de":
+          return I18nLookup_de();
+        case "pl":
+          return I18nLookup_pl();
+    }
+    return I18nLookup_en();
+  }
+}
+""");
+  });
 }

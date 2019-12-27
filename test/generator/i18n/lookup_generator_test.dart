@@ -41,6 +41,15 @@ void main() {
     I18nLocale(Locale("zh", "HK"), [
       I18nString(key: "key_1", value: "value_zh_HK"),
     ]),
+    I18nLocale(Locale.fromSubtags(languageCode: "zh", scriptCode: "Hans"), [
+      I18nString(key: "key_1", value: "value_zh_Hans"),
+    ]),
+    I18nLocale(Locale("ko"), [
+      I18nString(key: "key_1", value: "value_ko"),
+    ]),
+    I18nLocale(Locale.fromSubtags(languageCode: "ko", scriptCode: "Hani"), [
+      I18nString(key: "key_1", value: "value_ko_Hani"),
+    ]),
     I18nLocale(Locale("pl"), [
       I18nString(key: "key_1", value: "value_KEY_1"),
     ]),
@@ -186,6 +195,46 @@ void main() {
   @override
   String get key_1 {
     return "value_zh_HK";
+  }
+}
+""");
+  });
+
+  test(
+      "test locale with script code overrides the same locale without script code",
+      () {
+    final lookupClass = generateLookupClass(
+        i18n: testData,
+        value: testData.locales
+            .firstWhere((it) => it.locale == Locale.fromSubtags(
+              languageCode: "ko",
+              scriptCode: "Hani",
+            )),
+        isDefaultClass: false);
+    expect(lookupClass.imports, []);
+    expect(lookupClass.code, """class I18nLookup_ko_Hani extends I18nLookup_ko {
+  @override
+  String get key_1 {
+    return "value_ko_Hani";
+  }
+}
+""");
+  });
+
+  test("test locale with script code without base locale support", () {
+    final lookupClass = generateLookupClass(
+        i18n: testData,
+        value: testData.locales
+            .firstWhere((it) => it.locale == Locale.fromSubtags(
+              languageCode: "zh",
+              scriptCode: "Hans",
+            )),
+        isDefaultClass: false);
+    expect(lookupClass.imports, []);
+    expect(lookupClass.code, """class I18nLookup_zh_Hans extends I18nLookup_en {
+  @override
+  String get key_1 {
+    return "value_zh_Hans";
   }
 }
 """);

@@ -51,7 +51,14 @@ r_flutter:
   intl: lib/i18n/en.arb
 ```
 
-Other locales will be searched at ` lib/i18n/<language_code>.arb ` and ` lib/i18n/<language_code>_<country_code>.arb `
+Other locales will be searched under the same folder as the default localization file (e.g. `lib/i18n/`) for the following 4 formats:
+
+- `<language_code>.arb` (e.g.: `en.arb`, `zh.arb`)
+- `<language_code>_<country_code>.arb` (e.g.: `en_US.arb`, `en_GB.arb`)
+- `<language_code>_<script_code>.arb` (e.g.: `zh_Hans.arb`, `zh_Hant.arb`)
+- `<language_code>_<script_code>_<country_code>.arb` (e.g.: `zh_Hans_CN.arb`, `zh_Hant_TW.arb`, `zh_Hant_HK.arb`)
+
+Where `<language_code>` consists of 2 lowercase letters ([ISO 639-1](https://en.wikipedia.org/wiki/ISO_639-1)); `<country_code>` consists of 2 uppercase letters ([ISO_3166-2](https://en.wikipedia.org/wiki/ISO_3166-2)); `<script_code>` consists of 4 letters with the first letter being capitalized ([ISO 15924](https://en.wikipedia.org/wiki/ISO_15924)).
 
 2. Add it to your app.
 ```dart
