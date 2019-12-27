@@ -1,3 +1,7 @@
+## 0.6.0
+
+  * add support for script code in i18n files. Thanks to [@chen-yumin](https://github.com/chen-yumin)
+
 ## 0.5.1
 
   * fix locales with country code without support for the base language
