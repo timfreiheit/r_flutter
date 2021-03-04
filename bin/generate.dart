@@ -1,4 +1,5 @@
 #!/usr/bin/env dart
+
 import 'dart:io';
 
 import 'package:args/args.dart';
@@ -9,8 +10,7 @@ import 'package:r_flutter/src/utils/utils.dart';
 import 'package:yaml/yaml.dart';
 
 void main(List<String> args) {
-  final arguments = CommandLineArguments()
-    ..parse(args);
+  final arguments = CommandLineArguments()..parse(args);
 
   final configRaw = safeCast<YamlMap>(loadYaml(File(arguments.pubspecFilename).absolute.readAsStringSync()));
   final config = Config.parsePubspecConfig(configRaw ?? YamlMap());

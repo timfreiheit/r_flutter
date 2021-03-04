@@ -17,7 +17,13 @@ String generateFile(Resources res, Config arguments) {
 
   classes = classes.where((item) => item != null).toList();
 
-  final fullCode = StringBuffer("");
+  final fullCode = StringBuffer('''
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides
+
+
+''');
+
   final imports = classes.expand((it) => it.imports).toSet().toList();
   imports.sort();
   for (final import in imports) {
@@ -25,7 +31,7 @@ String generateFile(Resources res, Config arguments) {
   }
 
   if (fullCode.isNotEmpty) {
-    fullCode.write("\n");
+    fullCode.writeln();
   }
 
   for (final dartClass in classes) {

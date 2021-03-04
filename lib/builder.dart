@@ -76,8 +76,7 @@ class AssetsBuilder extends Builder {
     if (arguments.intlFilename == null) {
       return;
     }
-    final path =
-        arguments.intlFilename.replaceAll(basename(arguments.intlFilename), "");
+    final path = arguments.intlFilename.replaceAll(basename(arguments.intlFilename), "");
     final glob = Glob('$path*');
     final files = await buildStep.findAssets(glob).toList();
     for (final file in files) {
