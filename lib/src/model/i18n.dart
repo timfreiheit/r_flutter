@@ -62,5 +62,6 @@ class I18nString {
 
   I18nString({this.key, this.value, this.placeholders = const []});
 
-  String get escapedKey => key.replaceAll(".", "_");
+  String get escapedKey =>
+      key.replaceAll(".", "_").replaceAll("-", "_").replaceAll(" ", "_");
 }
