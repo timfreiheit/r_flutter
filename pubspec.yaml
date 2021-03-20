@@ -1,5 +1,5 @@
 name: r_flutter
-version: 0.6.0
+version: 0.7.0
 description: Generate constants for resources which require using them as a String like fonts and assets.
 
 homepage: https://github.com/timfreiheit/r_flutter
@@ -7,15 +7,15 @@ environment:
   sdk: '>=2.3.0 <3.0.0'
 
 dependencies:
-  args: '>=0.12.1 <2.0.0'
+  args: '^2.0.0'
   dart_style: ^1.0.0
   path: '>=0.9.0 <2.0.0'
-  yaml: ^2.1.15
-  recase: ^2.0.1
-  build: ^1.1.4
-  build_config: ^0.4.0
+  yaml: ^3.1.0
+  recase: ^4.0.0-nullsafety.0
+  build: ^2.0.0
+  build_config: ^0.4.7
 
 dev_dependencies:
   test: any
-  build_test: any
+  build_test: ^2.0.0
   lint: ^1.0.0

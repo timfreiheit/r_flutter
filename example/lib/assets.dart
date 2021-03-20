@@ -7,21 +7,25 @@ class I18n {
 
   I18n(this._lookup);
 
-  static Locale _locale;
+  static Locale? _locale;
 
-  static Locale get currentLocale => _locale;
+  static Locale? get currentLocale => _locale;
 
   /// add custom locale lookup which will be called first
-  static I18nLookup customLookup;
+  static I18nLookup? customLookup;
 
   static const I18nDelegate delegate = I18nDelegate();
 
-  static I18n of(BuildContext context) => Localizations.of<I18n>(context, I18n);
+  static I18n of(BuildContext context) => Localizations.of<I18n>(context, I18n)!;
 
   static List<Locale> get supportedLocales {
     return const <Locale>[
       Locale("en"),
       Locale("de"),
+      Locale("zh", "HK"),
+      Locale.fromSubtags(languageCode: "zh", scriptCode: "Hant"),
+      Locale.fromSubtags(languageCode: "zh", scriptCode: "Hans"),
+      Locale.fromSubtags(languageCode: "zh", scriptCode: "Hant", countryCode: "TW"),
       Locale("pl"),
       Locale("de", "AT")
     ];
@@ -48,6 +52,22 @@ class I18n {
   ///   <tr>
   ///     <td style="width:60px;">pl</td>
   ///     <td><font color="yellow">⚠</font></td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">zh_HK</td>
+  ///     <td>"程式名稱"</td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">zh_Hans</td>
+  ///     <td>"程序名称"</td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">zh_Hant</td>
+  ///     <td>"軟件名稱"</td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">zh_Hant_TW</td>
+  ///     <td>"軟體名稱"</td>
   ///   </tr>
   ///  </table>
   ///
@@ -77,6 +97,22 @@ class I18n {
   ///     <td style="width:60px;">pl</td>
   ///     <td>"tekst"</td>
   ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">zh_HK</td>
+  ///     <td>"內容主旨要義"</td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">zh_Hans</td>
+  ///     <td>"內容目录摘要"</td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">zh_Hant</td>
+  ///     <td>"內容目錄摘要"</td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">zh_Hant_TW</td>
+  ///     <td>"內容目錄總概"</td>
+  ///   </tr>
   ///  </table>
   ///
   String get string1 {
@@ -104,6 +140,22 @@ class I18n {
   ///   <tr>
   ///     <td style="width:60px;">pl</td>
   ///     <td>"Tekst z {placeholder}"</td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">zh_HK</td>
+  ///     <td><font color="yellow">⚠</font></td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">zh_Hans</td>
+  ///     <td><font color="yellow">⚠</font></td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">zh_Hant</td>
+  ///     <td><font color="yellow">⚠</font></td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">zh_Hant_TW</td>
+  ///     <td><font color="yellow">⚠</font></td>
   ///   </tr>
   ///  </table>
   ///
@@ -133,6 +185,22 @@ class I18n {
   ///     <td style="width:60px;">pl</td>
   ///     <td>"cześć"</td>
   ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">zh_HK</td>
+  ///     <td><font color="yellow">⚠</font></td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">zh_Hans</td>
+  ///     <td><font color="yellow">⚠</font></td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">zh_Hant</td>
+  ///     <td><font color="yellow">⚠</font></td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">zh_Hant_TW</td>
+  ///     <td><font color="yellow">⚠</font></td>
+  ///   </tr>
   ///  </table>
   ///
   String get hello {
@@ -159,6 +227,22 @@ class I18n {
   ///   </tr>
   ///   <tr>
   ///     <td style="width:60px;">pl</td>
+  ///     <td><font color="yellow">⚠</font></td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">zh_HK</td>
+  ///     <td><font color="yellow">⚠</font></td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">zh_Hans</td>
+  ///     <td><font color="yellow">⚠</font></td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">zh_Hant</td>
+  ///     <td><font color="yellow">⚠</font></td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">zh_Hant_TW</td>
   ///     <td><font color="yellow">⚠</font></td>
   ///   </tr>
   ///  </table>
@@ -189,20 +273,36 @@ class I18n {
   ///     <td style="width:60px;">pl</td>
   ///     <td><font color="yellow">⚠</font></td>
   ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">zh_HK</td>
+  ///     <td><font color="yellow">⚠</font></td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">zh_Hans</td>
+  ///     <td><font color="yellow">⚠</font></td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">zh_Hant</td>
+  ///     <td><font color="yellow">⚠</font></td>
+  ///   </tr>
+  ///   <tr>
+  ///     <td style="width:60px;">zh_Hant_TW</td>
+  ///     <td><font color="yellow">⚠</font></td>
+  ///   </tr>
   ///  </table>
   ///
   String get hello_there {
     return customLookup?.hello_there ?? _lookup.hello_there;
   }
 
-  String getString(String key, [Map<String, String> placeholders]) {
+  String? getString(String key, [Map<String, String>? placeholders]) {
     switch (key) {
       case I18nKeys.appName:
         return appName;
       case I18nKeys.string1:
         return string1;
       case I18nKeys.stringWithPlaceholder:
-        return stringWithPlaceholder(placeholders["placeholder"]);
+        return stringWithPlaceholder(placeholders!["placeholder"]!);
       case I18nKeys.hello:
         return hello;
       case I18nKeys.withLineBreak:
@@ -224,8 +324,8 @@ class I18nKeys {
 }
 
 class I18nLookup {
-  String getString(String key, [Map<String, String> placeholders]) {
-    return null;
+  String getString(String key, [Map<String, String>? placeholders]) {
+    throw UnimplementedError("I18nLookup.getString");
   }
 
   String get appName {
@@ -277,6 +377,54 @@ class I18nLookup_de extends I18nLookup_en {
   @override
   String get hello_there {
     return "hallo_hier";
+  }
+}
+
+class I18nLookup_zh_HK extends I18nLookup_en {
+  @override
+  String get appName {
+    return "程式名稱";
+  }
+
+  @override
+  String get string1 {
+    return "內容主旨要義";
+  }
+}
+
+class I18nLookup_zh_Hant extends I18nLookup_en {
+  @override
+  String get appName {
+    return "軟件名稱";
+  }
+
+  @override
+  String get string1 {
+    return "內容目錄摘要";
+  }
+}
+
+class I18nLookup_zh_Hans extends I18nLookup_en {
+  @override
+  String get appName {
+    return "程序名称";
+  }
+
+  @override
+  String get string1 {
+    return "內容目录摘要";
+  }
+}
+
+class I18nLookup_zh_Hant_TW extends I18nLookup_en {
+  @override
+  String get appName {
+    return "軟體名稱";
+  }
+
+  @override
+  String get string1 {
+    return "內容目錄總概";
   }
 }
 
@@ -354,6 +502,14 @@ class I18nDelegate extends LocalizationsDelegate<I18n> {
   I18nLookup _findLookUpFromLocale(Locale locale) {
     final String lang = locale != null ? locale.toString() : "";
     switch (lang) {
+        case "zh_HK":
+          return I18nLookup_zh_HK();
+        case "zh_Hant":
+          return I18nLookup_zh_Hant();
+        case "zh_Hans":
+          return I18nLookup_zh_Hans();
+        case "zh_Hant_TW":
+          return I18nLookup_zh_Hant_TW();
         case "de_AT":
           return I18nLookup_de_AT();
     }

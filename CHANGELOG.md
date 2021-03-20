@@ -1,3 +1,8 @@
+## 0.7.0 (UNRELEASED/BREAKING CHANGE)
+
+  * r_flutter generates now nullsafe code, if you update to v 7.0.0, your project should use dart 2.12
+  * code generator itself is not nullsafe yet as `build` hasn't been updated
+
 ## 0.6.0
 
   * add support for script code in i18n files. Thanks to [@chen-yumin](https://github.com/chen-yumin)

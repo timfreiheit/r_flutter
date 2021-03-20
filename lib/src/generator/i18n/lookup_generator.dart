@@ -49,8 +49,8 @@ DartClass generateLookupClass(
 
   if (isDefaultClass) {
     code.writeln(
-        "  String getString(String key, [Map<String, String> placeholders]) {");
-    code.writeln("    return null;");
+        "  String getString(String key, [Map<String, String>? placeholders]) {");
+    code.writeln("    throw UnimplementedError(\"I18nLookup.getString\");");
     code.writeln("  }\n");
   }
 
