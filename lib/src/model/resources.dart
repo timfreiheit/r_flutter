@@ -83,15 +83,3 @@ class CustomAssetType extends AssetType {
   const CustomAssetType(this.customClass, this.extension, this.import)
       : super(customClass);
 }
-
-// class StringReference {
-//   final String name;
-//   final List<String> placeholders;
-//   final String value;
-
-//   StringReference({
-//     this.name,
-//     this.placeholders,
-//     this.value,
-//   });
-// }
