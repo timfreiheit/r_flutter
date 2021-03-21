@@ -1,7 +1,7 @@
 ## 0.7.0 (UNRELEASED/BREAKING CHANGE)
 
   * r_flutter generates now nullsafe code, if you update to v 7.0.0, your project should use dart 2.12
-  * code generator itself is not nullsafe yet as `build` hasn't been updated
+  * code generator itself is nullsafe as well
 
 ## 0.6.0
 

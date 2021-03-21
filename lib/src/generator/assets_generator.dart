@@ -8,10 +8,10 @@ List<DartClass> generateAssetsClass(List<Asset> assets) {
         assets.where((item) => item.type != AssetType.image).toList()),
     _generateImageAssetsClass(
         assets.where((item) => item.type == AssetType.image).toList())
-  ].where((it) => it != null).toList();
+  ].where((it) => it != null).toList().cast<DartClass>();
 }
 
-DartClass _generateAssetConstantsClass(List<Asset> assets) {
+DartClass? _generateAssetConstantsClass(List<Asset> assets) {
   if (assets.isEmpty) {
     return null;
   }
@@ -38,7 +38,7 @@ DartClass _generateAssetConstantsClass(List<Asset> assets) {
       code: classString.toString(), imports: imports.toList()..sort());
 }
 
-DartClass _generateImageAssetsClass(List<Asset> assets) {
+DartClass? _generateImageAssetsClass(List<Asset> assets) {
   if (assets.isEmpty) {
     return null;
   }
@@ -55,7 +55,7 @@ DartClass _generateImageAssetsClass(List<Asset> assets) {
   );
 }
 
-bool isExample;
+bool? isExample;
 
 String createComment(Asset asset) {
   String path = asset.fileUri;
@@ -65,7 +65,7 @@ String createComment(Asset asset) {
   isExample ??= path.contains(examplePath);
 
   // a hack to prevent commited assets.dart from changing constantly
-  if (isExample) {
+  if (isExample == true) {
     path = path.substring(path.indexOf(examplePath) + examplePath.length);
     path = 'file:///Users/user/path/$path';
   }

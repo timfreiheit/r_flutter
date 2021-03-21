@@ -15,5 +15,6 @@ List<String> parseFonts(YamlMap yaml) {
   return fonts
       .map((item) => safeCast<String>(item["family"]))
       .where((it) => it != null)
-      .toList();
+      .toList()
+      .cast<String>();
 }

@@ -4,7 +4,7 @@ description: Generate constants for resources which require using them as a Stri
 
 homepage: https://github.com/timfreiheit/r_flutter
 environment:
-  sdk: '>=2.3.0 <3.0.0'
+  sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
   args: '^2.0.0'

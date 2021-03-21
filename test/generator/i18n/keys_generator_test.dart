@@ -6,9 +6,10 @@ void main() {
   test("test generateI18nKeysClass", () {
     final testData = I18nLocales(Locale("en", null), [
       I18nLocale(Locale("en", null), [
-        I18nString(key: "key_1"),
-        I18nString(key: "key.2"),
-        I18nString(key: "key_3", placeholders: ["name"]),
+        I18nString(key: "key_1", value: "must_be_not_null"),
+        I18nString(key: "key.2", value: "must_be_not_null"),
+        I18nString(
+            key: "key_3", value: "must_be_not_null", placeholders: ["name"]),
       ])
     ]);
     final resultClass = generateI18nKeysClass(testData);

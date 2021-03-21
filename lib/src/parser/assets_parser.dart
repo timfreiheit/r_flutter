@@ -59,7 +59,8 @@ List<File> _findFiles(String asset, List<String> ignoreAssets) {
               return null;
             })
             .where((it) => it != null)
-            .toList();
+            .toList()
+            .cast<File>();
       }
     default:
       return [];
@@ -67,7 +68,7 @@ List<File> _findFiles(String asset, List<String> ignoreAssets) {
 }
 
 AssetType _findAssetTypeFromPath(
-    String pathString, List<CustomAssetType> assetClasses) {
+    String pathString, List<CustomAssetType>? assetClasses) {
   if (assetClasses != null) {
     for (final obj in assetClasses) {
       if (pathString.endsWith(obj.extension)) {

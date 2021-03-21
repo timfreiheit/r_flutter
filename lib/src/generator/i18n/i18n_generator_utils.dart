@@ -36,9 +36,9 @@ List<Locale> findLocalesWithoutSubtags(I18nLocales i18n) {
 
 String generateMethod(
     {String resurnType = "String",
-    String name,
-    List<String> parameters,
-    String code}) {
+    required String name,
+    required List<String> parameters,
+    required String code}) {
   final methodCode = StringBuffer("");
   if (parameters.isEmpty) {
     methodCode.writeln('  $resurnType get $name {\n$code\n  }');

@@ -1,10 +1,11 @@
 import 'dart:io';
 
+import 'package:collection/collection.dart';
 import 'package:r_flutter/src/model/i18n.dart';
 import 'package:r_flutter/src/parser/i18n/arb_parser.dart';
 import 'package:path/path.dart';
 
-I18nLocales parseStrings(String defaultIntlFile) {
+I18nLocales? parseStrings(String? defaultIntlFile) {
   if (defaultIntlFile == null || defaultIntlFile.isEmpty) {
     return null;
   }
@@ -18,8 +19,8 @@ I18nLocales parseStrings(String defaultIntlFile) {
     return null;
   }
 
-  final parser =
-      I18nParser.all().firstWhere((parser) => parser.supportsFile(intlFile));
+  final parser = I18nParser.all()
+      .firstWhereOrNull((parser) => parser.supportsFile(intlFile));
   if (parser == null) {
     return null;
   }
@@ -42,7 +43,7 @@ I18nLocales parseStrings(String defaultIntlFile) {
   return I18nLocales(defaultLocale, locales);
 }
 
-Locale _localeFromFileName(File file) {
+Locale? _localeFromFileName(File file) {
   final name = basenameWithoutExtension(file.path);
   if (RegExp(r'^[a-z]{2}$').hasMatch(name)) {
     return Locale(name, null);

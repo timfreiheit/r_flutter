@@ -1,12 +1,12 @@
 class Locale {
   final String languageCode;
-  final String countryCode;
-  final String scriptCode;
+  final String? countryCode;
+  final String? scriptCode;
 
   Locale(this.languageCode, [this.countryCode]) : scriptCode = null;
 
   Locale.fromSubtags({
-    this.languageCode,
+    required this.languageCode,
     this.scriptCode,
     this.countryCode,
   });
@@ -60,7 +60,8 @@ class I18nString {
   final String value;
   final List<String> placeholders;
 
-  I18nString({this.key, this.value, this.placeholders = const []});
+  I18nString(
+      {required this.key, required this.value, this.placeholders = const []});
 
   String get escapedKey =>
       key.replaceAll(".", "_").replaceAll("-", "_").replaceAll(" ", "_");

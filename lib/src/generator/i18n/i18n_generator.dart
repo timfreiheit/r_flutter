@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:r_flutter/src/generator/i18n/i18n_generator_utils.dart';
 import 'package:r_flutter/src/model/dart_class.dart';
 import 'package:r_flutter/src/model/i18n.dart';
@@ -125,8 +126,8 @@ String _genrateAccessorMethodComment(I18nLocales i18n, I18nString string) {
 
   for (final item in locales) {
     final localeString = item.locale.toString();
-    final translation = item.strings
-        .firstWhere((it) => it.key == string.key, orElse: () => null);
+    final translation =
+        item.strings.firstWhereOrNull((it) => it.key == string.key);
 
     code
       ..writeln("  ///   <tr>")
