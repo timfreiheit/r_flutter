@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:r_flutter/src/generator/i18n/i18n_generator_utils.dart';
 import 'package:r_flutter/src/model/dart_class.dart';
 import 'package:r_flutter/src/model/i18n.dart';
@@ -9,16 +10,16 @@ import 'package:r_flutter/src/model/i18n.dart';
 ///
 ///  I18n(this._lookup);
 ///
-///  static Locale _locale;
+///  static Locale? _locale;
 ///
-///  static Locale get currentLocale => _locale;
+///  static Locale? get currentLocale => _locale;
 ///
 ///  /// add custom locale lookup which will be called first
-///  static I18nLookup customLookup;
+///  static I18nLookup? customLookup;
 ///
 ///  static const I18nDelegate delegate = I18nDelegate();
 ///
-///  static I18n of(BuildContext context) => Localizations.of<I18n>(context, I18n);
+///  static I18n of(BuildContext context) => Localizations.of<I18n>(context, I18n)!;
 ///
 ///  static List<Locale> get supportedLocales {
 ///    return const <Locale>[
@@ -33,7 +34,7 @@ import 'package:r_flutter/src/model/i18n.dart';
 ///    return customLookup?.hello ?? _lookup.hello;
 ///  }
 ///
-///  String getString(String key, [Map<String, String> placeholders]) {
+///  String? getString(String key, [Map<String, String>? placeholders]) {
 ///    switch (key) {
 ///      case I18nKeys.hello:
 ///        return hello;
@@ -49,16 +50,16 @@ DartClass generateI18nClass(I18nLocales i18n) {
 
   I18n(this._lookup);
 
-  static Locale _locale;
+  static Locale? _locale;
 
-  static Locale get currentLocale => _locale;
+  static Locale? get currentLocale => _locale;
 
   /// add custom locale lookup which will be called first
-  static I18nLookup customLookup;
+  static I18nLookup? customLookup;
 
   static const I18nDelegate delegate = I18nDelegate();
 
-  static I18n of(BuildContext context) => Localizations.of<I18n>(context, I18n);
+  static I18n of(BuildContext context) => Localizations.of<I18n>(context, I18n)!;
 
 """);
 
@@ -71,8 +72,7 @@ DartClass generateI18nClass(I18nLocales i18n) {
 }
 
 String _generateSupportedLocales(I18nLocales i18n) {
-  final code =
-      StringBuffer("""  static List<Locale> get supportedLocales {
+  final code = StringBuffer("""  static List<Locale> get supportedLocales {
     return const <Locale>[
 """);
 
@@ -100,10 +100,9 @@ String _generateAccessorMethods(I18nLocales i18n) {
     final methodCall = _stringValueMethodName(value);
     code.write(_genrateAccessorMethodComment(i18n, value));
     code.writeln(generateMethod(
-            name: value.escapedKey,
-            parameters: value.placeholders,
-            code:
-                "    return customLookup?.$methodCall ?? _lookup.$methodCall;"));
+        name: value.escapedKey,
+        parameters: value.placeholders,
+        code: "    return customLookup?.$methodCall ?? _lookup.$methodCall;"));
   }
 
   return code.toString();
@@ -127,8 +126,8 @@ String _genrateAccessorMethodComment(I18nLocales i18n, I18nString string) {
 
   for (final item in locales) {
     final localeString = item.locale.toString();
-    final translation = item.strings
-        .firstWhere((it) => it.key == string.key, orElse: () => null);
+    final translation =
+        item.strings.firstWhereOrNull((it) => it.key == string.key);
 
     code
       ..writeln("  ///   <tr>")
@@ -159,7 +158,7 @@ String _generateGetStringMethod(I18nLocales i18n) {
   final code = StringBuffer();
   code
     ..writeln(
-        "  String getString(String key, [Map<String, String> placeholders]) {")
+        "  String? getString(String key, [Map<String, String>? placeholders]) {")
     ..writeln("    switch (key) {");
 
   final values = i18n.defaultValues.strings;
@@ -177,7 +176,7 @@ String _generateGetStringMethod(I18nLocales i18n) {
           methodName.write(", ");
         }
         isFirstPlaceholder = false;
-        methodName.write("placeholders[\"$placeholder\"]");
+        methodName.write("placeholders![\"$placeholder\"]!");
       }
       methodName.write(")");
     }

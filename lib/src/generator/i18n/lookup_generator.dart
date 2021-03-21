@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:r_flutter/src/generator/i18n/i18n_generator_utils.dart';
 import 'package:r_flutter/src/model/dart_class.dart';
 import 'package:r_flutter/src/model/i18n.dart';
@@ -33,7 +34,9 @@ List<DartClass> generateLookupClasses(I18nLocales i18n) {
 /// ```
 ///
 DartClass generateLookupClass(
-    {I18nLocales i18n, I18nLocale value, bool isDefaultClass}) {
+    {required I18nLocales i18n,
+    required I18nLocale value,
+    required bool isDefaultClass}) {
   final code = StringBuffer("class I18nLookup");
 
   if (!isDefaultClass) {
@@ -49,18 +52,18 @@ DartClass generateLookupClass(
 
   if (isDefaultClass) {
     code.writeln(
-        "  String getString(String key, [Map<String, String> placeholders]) {");
-    code.writeln("    return null;");
+        "  String getString(String key, [Map<String, String>? placeholders]) {");
+    code.writeln("    throw UnimplementedError(\"I18nLookup.getString\");");
     code.writeln("  }\n");
   }
 
   bool isFirstMethod = true;
   final defaultLocale = i18n.defaultValues;
   for (final item in value.strings) {
-    I18nString defaultItem;
+    I18nString? defaultItem;
     if (value != defaultLocale) {
-      defaultItem = defaultLocale.strings
-          .firstWhere((it) => it.key == item.key, orElse: () => null);
+      defaultItem =
+          defaultLocale.strings.firstWhereOrNull((it) => it.key == item.key);
     } else {
       defaultItem = item;
     }
@@ -119,14 +122,13 @@ DartClass generateLookupClass(
   return DartClass(code: code.toString());
 }
 
-I18nLocale _findParent(I18nLocales i18n, I18nLocale value) {
+I18nLocale? _findParent(I18nLocales i18n, I18nLocale value) {
   if (value.locale.countryCode != null || value.locale.scriptCode != null) {
-    final parent = i18n.locales.firstWhere(
+    final parent = i18n.locales.firstWhereOrNull(
       (it) =>
           it.locale.countryCode == null &&
           it.locale.scriptCode == null &&
           it.locale.languageCode == value.locale.languageCode,
-      orElse: () => null,
     );
     if (parent != null) {
       return parent;

@@ -3,11 +3,11 @@ import 'package:r_flutter/src/model/i18n.dart';
 class Resources {
   final List<String> fonts;
   final Assets assets;
-  final I18nLocales i18n;
+  final I18nLocales? i18n;
 
   Resources({
-    this.fonts,
-    this.assets,
+    required this.fonts,
+    required this.assets,
     this.i18n,
   });
 }
@@ -31,17 +31,17 @@ class Asset {
   final AssetType type;
 
   Asset({
-    this.name,
-    this.path,
-    this.fileUri,
-    this.type,
+    required this.name,
+    required this.path,
+    required this.fileUri,
+    required this.type,
   });
 
   Asset copyWith({
-    String name,
-    String path,
-    String fileUri,
-    AssetType type,
+    String? name,
+    String? path,
+    String? fileUri,
+    AssetType? type,
   }) {
     return Asset(
         name: name ?? this.name,
@@ -82,16 +82,4 @@ class CustomAssetType extends AssetType {
 
   const CustomAssetType(this.customClass, this.extension, this.import)
       : super(customClass);
-}
-
-class StringReference {
-  final String name;
-  final List<String> placeholders;
-  final String value;
-
-  StringReference({
-    this.name,
-    this.placeholders,
-    this.value,
-  });
 }

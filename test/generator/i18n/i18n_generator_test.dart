@@ -45,23 +45,23 @@ void main() {
   ]);
 
   test("test i18n generation", () {
-      final generatedClass = generateI18nClass(testData);
-      expect(generatedClass.imports, []);
-      expect(generatedClass.code, """class I18n {
+    final generatedClass = generateI18nClass(testData);
+    expect(generatedClass.imports, []);
+    expect(generatedClass.code, """class I18n {
   final I18nLookup _lookup;
 
   I18n(this._lookup);
 
-  static Locale _locale;
+  static Locale? _locale;
 
-  static Locale get currentLocale => _locale;
+  static Locale? get currentLocale => _locale;
 
   /// add custom locale lookup which will be called first
-  static I18nLookup customLookup;
+  static I18nLookup? customLookup;
 
   static const I18nDelegate delegate = I18nDelegate();
 
-  static I18n of(BuildContext context) => Localizations.of<I18n>(context, I18n);
+  static I18n of(BuildContext context) => Localizations.of<I18n>(context, I18n)!;
 
   static List<Locale> get supportedLocales {
     return const <Locale>[
@@ -215,20 +215,20 @@ void main() {
     return customLookup?.key_5(p1, p2, p3, p4) ?? _lookup.key_5(p1, p2, p3, p4);
   }
 
-  String getString(String key, [Map<String, String> placeholders]) {
+  String? getString(String key, [Map<String, String>? placeholders]) {
     switch (key) {
       case I18nKeys.key_1:
         return key_1;
       case I18nKeys.key_2:
         return key_2;
       case I18nKeys.key_3:
-        return key_3(placeholders["p1"]);
+        return key_3(placeholders!["p1"]!);
       case I18nKeys.key_4:
-        return key_4(placeholders["p1"], placeholders["p2"], placeholders["p3"]);
+        return key_4(placeholders!["p1"]!, placeholders!["p2"]!, placeholders!["p3"]!);
       case I18nKeys.key_5:
-        return key_5(placeholders["p1"], placeholders["p2"], placeholders["p3"]);
+        return key_5(placeholders!["p1"]!, placeholders!["p2"]!, placeholders!["p3"]!);
       case I18nKeys.key_5:
-        return key_5(placeholders["p1"], placeholders["p2"], placeholders["p3"], placeholders["p4"]);
+        return key_5(placeholders!["p1"]!, placeholders!["p2"]!, placeholders!["p3"]!, placeholders!["p4"]!);
     }
     return null;
   }

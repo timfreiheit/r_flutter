@@ -8,14 +8,15 @@ import 'package:recase/recase.dart';
 import 'i18n/generator.dart';
 
 String generateFile(Resources res, Config arguments) {
-  var classes = <DartClass>[];
+  final classes = <DartClass>[];
   if (res.i18n != null) {
-    classes.addAll(generateI18nClasses(res.i18n));
+    classes.addAll(generateI18nClasses(res.i18n!));
   }
-  classes.add(generateFontClass(res.fonts));
+  final fontClass = generateFontClass(res.fonts);
+  if (fontClass != null) {
+    classes.add(fontClass);
+  }
   classes.addAll(generateAssetsClass(res.assets.assets));
-
-  classes = classes.where((item) => item != null).toList();
 
   final fullCode = StringBuffer("");
   final imports = classes.expand((it) => it.imports).toSet().toList();

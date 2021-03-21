@@ -3,9 +3,9 @@ import 'package:r_flutter/src/utils/utils.dart';
 import 'package:yaml/yaml.dart';
 
 class Config {
-  String pubspecFilename;
+  late String pubspecFilename;
   List<String> ignoreAssets = [];
-  String intlFilename;
+  String? intlFilename;
   List<CustomAssetType> assetClasses = [];
 
   Config();
@@ -21,8 +21,9 @@ class Config {
     final ignoreRaw = safeCast<YamlList>(rFlutterConfig['ignore']);
     arguments.ignoreAssets = ignoreRaw
             ?.map((x) => safeCast<String>(x))
-            ?.where((it) => it != null)
-            ?.toList() ??
+            .where((it) => it != null)
+            .toList()
+            .cast<String>() ??
         [];
     arguments.intlFilename = safeCast<String>(rFlutterConfig['intl']);
 
@@ -33,16 +34,16 @@ class Config {
       if (keyString == null) {
         continue;
       }
-      final Object value = assetClasses[key];
+      final dynamic value = assetClasses![key];
       var import = CustomAssetType.defaultImport;
       String className;
       if (value is YamlMap) {
-        className = safeCast<String>(value['class']);
+        className = safeCast<String>(value['class'])!;
         import = safeCast<String>(value['import']) ?? import;
       } else if (value is String) {
         className = value;
       } else {
-        assert(false);
+        throw StateError("Unsupported value (value = $value) in assetClasses!");
       }
 
       classes.add(CustomAssetType(className, keyString, import));

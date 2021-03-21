@@ -1,4 +1,4 @@
-T safeCast<T>(dynamic obj) {
+T? safeCast<T>(dynamic obj) {
   if (obj == null) {
     return null;
   }

@@ -107,7 +107,7 @@ dev_dependencies:
 
 Execution:
 ```
-flutter packages pub run r_flutter:generate
+flutter pub run r_flutter:generate
 ```
 
 #### `assets.dart` not found

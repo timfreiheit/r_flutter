@@ -1,12 +1,13 @@
 name: example
 description: A new Flutter application.
 version: "1.0.0"
+publish_to: none
 
 environment:
-  sdk: ">=2.2.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
-  flutter_svg:
+  flutter_svg: ^0.21.0-nullsafety.0 
   flutter:
     sdk: flutter
   flutter_localizations:

@@ -4,6 +4,6 @@ class DartClass {
 
   DartClass({
     this.imports = const [],
-    this.code,
+    required this.code,
   });
 }

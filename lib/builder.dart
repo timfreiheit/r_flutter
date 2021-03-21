@@ -31,7 +31,7 @@ Resources parseResources(Config arguments) {
 
 class AssetsBuilder extends Builder {
   /// This is needed to let build system know that we depend on given file
-  Future<void> check(BuildStep buildStep, String filename) async {
+  Future<void> check(BuildStep buildStep, String? filename) async {
     if (filename == null) {
       return;
     }
@@ -48,7 +48,8 @@ class AssetsBuilder extends Builder {
 
     final configId = AssetId(input.package, 'pubspec.yaml');
 
-    final configRaw = safeCast<YamlMap>(loadYaml(await buildStep.readAsString(configId)));
+    final configRaw =
+        safeCast<YamlMap>(loadYaml(await buildStep.readAsString(configId)));
     final config = Config.parsePubspecConfig(configRaw ?? YamlMap());
 
     await _markIntlFiles(buildStep, config);
@@ -73,11 +74,11 @@ class AssetsBuilder extends Builder {
   /// mark intl files to the BuildStep to update the code generation when one of the files changes
   ///
   Future<void> _markIntlFiles(BuildStep buildStep, Config arguments) async {
-    if (arguments.intlFilename == null) {
+    final intlFilename = arguments.intlFilename;
+    if (intlFilename == null) {
       return;
     }
-    final path =
-        arguments.intlFilename.replaceAll(basename(arguments.intlFilename), "");
+    final path = intlFilename.replaceAll(basename(intlFilename), "");
     final glob = Glob('$path*');
     final files = await buildStep.findAssets(glob).toList();
     for (final file in files) {
