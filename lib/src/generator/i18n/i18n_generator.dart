@@ -176,7 +176,7 @@ String _generateGetStringMethod(I18nLocales i18n) {
           methodName.write(", ");
         }
         isFirstPlaceholder = false;
-        methodName.write("placeholders![\"$placeholder\"]!");
+        methodName.write("placeholders?[\"$placeholder\"] ?? \"\"");
       }
       methodName.write(")");
     }

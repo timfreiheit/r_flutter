@@ -222,13 +222,13 @@ void main() {
       case I18nKeys.key_2:
         return key_2;
       case I18nKeys.key_3:
-        return key_3(placeholders!["p1"]!);
+        return key_3(placeholders?["p1"] ?? "");
       case I18nKeys.key_4:
-        return key_4(placeholders!["p1"]!, placeholders!["p2"]!, placeholders!["p3"]!);
+        return key_4(placeholders?["p1"] ?? "", placeholders?["p2"] ?? "", placeholders?["p3"] ?? "");
       case I18nKeys.key_5:
-        return key_5(placeholders!["p1"]!, placeholders!["p2"]!, placeholders!["p3"]!);
+        return key_5(placeholders?["p1"] ?? "", placeholders?["p2"] ?? "", placeholders?["p3"] ?? "");
       case I18nKeys.key_5:
-        return key_5(placeholders!["p1"]!, placeholders!["p2"]!, placeholders!["p3"]!, placeholders!["p4"]!);
+        return key_5(placeholders?["p1"] ?? "", placeholders?["p2"] ?? "", placeholders?["p3"] ?? "", placeholders?["p4"] ?? "");
     }
     return null;
   }
