@@ -20,13 +20,11 @@ import 'i18n_generator_utils.dart';
 ///  bool shouldReload(I18nDelegate old) => false;
 ///
 ///  I18nLookup _findLookUpFromLocale(Locale locale) {
-///    final String lang = locale != null ? locale.toString() : "";
-///    switch (lang) {
+///    switch (locale.toString()) {
 ///        case "de_AT":
 ///          return I18nLookup_de_AT();
 ///    }
-///    final String languageCode = locale != null ? locale.languageCode : "";
-///    switch (languageCode) {
+///    switch (locale.languageCode) {
 ///        case "de":
 ///          return I18nLookup_de();
 ///        case "en":
@@ -62,17 +60,13 @@ DartClass generateI18nDelegate(I18nLocales locales) {
   final localesWithSubtags = findLocalesWithSubtags(locales);
   if (localesWithSubtags.isNotEmpty) {
     classString
-      ..writeln(
-          "    final String lang = locale != null ? locale.toString() : \"\";")
-      ..write(_generateLookupSwitch("lang", localesWithSubtags));
+      ..write(_generateLookupSwitch("locale.toString()", localesWithSubtags));
   }
 
   final localesWithoutSubtags = findLocalesWithoutSubtags(locales);
   if (localesWithoutSubtags.isNotEmpty) {
     classString
-      ..writeln(
-          "    final String languageCode = locale != null ? locale.languageCode : \"\";")
-      ..write(_generateLookupSwitch("languageCode", localesWithoutSubtags));
+      ..write(_generateLookupSwitch("locale.languageCode", localesWithoutSubtags));
   }
 
   classString

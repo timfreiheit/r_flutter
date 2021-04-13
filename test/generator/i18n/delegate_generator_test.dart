@@ -31,8 +31,7 @@ void main() {
   bool shouldReload(I18nDelegate old) => false;
 
   I18nLookup _findLookUpFromLocale(Locale locale) {
-    final String languageCode = locale != null ? locale.languageCode : "";
-    switch (languageCode) {
+    switch (locale.languageCode) {
         case "en":
           return I18nLookup_en();
     }
@@ -72,8 +71,7 @@ void main() {
   bool shouldReload(I18nDelegate old) => false;
 
   I18nLookup _findLookUpFromLocale(Locale locale) {
-    final String languageCode = locale != null ? locale.languageCode : "";
-    switch (languageCode) {
+    switch (locale.languageCode) {
         case "en":
           return I18nLookup_en();
         case "de":
@@ -119,13 +117,11 @@ void main() {
   bool shouldReload(I18nDelegate old) => false;
 
   I18nLookup _findLookUpFromLocale(Locale locale) {
-    final String lang = locale != null ? locale.toString() : "";
-    switch (lang) {
+    switch (locale.toString()) {
         case "de_AT":
           return I18nLookup_de_AT();
     }
-    final String languageCode = locale != null ? locale.languageCode : "";
-    switch (languageCode) {
+    switch (locale.languageCode) {
         case "en":
           return I18nLookup_en();
         case "de":
@@ -169,13 +165,11 @@ void main() {
   bool shouldReload(I18nDelegate old) => false;
 
   I18nLookup _findLookUpFromLocale(Locale locale) {
-    final String lang = locale != null ? locale.toString() : "";
-    switch (lang) {
+    switch (locale.toString()) {
         case "de_AT":
           return I18nLookup_de_AT();
     }
-    final String languageCode = locale != null ? locale.languageCode : "";
-    switch (languageCode) {
+    switch (locale.languageCode) {
         case "en":
           return I18nLookup_en();
         case "pl":
@@ -231,8 +225,7 @@ void main() {
   bool shouldReload(I18nDelegate old) => false;
 
   I18nLookup _findLookUpFromLocale(Locale locale) {
-    final String lang = locale != null ? locale.toString() : "";
-    switch (lang) {
+    switch (locale.toString()) {
         case "de_AT":
           return I18nLookup_de_AT();
         case "zh_Hans":
@@ -242,8 +235,7 @@ void main() {
         case "zh_Hant_TW":
           return I18nLookup_zh_Hant_TW();
     }
-    final String languageCode = locale != null ? locale.languageCode : "";
-    switch (languageCode) {
+    switch (locale.languageCode) {
         case "en":
           return I18nLookup_en();
         case "de":
