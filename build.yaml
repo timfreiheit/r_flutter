@@ -5,4 +5,4 @@ builders:
       - "builder"
     build_extensions: {"$lib$": ["assets.dart"]}
     auto_apply: root_package
-    build_to: cache
+    build_to: source

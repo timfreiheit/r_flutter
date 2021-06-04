@@ -302,7 +302,7 @@ class I18n {
       case I18nKeys.string1:
         return string1;
       case I18nKeys.stringWithPlaceholder:
-        return stringWithPlaceholder(placeholders!["placeholder"]!);
+        return stringWithPlaceholder(placeholders?["placeholder"] ?? "");
       case I18nKeys.hello:
         return hello;
       case I18nKeys.withLineBreak:
@@ -500,8 +500,7 @@ class I18nDelegate extends LocalizationsDelegate<I18n> {
   bool shouldReload(I18nDelegate old) => false;
 
   I18nLookup _findLookUpFromLocale(Locale locale) {
-    final String lang = locale != null ? locale.toString() : "";
-    switch (lang) {
+    switch (locale.toString()) {
         case "zh_HK":
           return I18nLookup_zh_HK();
         case "zh_Hant":
@@ -513,8 +512,7 @@ class I18nDelegate extends LocalizationsDelegate<I18n> {
         case "de_AT":
           return I18nLookup_de_AT();
     }
-    final String languageCode = locale != null ? locale.languageCode : "";
-    switch (languageCode) {
+    switch (locale.languageCode) {
         case "de":
           return I18nLookup_de();
         case "en":

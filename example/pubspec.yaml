@@ -15,15 +15,12 @@ dependencies:
   runtime_arb:
     path: ../runtime_arb
 
-builders:
-  r_flutter:
-    path: ../
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
   r_flutter:
     path: ../
+  build_runner: ^2.0.4
 
 flutter:
   uses-material-design: true
