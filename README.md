@@ -31,7 +31,8 @@ Options:
 - intl: Points to a localization file that would be used to generate localization keys. arb files are essentialy json files with some special, optional keys. Specifing this is optional.
 - ignore: specifies a list of files/directories that should be skipped during code generation. 
 
-3. Execute `flutter packages pub run build_runner build` command in your project's directory. You could also run tests or just build the app. Compiler must run at least once to generate the file.
+3. Execute `flutter packages pub run build_runner build` command in your project's directory.
+Alternativly you can run `flutter pub run r_flutter:generate` to only run r_flutter without using the whole `build_runner`.
 `assets.dart` will be generated into `lib/assets.dart`
 
 4. Import `assets.dart` and start using it:
