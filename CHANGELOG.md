@@ -1,3 +1,6 @@
+## 0.8.0
+  * remove deprecated `flutter generate`. Use `build_runner` instead
+
 ## 0.7.1 (BREAKING CHANGE)
 
   * r_flutter generates now nullsafe code, if you update to v0.7.0, your project should target dart >= 2.12
