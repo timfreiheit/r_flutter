@@ -14,7 +14,7 @@ void main(List<String> args) {
 
   final configRaw = safeCast<YamlMap>(
       loadYaml(File(arguments.pubspecFilename).absolute.readAsStringSync()));
-  final config = Config.parsePubspecConfig(configRaw ?? YamlMap());
+  final config = Config.fromPubspec(configRaw ?? YamlMap());
 
   final res = parseResources(config);
   final contents = generateFile(res, config);
