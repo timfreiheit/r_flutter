@@ -50,7 +50,7 @@ class AssetsBuilder extends Builder {
 
     final configRaw =
         safeCast<YamlMap>(loadYaml(await buildStep.readAsString(configId)));
-    final config = Config.parsePubspecConfig(configRaw ?? YamlMap());
+    final config = Config.fromPubspec(configRaw ?? YamlMap());
 
     await _markIntlFiles(buildStep, config);
 

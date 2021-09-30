@@ -4,7 +4,7 @@ import 'package:yaml/yaml.dart';
 
 void main() {
   test("test parse empty yaml to config", () {
-    final config = Config.parsePubspecConfig(YamlMap());
+    final config = Config.fromPubspec(YamlMap());
     expect(config, isNotNull);
     expect(config.pubspecFilename, "pubspec.yaml");
     expect(config.assetClasses, []);
@@ -13,7 +13,7 @@ void main() {
   });
 
   test("test parse asset classes to config", () {
-    final config = Config.parsePubspecConfig(loadYaml("""
+    final config = Config.fromPubspec(loadYaml("""
 r_flutter:
   asset_classes:
     ".svg": 
@@ -31,7 +31,7 @@ r_flutter:
   });
 
   test("test parse multiple asset classes to config", () {
-    final config = Config.parsePubspecConfig(loadYaml("""
+    final config = Config.fromPubspec(loadYaml("""
 r_flutter:
   asset_classes:
     ".svg": 
@@ -61,7 +61,7 @@ r_flutter:
     expect(config.intlFilename, isNull);
   });
   test("test parse intl file to config", () {
-    final config = Config.parsePubspecConfig(loadYaml("""
+    final config = Config.fromPubspec(loadYaml("""
 r_flutter:
   intl: lib/i18n/en.arb
     """) as YamlMap);
@@ -73,7 +73,7 @@ r_flutter:
   });
 
   test("test parse ignored assets to config", () {
-    final config = Config.parsePubspecConfig(loadYaml("""
+    final config = Config.fromPubspec(loadYaml("""
 r_flutter:
   ignore:
     - lib/assets/sub/ignore1
@@ -83,13 +83,15 @@ r_flutter:
     expect(config, isNotNull);
     expect(config.pubspecFilename, "pubspec.yaml");
     expect(config.assetClasses, []);
-    expect(config.ignoreAssets,
-        ["lib/assets/sub/ignore1", "lib/assets/sub/ignore2", "lib/i18n"]);
+    expect(
+      config.ignoreAssets,
+      ["lib/assets/sub/ignore1", "lib/assets/sub/ignore2", "lib/i18n"],
+    );
     expect(config.intlFilename, isNull);
   });
 
   test("test combined config to config", () {
-    final config = Config.parsePubspecConfig(loadYaml("""
+    final config = Config.fromPubspec(loadYaml("""
 r_flutter:
   asset_classes:
     ".svg": SvgFile

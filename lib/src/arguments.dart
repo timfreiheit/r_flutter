@@ -3,29 +3,34 @@ import 'package:r_flutter/src/utils/utils.dart';
 import 'package:yaml/yaml.dart';
 
 class Config {
-  late String pubspecFilename;
-  List<String> ignoreAssets = [];
-  String? intlFilename;
-  List<CustomAssetType> assetClasses = [];
+  final String pubspecFilename;
+  final List<String> ignoreAssets;
+  final String? intlFilename;
+  final List<CustomAssetType> assetClasses;
 
-  Config();
+  Config._({
+    required this.pubspecFilename,
+    this.intlFilename,
+    this.ignoreAssets = const [],
+    this.assetClasses = const [],
+  });
 
-  factory Config.parsePubspecConfig(YamlMap yaml) {
-    final arguments = Config()..pubspecFilename = 'pubspec.yaml';
+  factory Config.fromPubspec(YamlMap yaml) {
+    const pubspecFilename = 'pubspec.yaml';
 
     final rFlutterConfig = safeCast<YamlMap>(yaml["r_flutter"]);
     if (rFlutterConfig == null) {
-      return arguments;
+      return Config._(pubspecFilename: pubspecFilename);
     }
 
     final ignoreRaw = safeCast<YamlList>(rFlutterConfig['ignore']);
-    arguments.ignoreAssets = ignoreRaw
+    final ignoreAssets = ignoreRaw
             ?.map((x) => safeCast<String>(x))
             .where((it) => it != null)
             .toList()
             .cast<String>() ??
         [];
-    arguments.intlFilename = safeCast<String>(rFlutterConfig['intl']);
+    final intlFilename = safeCast<String>(rFlutterConfig['intl']);
 
     final assetClasses = safeCast<YamlMap>(rFlutterConfig['asset_classes']);
     final classes = <CustomAssetType>[];
@@ -48,8 +53,12 @@ class Config {
 
       classes.add(CustomAssetType(className, keyString, import));
     }
-    arguments.assetClasses = classes;
 
-    return arguments;
+    return Config._(
+      pubspecFilename: pubspecFilename,
+      ignoreAssets: ignoreAssets,
+      intlFilename: intlFilename,
+      assetClasses: classes,
+    );
   }
 }
