@@ -19,10 +19,10 @@ void main(List<String> args) {
   final res = parseResources(config);
   final contents = generateFile(res, config);
 
-  final outoutFile = File(arguments.outputFilename);
-  outoutFile.writeAsStringSync(contents);
+  final outputFile = File(arguments.outputFilename);
+  outputFile.writeAsStringSync(contents);
 
-  print("${outoutFile.path} generated successfully");
+  print("${outputFile.path} generated successfully");
 }
 
 class CommandLineArguments {
