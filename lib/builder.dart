@@ -26,6 +26,8 @@ Resources parseResources(Config arguments) {
     fonts: parseFonts(yaml),
     assets: parseAssets(yaml, arguments.ignoreAssets, arguments.assetClasses),
     i18n: parseStrings(arguments.intlFilename),
+    i18nFeatures:
+        parseFeatureStrings(arguments.intlFilename, arguments.i18nFeatures),
   );
 }
 

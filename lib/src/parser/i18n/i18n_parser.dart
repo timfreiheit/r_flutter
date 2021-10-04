@@ -1,9 +1,10 @@
 import 'dart:io';
 
 import 'package:collection/collection.dart';
-import 'package:r_flutter/src/model/i18n.dart';
-import 'package:r_flutter/src/parser/i18n/arb_parser.dart';
 import 'package:path/path.dart';
+import 'package:r_flutter/src/model/i18n.dart';
+import 'package:r_flutter/src/model/resources.dart';
+import 'package:r_flutter/src/parser/i18n/arb_parser.dart';
 
 I18nLocales? parseStrings(String? defaultIntlFile) {
   if (defaultIntlFile == null || defaultIntlFile.isEmpty) {
@@ -43,10 +44,40 @@ I18nLocales? parseStrings(String? defaultIntlFile) {
   return I18nLocales(defaultLocale, locales);
 }
 
+Map<String, I18nLocales>? parseFeatureStrings(
+  String? defaultIntlFile,
+  List<I18nFeature> features,
+) {
+  if (defaultIntlFile == null || defaultIntlFile.isEmpty) {
+    return null;
+  }
+
+  if (features.isEmpty) {
+    return null;
+  }
+
+  final defaultFilename = basename(defaultIntlFile);
+  final result = <String, I18nLocales>{};
+
+  for (final feature in features) {
+    final directory = feature.path != null
+        ? Directory(feature.path!).path
+        : join(dirname(defaultIntlFile), feature.name);
+
+    final locales = parseStrings(join(directory, defaultFilename));
+
+    if (locales != null) {
+      result.putIfAbsent(feature.name, () => locales);
+    }
+  }
+
+  return result;
+}
+
 Locale? _localeFromFileName(File file) {
   final name = basenameWithoutExtension(file.path);
   if (RegExp(r'^[a-z]{2}$').hasMatch(name)) {
-    return Locale(name, null);
+    return Locale(name);
   }
   if (RegExp(r'^[a-z]{2}_[A-Z]{2}$').hasMatch(name)) {
     final localeParts = name.split("_");
@@ -72,6 +103,7 @@ Locale? _localeFromFileName(File file) {
 
 abstract class I18nParser {
   bool supportsFile(File file);
+
   List<I18nString> parseFile(File file);
 
   static List<I18nParser> all() {

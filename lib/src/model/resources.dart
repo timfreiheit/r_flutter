@@ -4,11 +4,13 @@ class Resources {
   final List<String> fonts;
   final Assets assets;
   final I18nLocales? i18n;
+  final Map<String, I18nLocales>? i18nFeatures;
 
   Resources({
     required this.fonts,
     required this.assets,
     this.i18n,
+    this.i18nFeatures,
   });
 }
 
@@ -82,4 +84,11 @@ class CustomAssetType extends AssetType {
 
   const CustomAssetType(this.customClass, this.extension, this.import)
       : super(customClass);
+}
+
+class I18nFeature {
+  I18nFeature({required this.name, this.path});
+
+  final String name;
+  final String? path;
 }
