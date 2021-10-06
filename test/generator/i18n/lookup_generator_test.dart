@@ -65,9 +65,9 @@ void main() {
 
   test("test secondary language", () {
     final lookupClass = generateLookupClass(
-        i18n: testData,
-        value: testData.locales.firstWhere((it) => it.locale == Locale("pl")),
-        isDefaultClass: false);
+      testData,
+      testData.locales.firstWhere((it) => it.locale == Locale("pl")),
+    );
     expect(lookupClass.imports, []);
     expect(lookupClass.code, """class I18nLookup_pl extends I18nLookup_en {
   @override
@@ -82,9 +82,9 @@ void main() {
       "test secondary language with different placeholder list. should take values from default locale",
       () {
     final lookupClass = generateLookupClass(
-        i18n: testData,
-        value: testData.locales.firstWhere((it) => it.locale == Locale("de")),
-        isDefaultClass: false);
+      testData,
+      testData.locales.firstWhere((it) => it.locale == Locale("de")),
+    );
     expect(lookupClass.imports, []);
     expect(lookupClass.code, """class I18nLookup_de extends I18nLookup_en {
   @override
@@ -96,8 +96,10 @@ void main() {
   });
 
   test("test default lookup", () {
-    final lookupClass = generateLookupClass(
-        i18n: testData, value: testData.locales[0], isDefaultClass: true);
+    final lookupClass = generateDefaultLookupClass(
+      testData,
+      testData.locales[0],
+    );
     expect(lookupClass.imports, []);
     expect(lookupClass.code, """class I18nLookup {
   String getString(String key, [Map<String, String>? placeholders]) {
@@ -133,9 +135,9 @@ void main() {
 
   test("test additional keys in none default locales are ignored", () {
     final lookupClass = generateLookupClass(
-        i18n: testData,
-        value: testData.locales.firstWhere((it) => it.locale == Locale("ru")),
-        isDefaultClass: false);
+      testData,
+      testData.locales.firstWhere((it) => it.locale == Locale("ru")),
+    );
     expect(lookupClass.imports, []);
     expect(lookupClass.code, """class I18nLookup_ru extends I18nLookup_en {
 }
@@ -144,9 +146,9 @@ void main() {
 
   test("test additional keys in none default locales are ignored 2", () {
     final lookupClass = generateLookupClass(
-        i18n: testData,
-        value: testData.locales.firstWhere((it) => it.locale == Locale("gr")),
-        isDefaultClass: false);
+      testData,
+      testData.locales.firstWhere((it) => it.locale == Locale("gr")),
+    );
     expect(lookupClass.imports, []);
     expect(lookupClass.code, """class I18nLookup_gr extends I18nLookup_en {
   @override
@@ -166,10 +168,9 @@ void main() {
       "test locale with country code overrides the same locale without country code",
       () {
     final lookupClass = generateLookupClass(
-        i18n: testData,
-        value: testData.locales
-            .firstWhere((it) => it.locale == Locale("de", "DE")),
-        isDefaultClass: false);
+      testData,
+      testData.locales.firstWhere((it) => it.locale == Locale("de", "DE")),
+    );
     expect(lookupClass.imports, []);
     expect(lookupClass.code, """class I18nLookup_de_DE extends I18nLookup_de {
   @override
@@ -182,10 +183,9 @@ void main() {
 
   test("test locale with country code without base locale support", () {
     final lookupClass = generateLookupClass(
-        i18n: testData,
-        value: testData.locales
-            .firstWhere((it) => it.locale == Locale("zh", "HK")),
-        isDefaultClass: false);
+      testData,
+      testData.locales.firstWhere((it) => it.locale == Locale("zh", "HK")),
+    );
     expect(lookupClass.imports, []);
     expect(lookupClass.code, """class I18nLookup_zh_HK extends I18nLookup_en {
   @override
@@ -200,14 +200,14 @@ void main() {
       "test locale with script code overrides the same locale without script code",
       () {
     final lookupClass = generateLookupClass(
-        i18n: testData,
-        value: testData.locales.firstWhere((it) =>
-            it.locale ==
-            Locale.fromSubtags(
-              languageCode: "ko",
-              scriptCode: "Hani",
-            )),
-        isDefaultClass: false);
+      testData,
+      testData.locales.firstWhere((it) =>
+          it.locale ==
+          Locale.fromSubtags(
+            languageCode: "ko",
+            scriptCode: "Hani",
+          )),
+    );
     expect(lookupClass.imports, []);
     expect(lookupClass.code, """class I18nLookup_ko_Hani extends I18nLookup_ko {
   @override
@@ -220,14 +220,16 @@ void main() {
 
   test("test locale with script code without base locale support", () {
     final lookupClass = generateLookupClass(
-        i18n: testData,
-        value: testData.locales.firstWhere((it) =>
+      testData,
+      testData.locales.firstWhere(
+        (it) =>
             it.locale ==
             Locale.fromSubtags(
               languageCode: "zh",
               scriptCode: "Hans",
-            )),
-        isDefaultClass: false);
+            ),
+      ),
+    );
     expect(lookupClass.imports, []);
     expect(lookupClass.code, """class I18nLookup_zh_Hans extends I18nLookup_en {
   @override

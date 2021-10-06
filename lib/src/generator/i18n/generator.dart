@@ -13,7 +13,7 @@ List<DartClass> generateI18nClasses(
   return [
     generateI18nClass(i18n),
     ...generateI18nKeysClasses(i18n, i18nFeatures),
-    ...generateLookupClasses(i18n),
+    ...generateLookupClasses(i18n, i18nFeatures),
     generateI18nDelegate(i18n)
   ];
 }
