@@ -2,6 +2,41 @@ import 'package:collection/collection.dart';
 import 'package:r_flutter/src/generator/i18n/i18n_generator_utils.dart';
 import 'package:r_flutter/src/model/dart_class.dart';
 import 'package:r_flutter/src/model/i18n.dart';
+import 'package:recase/recase.dart';
+
+List<DartClass> generateI18nMainClasses(
+  I18nLocales i18n,
+  Map<String, I18nLocales>? i18nFeatures,
+) {
+  final classes = <DartClass>[];
+
+  classes.add(generateI18nClass(i18n, i18nFeatures?.keys));
+
+  i18nFeatures?.forEach((feature, locales) {
+    classes.add(generateI18nFeatureClass(locales, feature));
+  });
+
+  return classes;
+}
+
+DartClass generateI18nFeatureClass(I18nLocales i18n, String feature) {
+  final featureClass = ReCase(feature).pascalCase;
+
+  final classString = StringBuffer('class I18n$featureClass {\n');
+  classString.writeln('  I18n$featureClass(this._lookup);');
+  classString.writeln();
+  classString.writeln('  final I18n${featureClass}Lookup _lookup;');
+  classString.writeln();
+  classString
+      .writeln('  /// add custom locale lookup which will be called first');
+  classString.writeln('  static I18n${featureClass}Lookup? customLookup;');
+  classString.writeln();
+  classString.write(_generateAccessorMethods(i18n));
+  classString.write(_generateGetStringMethod(i18n, featureClass));
+  classString.writeln('}');
+
+  return DartClass(code: classString.toString());
+}
 
 ///
 /// ```dart
@@ -44,12 +79,19 @@ import 'package:r_flutter/src/model/i18n.dart';
 ///}
 /// ```
 ///
-DartClass generateI18nClass(I18nLocales i18n) {
+DartClass generateI18nClass(
+  I18nLocales i18n,
+  Iterable<String>? features,
+) {
   final classString = StringBuffer("""class I18n {
   final I18nLookup _lookup;
 
-  I18n(this._lookup);
+""");
 
+  classString.writeln(_generateConstructor(features));
+
+  classString.write(
+    """
   static Locale? _locale;
 
   static Locale? get currentLocale => _locale;
@@ -61,14 +103,55 @@ DartClass generateI18nClass(I18nLocales i18n) {
 
   static I18n of(BuildContext context) => Localizations.of<I18n>(context, I18n)!;
 
-""");
+""",
+  );
 
   classString.writeln(_generateSupportedLocales(i18n));
+
+  features?.forEach((feature) {
+    final className = 'I18n${ReCase(feature).pascalCase}';
+    final propertyName = ReCase(feature).camelCase;
+
+    classString.writeln('  final $className $propertyName;');
+    classString.writeln();
+  });
+
   classString.write(_generateAccessorMethods(i18n));
   classString.write(_generateGetStringMethod(i18n));
 
   classString.writeln("}");
   return DartClass(code: classString.toString());
+}
+
+String _generateConstructor(Iterable<String>? features) {
+  final code = StringBuffer('  I18n(this._lookup)');
+
+  if (features == null || features.isEmpty) {
+    code.writeln(';');
+  } else {
+    features.forEachIndexed((index, feature) {
+      if (index == 0) {
+        code.writeln();
+        code.write('      :');
+      } else {
+        code.write('       ');
+      }
+
+      final propertyName = ReCase(feature).camelCase;
+      final className = ReCase(feature).pascalCase;
+
+      code.write(
+          ' $propertyName = I18n$className(_lookup.create${className}Lookup())');
+
+      if (index == (features.length - 1)) {
+        code.writeln(';');
+      } else {
+        code.writeln(',');
+      }
+    });
+  }
+
+  return code.toString();
 }
 
 String _generateSupportedLocales(I18nLocales i18n) {
@@ -154,7 +237,7 @@ String _stringValueMethodName(I18nString value) {
   }
 }
 
-String _generateGetStringMethod(I18nLocales i18n) {
+String _generateGetStringMethod(I18nLocales i18n, [String? featureClass]) {
   final code = StringBuffer();
   code
     ..writeln(
@@ -182,11 +265,14 @@ String _generateGetStringMethod(I18nLocales i18n) {
     }
 
     code
-      ..writeln("      case I18nKeys.${value.escapedKey}:")
+      ..writeln("      case I18n${featureClass ?? ''}Keys.${value.escapedKey}:")
       ..writeln("        return $methodName;");
   }
 
-  code..writeln("    }")..writeln("    return null;")..writeln("  }");
+  code
+    ..writeln("    }")
+    ..writeln("    return null;")
+    ..writeln("  }");
   return code.toString();
 }
 
