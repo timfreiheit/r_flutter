@@ -60,10 +60,7 @@ Map<String, I18nLocales>? parseFeatureStrings(
   final result = <String, I18nLocales>{};
 
   for (final feature in features) {
-    final directory = feature.path != null
-        ? Directory(feature.path!).path
-        : join(dirname(defaultIntlFile), feature.name);
-
+    final directory = getDirectoryForFeature(feature, defaultIntlFile);
     final locales = parseStrings(join(directory, defaultFilename));
 
     if (locales != null) {
@@ -72,6 +69,12 @@ Map<String, I18nLocales>? parseFeatureStrings(
   }
 
   return result;
+}
+
+String getDirectoryForFeature(I18nFeature feature, String defaultIntlFile) {
+  return feature.path != null
+      ? Directory(feature.path!).path
+      : join(dirname(defaultIntlFile), feature.name);
 }
 
 Locale? _localeFromFileName(File file) {
