@@ -112,6 +112,13 @@ DartClass generateI18nClass(
     final className = 'I18n${ReCase(feature).pascalCase}';
     final propertyName = ReCase(feature).camelCase;
 
+    if (i18n.defaultValues.strings
+        .any((e) => e.escapedKey.toLowerCase() == propertyName.toLowerCase())) {
+      throw StateError(
+        'There is a string and a feature with the same name: $propertyName',
+      );
+    }
+
     classString.writeln('  final $className $propertyName;');
     classString.writeln();
   });

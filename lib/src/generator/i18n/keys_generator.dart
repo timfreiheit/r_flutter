@@ -44,17 +44,6 @@ DartClass _generateI18nKeysClass(
         .writeln('  static const String ${item.escapedKey} = "${item.key}";');
   }
 
-  featureClassNames?.forEach((featureName, featureClassName) {
-    final propertyName = ReCase(featureName).camelCase;
-
-    if (items
-        .any((e) => e.escapedKey.toLowerCase() == propertyName.toLowerCase())) {
-      throw StateError(
-        'There is a string and a feature with the same name: $propertyName',
-      );
-    }
-  });
-
   classString.writeln("}");
   return DartClass(code: classString.toString());
 }
