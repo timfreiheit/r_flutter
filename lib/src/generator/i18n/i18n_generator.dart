@@ -80,9 +80,9 @@ DartClass generateI18nFeatureClass(I18nLocales i18n, String feature) {
 /// ```
 ///
 DartClass generateI18nClass(
-  I18nLocales i18n,
+  I18nLocales i18n, [
   Iterable<String>? features,
-) {
+]) {
   final classString = StringBuffer("""class I18n {
   final I18nLookup _lookup;
 
