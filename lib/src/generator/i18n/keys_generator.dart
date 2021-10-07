@@ -38,10 +38,6 @@ DartClass _generateI18nKeysClass(
 }) {
   final classString = StringBuffer("class ${className ?? 'I18nKeys'} {\n");
 
-  if (className != null) {
-    classString.writeln('  const $className();');
-  }
-
   final items = locales.defaultValues.strings;
   for (final item in items) {
     classString
@@ -57,10 +53,6 @@ DartClass _generateI18nKeysClass(
         'There is a string and a feature with the same name: $propertyName',
       );
     }
-
-    classString.writeln(
-      '  static const $featureClassName $propertyName = $featureClassName();',
-    );
   });
 
   classString.writeln("}");
