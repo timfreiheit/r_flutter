@@ -78,6 +78,32 @@ import 'assets.dart'
 Text(I18n.of(context).hello)
 ```
 
+#### Organize I18n strings by feature
+
+It is possible to organize i18n strings by feature so that they are not stored in one huge file.
+
+1. Add default localization file and feature definitions to `pubspec.yaml`
+```yaml
+r_flutter:
+  intl: lib/i18n/en.arb
+  intl_features:
+    - name: home
+      path: lib/custom/path/to/home/
+    - name: announcement
+    - name: profile
+```
+
+If a path is not specified it is assumed to be a subdirectory of the main intl file directory. In this example the announcement and profile translation files will be placed under `lib/i18n/announcement/` and `lib/i18n/profile/` respectively.
+
+2. Create the actual translation files for the features and run the generator as usual.
+
+3. Use it
+```dart
+import 'assets.dart'
+Text(I18n.of(context).home.hello)
+```
+
+
 ### Custom asset classes
 
 r_flutter supports third party packages like flutter_svg by providing option to convert generated constants directly into the desired class. To use it, you need to configure which file extension should by handled by which class, for example:
