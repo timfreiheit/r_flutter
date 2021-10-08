@@ -133,6 +133,68 @@ void main() {
 """);
   });
 
+  test("test default lookup with features", () {
+    final lookupClass = generateDefaultLookupClass(
+      testData,
+      testData.locales[0],
+      features: ['home', 'profile'],
+    );
+    expect(lookupClass.imports, []);
+    expect(lookupClass.code, """class I18nLookup {
+  String getString(String key, [Map<String, String>? placeholders]) {
+    throw UnimplementedError("I18nLookup.getString");
+  }
+
+  String get key_1 {
+    return getString(I18nKeys.key_1);
+  }
+
+  String get key_2 {
+    return getString(I18nKeys.key_2);
+  }
+
+  String key_3(String p1) {
+    return getString(I18nKeys.key_3, {"p1": p1});
+  }
+
+  String key_4(String p1, String p2, String p3) {
+    return getString(I18nKeys.key_4, {"p1": p1, "p2": p2, "p3": p3});
+  }
+
+  String key_5(String p1, String p2, String p3) {
+    return getString(I18nKeys.key_5, {"p1": p1, "p2": p2, "p3": p3});
+  }
+
+  String key_5(String p1, String p2, String p3, String p4) {
+    return getString(I18nKeys.key_5, {"p1": p1, "p2": p2, "p3": p3, "p4": p4});
+  }
+
+  I18nHomeLookup createHomeLookup() => I18nHomeLookup();
+
+  I18nProfileLookup createProfileLookup() => I18nProfileLookup();
+}
+""");
+  });
+
+  test("test default lookup for a feature", () {
+    final lookupClass = generateDefaultLookupClass(
+      testData,
+      testData.locales.firstWhere((it) => it.locale == Locale("ko")),
+      featureName: 'home',
+    );
+    expect(lookupClass.imports, []);
+    expect(lookupClass.code, """class I18nHomeLookup {
+  String getString(String key, [Map<String, String>? placeholders]) {
+    throw UnimplementedError("I18nHomeLookup.getString");
+  }
+
+  String get key_1 {
+    return getString(I18nHomeKeys.key_1);
+  }
+}
+""");
+  });
+
   test("test additional keys in none default locales are ignored", () {
     final lookupClass = generateLookupClass(
       testData,
@@ -235,6 +297,45 @@ void main() {
   @override
   String get key_1 {
     return "value_zh_Hans";
+  }
+}
+""");
+  });
+
+  test("test locale with features", () {
+    final lookupClass = generateLookupClass(
+      testData,
+      testData.locales.firstWhere((it) => it.locale == Locale("ko")),
+      features: ['home', 'profile'],
+    );
+    expect(lookupClass.imports, []);
+    expect(lookupClass.code, """class I18nLookup_ko extends I18nLookup_en {
+  @override
+  String get key_1 {
+    return "value_ko";
+  }
+
+  @override
+  I18nHomeLookup_ko createHomeLookup() => I18nHomeLookup_ko();
+
+  @override
+  I18nProfileLookup_ko createProfileLookup() => I18nProfileLookup_ko();
+}
+""");
+  });
+
+  test("test locale for a feature", () {
+    final lookupClass = generateLookupClass(
+      testData,
+      testData.locales.firstWhere((it) => it.locale == Locale("ko")),
+      featureName: 'home',
+    );
+    expect(lookupClass.imports, []);
+    expect(
+        lookupClass.code, """class I18nHomeLookup_ko extends I18nHomeLookup_en {
+  @override
+  String get key_1 {
+    return "value_ko";
   }
 }
 """);
