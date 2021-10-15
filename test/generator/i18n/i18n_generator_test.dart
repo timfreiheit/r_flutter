@@ -237,7 +237,19 @@ void main() {
   });
 
   test("test i18n generation with features", () {
-    final generatedClass = generateI18nClass(testData, ['home', 'profile']);
+    final generatedClass = generateI18nClass(
+      testData,
+      [
+        I18nFeature(
+          name: 'home',
+          locales: I18nLocales(Locale('de'), []),
+        ),
+        I18nFeature(
+          name: 'profile',
+          locales: I18nLocales(Locale('de'), []),
+        ),
+      ],
+    );
     expect(generatedClass.imports, []);
     expect(generatedClass.code, """class I18n {
   final I18nLookup _lookup;
@@ -435,7 +447,12 @@ void main() {
   });
 
   test("test i18n generation for a feature", () {
-    final generatedClass = generateI18nFeatureClass(testData, 'home');
+    final generatedClass = generateI18nFeatureClass(
+      I18nFeature(
+        name: 'home',
+        locales: testData,
+      ),
+    );
     expect(generatedClass.imports, []);
     expect(generatedClass.code, """class I18nHome {
   I18nHome(this._lookup);

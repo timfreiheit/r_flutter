@@ -137,7 +137,16 @@ void main() {
     final lookupClass = generateDefaultLookupClass(
       testData,
       testData.locales[0],
-      features: ['home', 'profile'],
+      features: [
+        I18nFeature(
+          name: 'home',
+          locales: testData,
+        ),
+        I18nFeature(
+          name: 'profile',
+          locales: testData,
+        ),
+      ],
     );
     expect(lookupClass.imports, []);
     expect(lookupClass.code, """class I18nLookup {
@@ -180,7 +189,10 @@ void main() {
     final lookupClass = generateDefaultLookupClass(
       testData,
       testData.locales.firstWhere((it) => it.locale == Locale("ko")),
-      featureName: 'home',
+      feature: I18nFeature(
+        name: 'home',
+        locales: testData,
+      ),
     );
     expect(lookupClass.imports, []);
     expect(lookupClass.code, """class I18nHomeLookup {
@@ -306,7 +318,16 @@ void main() {
     final lookupClass = generateLookupClass(
       testData,
       testData.locales.firstWhere((it) => it.locale == Locale("ko")),
-      features: ['home', 'profile'],
+      features: [
+        I18nFeature(
+          name: 'home',
+          locales: testData,
+        ),
+        I18nFeature(
+          name: 'profile',
+          locales: testData,
+        ),
+      ],
     );
     expect(lookupClass.imports, []);
     expect(lookupClass.code, """class I18nLookup_ko extends I18nLookup_en {
@@ -328,7 +349,10 @@ void main() {
     final lookupClass = generateLookupClass(
       testData,
       testData.locales.firstWhere((it) => it.locale == Locale("ko")),
-      featureName: 'home',
+      feature: I18nFeature(
+        name: 'home',
+        locales: testData,
+      ),
     );
     expect(lookupClass.imports, []);
     expect(

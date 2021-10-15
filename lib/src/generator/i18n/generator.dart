@@ -8,7 +8,7 @@ import 'keys_generator.dart';
 
 List<DartClass> generateI18nClasses(
   I18nLocales i18n,
-  Map<String, I18nLocales>? i18nFeatures,
+  List<I18nFeature>? i18nFeatures,
 ) {
   return [
     ...generateI18nMainClasses(i18n, i18nFeatures),

@@ -7,14 +7,14 @@ class Config {
   final List<String> ignoreAssets;
   final String? intlFilename;
   final List<CustomAssetType> assetClasses;
-  final List<I18nFeature> i18nFeatures;
+  final Map<String, String?> i18nFeatures;
 
   Config._({
     required this.pubspecFilename,
     this.intlFilename,
     this.ignoreAssets = const [],
     this.assetClasses = const [],
-    this.i18nFeatures = const [],
+    this.i18nFeatures = const {},
   });
 
   factory Config.fromPubspec(YamlMap yaml) {
@@ -34,19 +34,18 @@ class Config {
         [];
     final intlFilename = safeCast<String>(rFlutterConfig['intl']);
 
-    final features = safeCast<YamlList>(rFlutterConfig['intl_features'])
+    final featureList = safeCast<YamlList>(rFlutterConfig['intl_features'])
             ?.map((e) => safeCast<YamlMap>(e))
             .where((e) => e != null)
             .cast<YamlMap>()
             .where((e) => e['name'] != null && e['name'] is String)
-            .map(
-              (e) => I18nFeature(
-                name: safeCast<String>(e['name'])!,
-                path: safeCast<String>(e['path']),
-              ),
-            )
             .toList() ??
         [];
+
+    final features = {
+      for (var e in featureList)
+        safeCast<String>(e['name'])!: safeCast<String>(e['path'])
+    };
 
     final assetClasses = safeCast<YamlMap>(rFlutterConfig['asset_classes']);
     final classes = <CustomAssetType>[];

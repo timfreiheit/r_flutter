@@ -2,11 +2,10 @@ import 'package:collection/collection.dart';
 import 'package:r_flutter/src/generator/i18n/i18n_generator_utils.dart';
 import 'package:r_flutter/src/model/dart_class.dart';
 import 'package:r_flutter/src/model/i18n.dart';
-import 'package:recase/recase.dart';
 
 List<DartClass> generateLookupClasses(
   I18nLocales i18n,
-  Map<String, I18nLocales>? i18nFeatures,
+  List<I18nFeature>? i18nFeatures,
 ) {
   final classes = <DartClass>[];
 
@@ -14,16 +13,16 @@ List<DartClass> generateLookupClasses(
     generateDefaultLookupClass(
       i18n,
       i18n.defaultValues,
-      features: i18nFeatures?.keys,
+      features: i18nFeatures,
     ),
   );
 
-  i18nFeatures?.forEach((featureName, locales) {
+  i18nFeatures?.forEach((feature) {
     classes.add(
       generateDefaultLookupClass(
-        locales,
-        locales.defaultValues,
-        featureName: featureName,
+        feature.locales,
+        feature.locales.defaultValues,
+        feature: feature,
       ),
     );
   });
@@ -33,18 +32,18 @@ List<DartClass> generateLookupClasses(
       generateLookupClass(
         i18n,
         locale,
-        features: i18nFeatures?.keys,
+        features: i18nFeatures,
       ),
     );
   }
 
-  i18nFeatures?.forEach((featureName, locales) {
-    for (final locale in locales.locales) {
+  i18nFeatures?.forEach((feature) {
+    for (final locale in feature.locales.locales) {
       classes.add(
         generateLookupClass(
-          locales,
+          feature.locales,
           locale,
-          featureName: featureName,
+          feature: feature,
         ),
       );
     }
@@ -73,11 +72,10 @@ List<DartClass> generateLookupClasses(
 DartClass generateDefaultLookupClass(
   I18nLocales i18n,
   I18nLocale value, {
-  Iterable<String>? features,
-  String? featureName,
+  List<I18nFeature>? features,
+  I18nFeature? feature,
 }) {
-  final featureClassName =
-      featureName != null ? ReCase(featureName).pascalCase : '';
+  final featureClassName = feature != null ? feature.featureClassName : '';
   final code = StringBuffer(
     "class I18n${featureClassName}Lookup",
   );
@@ -143,7 +141,7 @@ DartClass generateDefaultLookupClass(
   }
 
   features?.forEach((feature) {
-    final featureClass = ReCase(feature).pascalCase;
+    final featureClass = feature.featureClassName;
     final className = 'I18n${featureClass}Lookup';
 
     code.writeln();
@@ -167,11 +165,10 @@ DartClass generateDefaultLookupClass(
 DartClass generateLookupClass(
   I18nLocales i18n,
   I18nLocale value, {
-  Iterable<String>? features,
-  String? featureName,
+  List<I18nFeature>? features,
+  I18nFeature? feature,
 }) {
-  final featureClassName =
-      featureName != null ? ReCase(featureName).pascalCase : '';
+  final featureClassName = feature != null ? feature.featureClassName : '';
   final code = StringBuffer("class I18n${featureClassName}Lookup");
 
   code.write("_${value.locale}");
@@ -220,7 +217,7 @@ DartClass generateLookupClass(
   }
 
   features?.forEach((feature) {
-    final featureClass = ReCase(feature).pascalCase;
+    final featureClass = feature.featureClassName;
     final className = 'I18n${featureClass}Lookup_${value.locale}';
     code.writeln();
     code.writeln('  @override');

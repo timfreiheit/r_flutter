@@ -1,6 +1,5 @@
 import 'package:r_flutter/src/model/dart_class.dart';
 import 'package:r_flutter/src/model/i18n.dart';
-import 'package:recase/recase.dart';
 
 ///
 /// ```dart
@@ -12,17 +11,17 @@ import 'package:recase/recase.dart';
 ///
 List<DartClass> generateI18nKeysClasses(
   I18nLocales locales, [
-  Map<String, I18nLocales>? i18nFeatures,
+  List<I18nFeature>? i18nFeatures,
 ]) {
   final featureClassNames = <String, String>{};
   final featureClasses = <DartClass>[];
 
-  i18nFeatures?.forEach((featureName, locales) {
-    final featureClassName = 'I18n${ReCase(featureName).pascalCase}Keys';
-    featureClassNames[featureName] = featureClassName;
+  i18nFeatures?.forEach((feature) {
+    final featureClassName = 'I18n${feature.featureClassName}Keys';
+    featureClassNames[feature.featureClassName] = featureClassName;
 
-    featureClasses
-        .add(_generateI18nKeysClass(locales, className: featureClassName));
+    featureClasses.add(
+        _generateI18nKeysClass(feature.locales, className: featureClassName));
   });
 
   return <DartClass>[

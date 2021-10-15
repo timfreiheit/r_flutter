@@ -87,14 +87,14 @@ class AssetsBuilder extends Builder {
       buildStep.canRead(file);
     }
 
-    for (final feature in arguments.i18nFeatures) {
-      final directory = getDirectoryForFeature(feature, intlFilename);
+    arguments.i18nFeatures.forEach((name, path) async {
+      final directory = getDirectoryForFeature(name, path, intlFilename);
       final featureGlob = Glob(join(directory, '*'));
       final featureFiles = await buildStep.findAssets(featureGlob).toList();
       for (final file in featureFiles) {
         buildStep.canRead(file);
       }
-    }
+    });
   }
 
   @override

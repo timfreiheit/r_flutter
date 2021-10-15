@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:collection/collection.dart';
 import 'package:path/path.dart';
 import 'package:r_flutter/src/model/i18n.dart';
-import 'package:r_flutter/src/model/resources.dart';
 import 'package:r_flutter/src/parser/i18n/arb_parser.dart';
 
 I18nLocales? parseStrings(String? defaultIntlFile) {
@@ -44,9 +43,9 @@ I18nLocales? parseStrings(String? defaultIntlFile) {
   return I18nLocales(defaultLocale, locales);
 }
 
-Map<String, I18nLocales>? parseFeatureStrings(
+List<I18nFeature>? parseFeatureStrings(
   String? defaultIntlFile,
-  List<I18nFeature> features,
+  Map<String, String?> features,
 ) {
   if (defaultIntlFile == null || defaultIntlFile.isEmpty) {
     return null;
@@ -57,24 +56,37 @@ Map<String, I18nLocales>? parseFeatureStrings(
   }
 
   final defaultFilename = basename(defaultIntlFile);
-  final result = <String, I18nLocales>{};
 
-  for (final feature in features) {
-    final directory = getDirectoryForFeature(feature, defaultIntlFile);
-    final locales = parseStrings(join(directory, defaultFilename));
+  return features.entries
+      .map((e) {
+        final name = e.key;
+        final path = e.value;
+        final directory = getDirectoryForFeature(name, path, defaultIntlFile);
+        final locales = parseStrings(join(directory, defaultFilename));
 
-    if (locales != null) {
-      result.putIfAbsent(feature.name, () => locales);
-    }
-  }
+        if (locales == null) {
+          return null;
+        }
 
-  return result;
+        return I18nFeature(
+          name: name,
+          path: path,
+          locales: locales,
+        );
+      })
+      .where((e) => e != null)
+      .cast<I18nFeature>()
+      .toList();
 }
 
-String getDirectoryForFeature(I18nFeature feature, String defaultIntlFile) {
-  return feature.path != null
-      ? Directory(feature.path!).path
-      : join(dirname(defaultIntlFile), feature.name);
+String getDirectoryForFeature(
+  String featureName,
+  String? featurePath,
+  String defaultIntlFile,
+) {
+  return featurePath != null
+      ? Directory(featurePath).path
+      : join(dirname(defaultIntlFile), featureName);
 }
 
 Locale? _localeFromFileName(File file) {

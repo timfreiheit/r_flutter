@@ -2,25 +2,24 @@ import 'package:collection/collection.dart';
 import 'package:r_flutter/src/generator/i18n/i18n_generator_utils.dart';
 import 'package:r_flutter/src/model/dart_class.dart';
 import 'package:r_flutter/src/model/i18n.dart';
-import 'package:recase/recase.dart';
 
 List<DartClass> generateI18nMainClasses(
   I18nLocales i18n,
-  Map<String, I18nLocales>? i18nFeatures,
+  List<I18nFeature>? i18nFeatures,
 ) {
   final classes = <DartClass>[];
 
-  classes.add(generateI18nClass(i18n, i18nFeatures?.keys));
+  classes.add(generateI18nClass(i18n, i18nFeatures));
 
-  i18nFeatures?.forEach((feature, locales) {
-    classes.add(generateI18nFeatureClass(locales, feature));
+  i18nFeatures?.forEach((feature) {
+    classes.add(generateI18nFeatureClass(feature));
   });
 
   return classes;
 }
 
-DartClass generateI18nFeatureClass(I18nLocales i18n, String feature) {
-  final featureClass = ReCase(feature).pascalCase;
+DartClass generateI18nFeatureClass(I18nFeature feature) {
+  final featureClass = feature.featureClassName;
 
   final classString = StringBuffer('class I18n$featureClass {\n');
   classString.writeln('  I18n$featureClass(this._lookup);');
@@ -31,8 +30,8 @@ DartClass generateI18nFeatureClass(I18nLocales i18n, String feature) {
       .writeln('  /// add custom locale lookup which will be called first');
   classString.writeln('  static I18n${featureClass}Lookup? customLookup;');
   classString.writeln();
-  classString.write(_generateAccessorMethods(i18n));
-  classString.write(_generateGetStringMethod(i18n, featureClass));
+  classString.write(_generateAccessorMethods(feature.locales));
+  classString.write(_generateGetStringMethod(feature.locales, featureClass));
   classString.writeln('}');
 
   return DartClass(code: classString.toString());
@@ -81,7 +80,7 @@ DartClass generateI18nFeatureClass(I18nLocales i18n, String feature) {
 ///
 DartClass generateI18nClass(
   I18nLocales i18n, [
-  Iterable<String>? features,
+  Iterable<I18nFeature>? features,
 ]) {
   final classString = StringBuffer("""class I18n {
   final I18nLookup _lookup;
@@ -109,8 +108,8 @@ DartClass generateI18nClass(
   classString.writeln(_generateSupportedLocales(i18n));
 
   features?.forEach((feature) {
-    final className = 'I18n${ReCase(feature).pascalCase}';
-    final propertyName = ReCase(feature).camelCase;
+    final className = 'I18n${feature.featureClassName}';
+    final propertyName = feature.featurePropertyName;
 
     if (i18n.defaultValues.strings
         .any((e) => e.escapedKey.toLowerCase() == propertyName.toLowerCase())) {
@@ -130,7 +129,7 @@ DartClass generateI18nClass(
   return DartClass(code: classString.toString());
 }
 
-String _generateConstructor(Iterable<String>? features) {
+String _generateConstructor(Iterable<I18nFeature>? features) {
   final code = StringBuffer('  I18n(this._lookup)');
 
   if (features == null || features.isEmpty) {
@@ -144,8 +143,8 @@ String _generateConstructor(Iterable<String>? features) {
         code.write('       ');
       }
 
-      final propertyName = ReCase(feature).camelCase;
-      final className = ReCase(feature).pascalCase;
+      final propertyName = feature.featurePropertyName;
+      final className = feature.featureClassName;
 
       code.write(
           ' $propertyName = I18n$className(_lookup.create${className}Lookup())');

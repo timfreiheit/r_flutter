@@ -10,7 +10,7 @@ void main() {
     expect(config.assetClasses, []);
     expect(config.ignoreAssets, []);
     expect(config.intlFilename, isNull);
-    expect(config.i18nFeatures, []);
+    expect(config.i18nFeatures, {});
   });
 
   test("test parse asset classes to config", () {
@@ -29,7 +29,7 @@ r_flutter:
     expect(config.assetClasses[0].customClass, "SvgFile");
     expect(config.ignoreAssets, []);
     expect(config.intlFilename, isNull);
-    expect(config.i18nFeatures, []);
+    expect(config.i18nFeatures, {});
   });
 
   test("test parse multiple asset classes to config", () {
@@ -61,7 +61,7 @@ r_flutter:
 
     expect(config.ignoreAssets, []);
     expect(config.intlFilename, isNull);
-    expect(config.i18nFeatures, []);
+    expect(config.i18nFeatures, {});
   });
 
   test("test parse intl file to config", () {
@@ -74,7 +74,7 @@ r_flutter:
     expect(config.assetClasses, []);
     expect(config.ignoreAssets, []);
     expect(config.intlFilename, "lib/i18n/en.arb");
-    expect(config.i18nFeatures, []);
+    expect(config.i18nFeatures, {});
   });
 
   test("test parse ignored assets to config", () {
@@ -93,7 +93,7 @@ r_flutter:
       ["lib/assets/sub/ignore1", "lib/assets/sub/ignore2", "lib/i18n"],
     );
     expect(config.intlFilename, isNull);
-    expect(config.i18nFeatures, []);
+    expect(config.i18nFeatures, {});
   });
 
   test("test combined config to config", () {
@@ -132,9 +132,9 @@ r_flutter:
     expect(config.ignoreAssets, []);
     expect(config.intlFilename, "lib/i18n/en.arb");
     expect(config.i18nFeatures, hasLength(2));
-    expect(config.i18nFeatures[0].name, 'home');
-    expect(config.i18nFeatures[0].path, 'lib/i18n/custom/home/');
-    expect(config.i18nFeatures[1].name, 'profile');
-    expect(config.i18nFeatures[1].path, isNull);
+    expect(config.i18nFeatures.containsKey('home'), true);
+    expect(config.i18nFeatures['home'], 'lib/i18n/custom/home/');
+    expect(config.i18nFeatures.containsKey('profile'), true);
+    expect(config.i18nFeatures['profile'], isNull);
   });
 }
