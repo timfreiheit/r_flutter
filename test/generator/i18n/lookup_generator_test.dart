@@ -364,4 +364,59 @@ void main() {
 }
 """);
   });
+
+  test("test feature does not support the primary locale", () {
+    final lookupClass = generateLookupClass(
+      testData,
+      I18nLocale(Locale("ro"), [
+        I18nString(key: "key_1", value: "value_KEY_1"),
+      ]),
+      features: [
+        I18nFeature(
+          name: 'home',
+          locales: I18nLocales(Locale('bg'), []),
+        )
+      ],
+    );
+    expect(lookupClass.imports, []);
+    expect(lookupClass.code, """class I18nLookup_ro extends I18nLookup_en {
+  @override
+  String get key_1 {
+    return "value_KEY_1";
+  }
+}
+""");
+  });
+
+  test("test only some features support the primary locale", () {
+    final lookupClass = generateLookupClass(
+      testData,
+      I18nLocale(Locale("ro"), [
+        I18nString(key: "key_1", value: "value_KEY_1"),
+      ]),
+      features: [
+        I18nFeature(
+          name: 'home',
+          locales: I18nLocales(Locale('bg'), []),
+        ),
+        I18nFeature(
+          name: 'profile',
+          locales: I18nLocales(Locale('en'), [
+            I18nLocale(Locale('ro'), []),
+          ]),
+        ),
+      ],
+    );
+    expect(lookupClass.imports, []);
+    expect(lookupClass.code, """class I18nLookup_ro extends I18nLookup_en {
+  @override
+  String get key_1 {
+    return "value_KEY_1";
+  }
+
+  @override
+  I18nProfileLookup_ro createProfileLookup() => I18nProfileLookup_ro();
+}
+""");
+  });
 }

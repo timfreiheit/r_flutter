@@ -217,6 +217,11 @@ DartClass generateLookupClass(
   }
 
   features?.forEach((feature) {
+    // Check if this feature supports the current locale.
+    if (!feature.locales.locales.any((e) => e.locale == value.locale)) {
+      return;
+    }
+
     final featureClass = feature.featureClassName;
     final className = 'I18n${featureClass}Lookup_${value.locale}';
     code.writeln();
