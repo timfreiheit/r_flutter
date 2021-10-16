@@ -419,4 +419,33 @@ void main() {
 }
 """);
   });
+
+  test("test lookup for feature-only locale", () {
+    final lookupClass = generateLookupClass(
+      I18nLocales(
+        Locale('bg'),
+        [I18nLocale(Locale('bg'), [])],
+      ),
+      I18nLocale(Locale("ro"), []),
+      features: [
+        I18nFeature(
+          name: 'home',
+          locales: I18nLocales(Locale('bg'), [I18nLocale(Locale("ro"), [])]),
+        ),
+        I18nFeature(
+          name: 'profile',
+          locales: I18nLocales(Locale('en'), [
+            I18nLocale(Locale('bg'), []),
+          ]),
+        ),
+      ],
+    );
+    expect(lookupClass.imports, []);
+    expect(lookupClass.code, """class I18nLookup_ro extends I18nLookup_bg {
+
+  @override
+  I18nHomeLookup_ro createHomeLookup() => I18nHomeLookup_ro();
+}
+""");
+  });
 }

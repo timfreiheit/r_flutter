@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:build/build.dart';
 import 'package:glob/glob.dart';
 import 'package:path/path.dart';
+import 'package:r_flutter/src/model/i18n.dart';
 import 'package:r_flutter/src/parser/i18n/i18n_parser.dart';
 import 'package:r_flutter/src/utils/utils.dart';
 import 'package:yaml/yaml.dart';
@@ -22,12 +23,32 @@ Resources parseResources(Config arguments) {
 
   final yaml = loadYaml(pubspecFile.readAsStringSync()) as YamlMap;
 
+  final primaryLocales = parseStrings(arguments.intlFilename);
+  final featureLocales =
+      parseFeatureStrings(arguments.intlFilename, arguments.i18nFeatures);
+
+  if (primaryLocales != null && featureLocales != null) {
+    // Make sure feature-only locales are added to the primary locale list.
+    final featureOnlyLocales = <Locale>[];
+    for (final feature in featureLocales) {
+      for (final locale in feature.locales.locales) {
+        if (!primaryLocales.locales.any((e) => e.locale == locale.locale)) {
+          featureOnlyLocales.add(locale.locale);
+        }
+      }
+    }
+
+    if (featureOnlyLocales.isNotEmpty) {
+      primaryLocales.locales
+          .addAll(featureOnlyLocales.map((e) => I18nLocale(e, [])));
+    }
+  }
+
   return Resources(
     fonts: parseFonts(yaml),
     assets: parseAssets(yaml, arguments.ignoreAssets, arguments.assetClasses),
-    i18n: parseStrings(arguments.intlFilename),
-    i18nFeatures:
-        parseFeatureStrings(arguments.intlFilename, arguments.i18nFeatures),
+    i18n: primaryLocales,
+    i18nFeatures: featureLocales,
   );
 }
 
