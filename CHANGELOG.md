@@ -1,3 +1,8 @@
+## 0.9.0
+  * Add support for webp images
+  * Add support for i18n features
+  * Thanks to [@kostadin-damyanov-prime](https://github.com/kostadin-damyanov-prime)
+
 ## 0.8.0
   * remove deprecated `flutter generate`. Use `build_runner` instead
 
