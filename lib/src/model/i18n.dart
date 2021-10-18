@@ -1,3 +1,5 @@
+import 'package:recase/recase.dart';
+
 class Locale {
   final String languageCode;
   final String? countryCode;
@@ -65,4 +67,16 @@ class I18nString {
 
   String get escapedKey =>
       key.replaceAll(".", "_").replaceAll("-", "_").replaceAll(" ", "_");
+}
+
+class I18nFeature {
+  I18nFeature({required this.locales, required this.name, this.path})
+      : featureClassName = ReCase(name).pascalCase,
+        featurePropertyName = ReCase(name).camelCase;
+
+  final String name;
+  final String? path;
+  final I18nLocales locales;
+  final String featureClassName;
+  final String featurePropertyName;
 }

@@ -14,15 +14,15 @@ void main(List<String> args) {
 
   final configRaw = safeCast<YamlMap>(
       loadYaml(File(arguments.pubspecFilename).absolute.readAsStringSync()));
-  final config = Config.parsePubspecConfig(configRaw ?? YamlMap());
+  final config = Config.fromPubspec(configRaw ?? YamlMap());
 
   final res = parseResources(config);
   final contents = generateFile(res, config);
 
-  final outoutFile = File(arguments.outputFilename);
-  outoutFile.writeAsStringSync(contents);
+  final outputFile = File(arguments.outputFilename);
+  outputFile.writeAsStringSync(contents);
 
-  print("${outoutFile.path} generated successfully");
+  print("${outputFile.path} generated successfully");
 }
 
 class CommandLineArguments {

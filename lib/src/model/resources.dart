@@ -4,11 +4,13 @@ class Resources {
   final List<String> fonts;
   final Assets assets;
   final I18nLocales? i18n;
+  final List<I18nFeature>? i18nFeatures;
 
   Resources({
     required this.fonts,
     required this.assets,
     this.i18n,
+    this.i18nFeatures,
   });
 }
 
