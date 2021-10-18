@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:path/path.dart' as path;
 import 'package:r_flutter/src/model/resources.dart';
 import 'package:r_flutter/src/utils/utils.dart';
@@ -81,6 +82,7 @@ AssetType _findAssetTypeFromPath(
     case ".png":
     case ".jpg":
     case ".gif":
+    case ".webp":
       return AssetType.image;
     default:
       return AssetType.stringPath;
