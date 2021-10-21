@@ -14,7 +14,7 @@ void main() {
     expect(result.length, 1);
     expect(result[0].imports, []);
     expect(result[0].code, """class Assets {
-  /// ![](file:///Users/user/path/lib/path/file.txt)
+  /// ![](lib/path/file.txt)
   static const String file = "lib/path/file.txt";
 }
 """);
@@ -31,7 +31,7 @@ void main() {
     expect(result.length, 1);
     expect(result[0].imports, ['package:flutter/widgets.dart']);
     expect(result[0].code, """class Images {
-  /// ![](file:///Users/user/path/lib/path/file.png)
+  /// ![](lib/path/file.png)
   static AssetImage get file => const AssetImage("lib/path/file.png");
 }
 """);
@@ -53,7 +53,7 @@ void main() {
     expect(result.length, 1);
     expect(result[0].imports, ['asset_classes.dart']);
     expect(result[0].code, """class Assets {
-  /// ![](file:///Users/user/path/lib/path/file.svg)
+  /// ![](lib/path/file.svg)
   static const SvgFile file = SvgFile("lib/path/file.svg");
 }
 """);
@@ -99,20 +99,20 @@ void main() {
     expect(result.length, 2);
     expect(result[0].imports, ['asset_classes.dart']);
     expect(result[0].code, """class Assets {
-  /// ![](file:///Users/user/path/lib/path/file.txt)
+  /// ![](lib/path/file.txt)
   static const String file = "lib/path/file.txt";
-  /// ![](file:///Users/user/path/lib/path/file.txt)
+  /// ![](lib/path/file2.txt)
   static const String file2 = "lib/path/file2.txt";
-  /// ![](file:///Users/user/path/lib/path/svgfile.svg)
+  /// ![](lib/path/svgfile.svg)
   static const SvgFile svgfile = SvgFile("lib/path/svgfile.svg");
 }
 """);
 
     expect(result[1].imports, ['package:flutter/widgets.dart']);
     expect(result[1].code, """class Images {
-  /// ![](file:///Users/user/path/lib/path/image.png)
+  /// ![](lib/path/file.png)
   static AssetImage get image => const AssetImage("lib/path/file.png");
-  /// ![](file:///Users/user/path/lib/path/image2.png)
+  /// ![](lib/path/image2.png)
   static AssetImage get image2 => const AssetImage("lib/path/image2.png");
 }
 """);
