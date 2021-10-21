@@ -22,6 +22,7 @@ dev_dependencies:
 # important: this is root level option
 r_flutter:
   intl: lib/i18n/en.arb
+  add_file_path_comments: false
   ignore:
     - lib/assets/sub/ignore1 #use ignore option to skip 
     - lib/assets/sub/ignore2

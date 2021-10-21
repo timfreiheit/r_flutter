@@ -2,16 +2,26 @@ import 'package:r_flutter/src/generator/generator.dart';
 import 'package:r_flutter/src/model/dart_class.dart';
 import 'package:r_flutter/src/model/resources.dart';
 
-List<DartClass> generateAssetsClass(List<Asset> assets) {
+List<DartClass> generateAssetsClass(
+  List<Asset> assets, {
+  bool addFilePathComments = true,
+}) {
   return [
     _generateAssetConstantsClass(
-        assets.where((item) => item.type != AssetType.image).toList()),
+      assets.where((item) => item.type != AssetType.image).toList(),
+      addFilePathComments: addFilePathComments,
+    ),
     _generateImageAssetsClass(
-        assets.where((item) => item.type == AssetType.image).toList())
+      assets.where((item) => item.type == AssetType.image).toList(),
+      addFilePathComments: addFilePathComments,
+    )
   ].where((it) => it != null).toList().cast<DartClass>();
 }
 
-DartClass? _generateAssetConstantsClass(List<Asset> assets) {
+DartClass? _generateAssetConstantsClass(
+  List<Asset> assets, {
+  required bool addFilePathComments,
+}) {
   if (assets.isEmpty) {
     return null;
   }
@@ -20,7 +30,9 @@ DartClass? _generateAssetConstantsClass(List<Asset> assets) {
 
   final classString = StringBuffer("class Assets {\n");
   for (final asset in assets) {
-    classString.write(createComment(asset));
+    if (addFilePathComments) {
+      classString.write(createComment(asset));
+    }
 
     final type = asset.type;
     if (type is CustomAssetType) {
@@ -38,13 +50,18 @@ DartClass? _generateAssetConstantsClass(List<Asset> assets) {
       code: classString.toString(), imports: imports.toList()..sort());
 }
 
-DartClass? _generateImageAssetsClass(List<Asset> assets) {
+DartClass? _generateImageAssetsClass(
+  List<Asset> assets, {
+  required bool addFilePathComments,
+}) {
   if (assets.isEmpty) {
     return null;
   }
   final classString = StringBuffer("class Images {\n");
   for (final asset in assets) {
-    classString.write(createComment(asset));
+    if (addFilePathComments) {
+      classString.write(createComment(asset));
+    }
     classString.writeln(
         "  static AssetImage get ${createVariableName(asset.name)} => const AssetImage(\"${asset.path}\");");
   }
