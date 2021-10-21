@@ -58,17 +58,6 @@ DartClass? _generateImageAssetsClass(List<Asset> assets) {
 bool? isExample;
 
 String createComment(Asset asset) {
-  String path = asset.fileUri;
-
-  const examplePath = 'r_flutter/example/';
-
-  isExample ??= path.contains(examplePath);
-
-  // a hack to prevent commited assets.dart from changing constantly
-  if (isExample == true) {
-    path = path.substring(path.indexOf(examplePath) + examplePath.length);
-    path = 'file:///Users/user/path/$path';
-  }
-
+  final path = asset.path;
   return "  /// ![]($path)\n";
 }
