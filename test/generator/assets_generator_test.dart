@@ -137,6 +137,25 @@ void main() {
 """);
   });
 
+  test("test single simple image asset without file path comments", () {
+    final result = generateAssetsClass(
+      [
+        Asset(
+            name: "file",
+            path: "lib/path/file.png",
+            fileUri: "file:///Users/user/path/lib/path/file.png",
+            type: AssetType.image)
+      ],
+      addFilePathComments: false,
+    );
+    expect(result.length, 1);
+    expect(result[0].imports, ['package:flutter/widgets.dart']);
+    expect(result[0].code, """class Images {
+  static AssetImage get file => const AssetImage("lib/path/file.png");
+}
+""");
+  });
+
   test("test multiple simple assets without file path comments", () {
     final result = generateAssetsClass(
       [
