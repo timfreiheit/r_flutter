@@ -22,15 +22,16 @@ dev_dependencies:
 # important: this is root level option
 r_flutter:
   intl: lib/i18n/en.arb
-  add_file_path_comments: false
+  add_file_path_comments: false # default is true
   ignore:
     - lib/assets/sub/ignore1 #use ignore option to skip 
     - lib/assets/sub/ignore2
     - lib/i18n
 ```
 Options:
-- intl: Points to a localization file that would be used to generate localization keys. arb files are essentialy json files with some special, optional keys. Specifing this is optional.
-- ignore: specifies a list of files/directories that should be skipped during code generation. 
+- `intl`: Points to a localization file that would be used to generate localization keys. arb files are essentialy json files with some special, optional keys. Specifing this is optional.
+- `add_file_path_comments`: specifies wither it should print file paths comments for assets files.
+- `ignore`: specifies a list of files/directories that should be skipped during code generation. 
 
 3. Execute `flutter packages pub run build_runner build` command in your project's directory.
 Alternativly you can run `flutter pub run r_flutter:generate` to only run r_flutter without using the whole `build_runner`.
