@@ -11,6 +11,7 @@ void main() {
     expect(config.ignoreAssets, []);
     expect(config.intlFilename, isNull);
     expect(config.i18nFeatures, {});
+    expect(config.addFilePathComments, true);
   });
 
   test("test parse asset classes to config", () {
@@ -30,6 +31,7 @@ r_flutter:
     expect(config.ignoreAssets, []);
     expect(config.intlFilename, isNull);
     expect(config.i18nFeatures, {});
+    expect(config.addFilePathComments, true);
   });
 
   test("test parse multiple asset classes to config", () {
@@ -62,6 +64,7 @@ r_flutter:
     expect(config.ignoreAssets, []);
     expect(config.intlFilename, isNull);
     expect(config.i18nFeatures, {});
+    expect(config.addFilePathComments, true);
   });
 
   test("test parse intl file to config", () {
@@ -75,6 +78,7 @@ r_flutter:
     expect(config.ignoreAssets, []);
     expect(config.intlFilename, "lib/i18n/en.arb");
     expect(config.i18nFeatures, {});
+    expect(config.addFilePathComments, true);
   });
 
   test("test parse ignored assets to config", () {
@@ -94,6 +98,7 @@ r_flutter:
     );
     expect(config.intlFilename, isNull);
     expect(config.i18nFeatures, {});
+    expect(config.addFilePathComments, true);
   });
 
   test("test combined config to config", () {
@@ -115,6 +120,7 @@ r_flutter:
 
     expect(config.ignoreAssets, ["lib/i18n"]);
     expect(config.intlFilename, "lib/de.arb");
+    expect(config.addFilePathComments, true);
   });
 
   test("test parse intl_features to config", () {
@@ -136,5 +142,20 @@ r_flutter:
     expect(config.i18nFeatures['home'], 'lib/i18n/custom/home/');
     expect(config.i18nFeatures.containsKey('profile'), true);
     expect(config.i18nFeatures['profile'], isNull);
+    expect(config.addFilePathComments, true);
+  });
+
+  test("test parse add_file_path_comments to config", () {
+    final config = Config.fromPubspec(loadYaml("""
+r_flutter:
+  add_file_path_comments: false
+    """) as YamlMap);
+    expect(config, isNotNull);
+    expect(config.pubspecFilename, "pubspec.yaml");
+    expect(config.assetClasses, []);
+    expect(config.ignoreAssets, []);
+    expect(config.intlFilename, isNull);
+    expect(config.i18nFeatures, {});
+    expect(config.addFilePathComments, false);
   });
 }
