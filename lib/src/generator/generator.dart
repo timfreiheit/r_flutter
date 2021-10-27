@@ -16,7 +16,10 @@ String generateFile(Resources res, Config arguments) {
   if (fontClass != null) {
     classes.add(fontClass);
   }
-  classes.addAll(generateAssetsClass(res.assets.assets));
+  classes.addAll(generateAssetsClass(
+    res.assets.assets,
+    addFilePathComments: arguments.addFilePathComments,
+  ));
 
   final fullCode = StringBuffer("");
   final imports = classes.expand((it) => it.imports).toSet().toList();

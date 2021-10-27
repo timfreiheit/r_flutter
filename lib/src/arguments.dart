@@ -6,12 +6,14 @@ class Config {
   final String pubspecFilename;
   final List<String> ignoreAssets;
   final String? intlFilename;
+  final bool addFilePathComments;
   final List<CustomAssetType> assetClasses;
   final Map<String, String?> i18nFeatures;
 
   Config._({
     required this.pubspecFilename,
     this.intlFilename,
+    this.addFilePathComments = true,
     this.ignoreAssets = const [],
     this.assetClasses = const [],
     this.i18nFeatures = const {},
@@ -33,6 +35,9 @@ class Config {
             .cast<String>() ??
         [];
     final intlFilename = safeCast<String>(rFlutterConfig['intl']);
+
+    final addFilePathComments =
+        safeCast<bool>(rFlutterConfig['add_file_path_comments']) ?? true;
 
     final featureList = safeCast<YamlList>(rFlutterConfig['intl_features'])
             ?.map((e) => safeCast<YamlMap>(e))
@@ -73,6 +78,7 @@ class Config {
       pubspecFilename: pubspecFilename,
       ignoreAssets: ignoreAssets,
       intlFilename: intlFilename,
+      addFilePathComments: addFilePathComments,
       assetClasses: classes,
       i18nFeatures: features,
     );
